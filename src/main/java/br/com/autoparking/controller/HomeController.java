@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class Hello2Controller {
+public class HomeController {
 
-    @GetMapping("/hello2")
-    public String hello2(Model model){
-        return "helloword2";
+    @GetMapping("/")
+    public String hello2(){
+        return "index";
     }
-
 }
