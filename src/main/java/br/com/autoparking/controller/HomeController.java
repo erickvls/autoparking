@@ -8,12 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
-    public String home(){
-        return "index";
-    }
-    @GetMapping("/index")
-    public String index(){
+    @GetMapping("/hello2")
+    public String hello2(Model model){
         return "index";
     }
 }
