@@ -3,18 +3,14 @@ package br.com.autoparking.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class HelloController {
+public class Hello2Controller {
 
     @GetMapping("/hello2")
-    public String hello(Model model){
-        model.addAttribute("message","Hello");
+    public String hello2(Model model){
         return "helloword2";
     }
 
-    @GetMapping("/hello3")
-    public String hello(){
-        return "<h1>helloword3</h1>";
-    }
 }
