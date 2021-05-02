@@ -1,7 +1,6 @@
 package br.com.autoparking.security.oauth;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
@@ -17,16 +16,24 @@ public class CustomOAuth2Usuario implements OAuth2User {
 
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+        return oAuth2User.getAttributes();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return oAuth2User.getAuthorities();
     }
 
     @Override
     public String getName() {
-        return null;
+        return oAuth2User.getAttribute("name");
+    }
+
+    public String getFullName(){
+        return oAuth2User.getAttribute("name");
+    }
+
+    public String getEmail(){
+        return oAuth2User.<String>getAttribute("email");
     }
 }

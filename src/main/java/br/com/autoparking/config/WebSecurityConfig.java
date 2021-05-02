@@ -1,6 +1,9 @@
 package br.com.autoparking.config;
 
-import br.com.autoparking.service.impl.UsuarioDetailsServiceImpl;
+import br.com.autoparking.security.oauth.CustomOAuth2UsuarioService;
+import br.com.autoparking.security.oauth.OAuth2LoginSuccessHandler;
+import br.com.autoparking.security.impl.UsuarioDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,12 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
-import java.util.Locale;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +24,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService(){
        return new UsuarioDetailsServiceImpl();
     }
+
+    @Autowired
+    private CustomOAuth2UsuarioService oAuth2UsuarioService;
+
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
@@ -47,10 +50,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/oauth2/**").permitAll()
+                .antMatchers("/cadastrar").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
-                .loginPage("/login")
+                    .loginPage("/login")
+                .and()
+                .oauth2Login()
+                    .loginPage("/login")
+                    .userInfoEndpoint().userService(oAuth2UsuarioService)
+                    .and()
+                    .successHandler(oAuth2LoginSuccessHandler)
                 .and()
                 .logout().permitAll();
     }
@@ -60,4 +71,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/resources/**","/static/**");
     }
+
 }

@@ -1,4 +1,4 @@
-package br.com.autoparking.service;
+package br.com.autoparking.security;
 
 import br.com.autoparking.model.Role;
 import br.com.autoparking.model.Usuario;
