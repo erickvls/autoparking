@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<nav th:fragment="navbar"  id="navbar" class="navbar">
+    <ul>
+        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto active" href="#hero">Home</a></li>
+        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto" href="#about">About</a></li>
+        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto" href="#services">Services</a></li>
+        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
+        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto" href="#team">Team</a></li>
+        <li sec:authorize="isAuthenticated()" class="text-center p-3">
+            <form th:action="@{/logout}" method="post">
+                Welcome <b><span sec:authentication="name">Username</span></b>
+                &nbsp;
+                <input type="submit" value="Logout" />
+            </form>
+        </li>
+        <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+    </ul>
+    <i class="bi bi-list mobile-nav-toggle"></i>
+</nav>
+</html>
+
+
+

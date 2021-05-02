@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true,proxyTargetClass = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -49,9 +51,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+            http
+                .authorizeRequests()
                 .antMatchers("/oauth2/**").permitAll()
                 .antMatchers("/cadastrar").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/resources/*","/assets/**","/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
@@ -64,12 +69,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .successHandler(oAuth2LoginSuccessHandler)
                 .and()
                 .logout().permitAll();
+            http.csrf().disable();
     }
 
     @Override
-    public void configure(WebSecurity web){
+    public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers("/resources/**","/static/**");
+                .antMatchers("/img/**")
+                .and()
+                .ignoring()
+                .antMatchers("/vendor/**")
+                .and()
+                .ignoring()
+                .antMatchers("/js/**")
+                .and()
+                .ignoring()
+                .antMatchers("/css/**")
+                .and()
+                .ignoring()
+                .antMatchers("/static/**");
+
+
     }
+
 
 }
