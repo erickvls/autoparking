@@ -2,7 +2,6 @@
 <html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
 
 <head th:replace="/fragments/head :: head(pageTitle='AutoParking - Página inicial')" />
-
 <body>
 
 <!-- ======= Top Bar ======= -->
@@ -74,34 +73,52 @@
                                 <label for="nome" class="form-label">Nome completo</label>
                                 <input type="text" class="form-control" th:field="*{nome}" required th:errorClass="is-invalid">
                                 <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="invalid-feedback"></div>
+                                <div class="invalid-feedback">
+                                    Preencha seu nome.
+                                </div>
                             </div>
+
                             <div class="col-md-4">
                                 <label for="cpf" class="form-label">CPF</label>
-                                <input type="text" class="form-control" th:field="*{cpf}" required th:errorClass="is-invalid">
+                                <input type="text" onkeypress="$(this).mask('000.000.000-00');" class="form-control" th:field="*{cpf}" required th:errorClass="is-invalid">
                                 <div th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="invalid-feedback"></div>
+                                <div class="invalid-feedback">
+                                    Preencha seu CPF.
+                                </div>
                             </div>
+
                             <div class="col-md-4">
                                 <label for="genero" class="form-label">Gênero</label>
-                                <input type="text" class="form-control" th:field="*{genero}" required th:errorClass="is-invalid">
-                                <div th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}" class="invalid-feedback"></div>
+                                <select th:field="*{genero}" class="form-select" id="genero" required>
+                                    <option selected disabled value="">Escolha...</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                    <option value="O">Outro</option>
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="email" class="form-label">Email</label>
                                 <div class="input-group has-validation">
-                                    <input type="text" class="form-control" th:field="*{userName}"
+                                    <input type="email" class="form-control" th:field="*{userName}"
                                            aria-describedby="inputGroupPrepend" required th:errorClass="is-invalid">
                                     <div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="invalid-feedback"></div>
+                                    <div class="invalid-feedback">
+                                        Preencha seu email.
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <label for="password" class="form-label">Senha</label>
-                                <input type="text" class="form-control" th:field="*{password}" required th:errorClass="is-invalid">
-                                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+                                <div class="input-group" id="show_hide_password">
+                                    <input type="password" class="form-control" th:field="*{password}" required th:errorClass="is-invalid">
+                                    <span class="input-group-text" id="basic-addon1"> <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a></span>
+                                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+                                    <div class="invalid-feedback">
+                                        Preencha sua senha.
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                <label for="repitaSenha" class="form-label">Repita senha</label>
-                                <input type="text" class="form-control" id="repitaSenha"  required>
-                            </div>
+
 
                             <div class="col-12">
                                 <div class="form-check">
@@ -113,20 +130,12 @@
                                     <small>Ao clicar no botão acima,você está criando uma conta capaz de gerenciar estacionamentos</small>
 
                                     <div class="invalid-feedback">
-                                        You must agree before submitting.
+                                        Você deve aceitar os termos.
                                     </div>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary" type="submit">Submit form</button>
-                            </div>
-                            <div class="alert alert-success alert-dismissible col-12"
-                            th:if="${(bindingResult != null && bindingResult.getAllErrors() != null)}">
-                                <button type="button" class="close" data-dismiss="alert"
-                                aria-hidden="true">X</button>
-                                <ul th:each="data : ${bindingResult.getAllErrors()}">
-                                    <li th:text="${data.getObjectName()}"></li>
-                                </ul>
+                                <button class="btn btn-primary" type="submit">Cadastrar</button>
                             </div>
                         </form>
                     </div>
@@ -142,7 +151,8 @@
 
 
 <div th:replace="/fragments/footer :: footer" />
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script th:src="@{/js/cadastrar.js}"></script>
 </body>
 
 </html>
