@@ -1,35 +1,109 @@
 <!DOCTYPE html>
-<html xmlns:th="http:/www.thymeleaf.org">
-<body>
-<div class="container text-center">
-    <div>
-        <h2>Please Login</h2>
-        <br/>
-    </div>
-    <div>
-        <h4><a th:href="@{/oauth2/authorization/google}">Login with Google</a></h4>
-    </div>
-    <div><p>OR</p></div>
+<html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
 
-    <form th:action="@{/login}" method="post" style="max-width: 400px; margin: 0 auto;">
-        <div class="border border-secondary rounded p-3">
-            <div th:if="${param.error}">
-                <p class="text-danger">Invalid username or password.</p>
-            </div>
-            <div th:if="${param.logout}">
-                <p class="text-warning">You have been logged out.</p>
-            </div>
-            <div>
-                <p><input type="text" id="username" name="username" required class="form-control" placeholder="E-mail" /></p>
-            </div>
-            <div>
-                <p><input type="password" id="password" name="password"  required class="form-control" placeholder="Password" /></p>
-            </div>
-            <div>
-                <p><input type="submit" value="Login" class="btn btn-primary" /></p>
-            </div>
+<head th:replace="/fragments/head :: head(pageTitle='AutoParking - Login')" />
+<body>
+
+<!-- ======= Top Bar ======= -->
+<section id="topbar" class="d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+        <div class="contact-info d-flex align-items-center">
+            <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com">contact@example.com</a></i>
+            <i class="bi bi-phone d-flex align-items-center ms-4"><span>+1 5589 55488 55</span></i>
         </div>
-    </form>
-</div>
+        <div class="social-links d-none d-md-flex align-items-center">
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+        </div>
+    </div>
+</section>
+
+<!-- ======= Header ======= -->
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <h1 class="logo"><a href="index.html">BizLand<span>.</span></a></h1>
+
+        <head th:replace="/fragments/navbar :: navbar" />
+
+    </div>
+</header>
+<!-- End Header -->
+
+
+<main id="main" data-aos="fade-up">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Login</h2>
+                <ol>
+                    <li><a th:href="@{/}">Página inicial</a></li>
+                    <li><a th:href="@{/Login}">Login</a></li>
+                    <li>Acessar</li>
+                </ol>
+            </div>
+
+        </div>
+    </section><!-- Breadcrumbs Section -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+        <div class="container">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-12">
+                    <div th:if="${mensagemSucesso}" class="alert alert-success alert-dismissible fade show" role="alert">
+                        <span th:utext="${mensagemSucesso}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <div class="portfolio-info">
+                        <div>
+                            <h4><a th:href="@{/oauth2/authorization/google}">Login with Google</a></h4>
+                        </div>
+                        <div><p>OR</p></div>
+
+                        <form th:action="@{/login}" method="post" style="max-width: 400px; margin: 0 auto;">
+                            <div class="border border-secondary rounded p-3">
+                                <div th:if="${param.error}">
+                                    <p class="text-danger">Invalid username or password.</p>
+                                </div>
+                                <div th:if="${param.logout}">
+                                    <p class="text-warning">You have been logged out.</p>
+                                </div>
+                                <div>
+                                    <p><input type="text" id="username" name="username" required class="form-control" placeholder="E-mail" /></p>
+                                </div>
+                                <div>
+                                    <p><input type="password" id="password" name="password"  required class="form-control" placeholder="Password" /></p>
+                                </div>
+                                <div>
+                                    <p><input type="submit" value="Login" class="btn btn-primary" /></p>
+                                </div>
+                            </div>
+                        </form>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Portfolio Details Section -->
+
+</main><!-- End #main -->
+
+
+<div th:replace="/fragments/footer :: footer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script th:src="@{/js/cadastrar.js}"></script>
 </body>
+
 </html>

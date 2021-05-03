@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Objects;
 import java.util.Optional;
 
 public class UsuarioExisteValidator implements ConstraintValidator<UsuarioExisteValid,String> {
@@ -20,11 +21,11 @@ public class UsuarioExisteValidator implements ConstraintValidator<UsuarioExiste
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        return !usuarioJaExistente(value);
+        return usuariosIsAvailable(value);
     }
 
-    public boolean usuarioJaExistente(String username) {
+    public boolean usuariosIsAvailable(String username) {
         Optional<Usuario> usuario = usuarioRepository.findByUserName(username);
-        return usuario.isPresent();
+        return usuario.map(Usuario::getId).isEmpty();
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -33,12 +34,13 @@ public class HomeController {
     }
 
     @PostMapping(value="/cadastrar")
-    public String salvarCadastro(@Valid @ModelAttribute("usuario")  Usuario usuario, BindingResult bindingResult, Model model){
+    public String salvarCadastro(@Valid @ModelAttribute("usuario")  Usuario usuario, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             return "cadastrar";
         }
-        Usuario usuario1 = usuario;
-        return "redirect:/cadastrar";
+        usuarioService.salvarUsuario(usuario);
+        redirectAttributes.addFlashAttribute("mensagemSucesso","Usuário cadastrado com sucesso!");
+        return "redirect:/login";
     }
 
 }
