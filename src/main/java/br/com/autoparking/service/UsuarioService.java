@@ -1,10 +1,11 @@
 package br.com.autoparking.service;
 
 import br.com.autoparking.model.Usuario;
-import org.hibernate.mapping.UnionSubclass;
-
-import java.util.Optional;
+import br.com.autoparking.model.enums.AuthenticationProvider;
 
 public interface UsuarioService {
-    void salvarUsuario(Usuario usuario);
+    void criarNovoUsuarioFormularioRegistro(Usuario usuario);
+    void criarNovoUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider provider);
+    boolean usuariosIsAvailable(String username);
+
 }

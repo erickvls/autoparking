@@ -10,12 +10,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuario",uniqueConstraints={@UniqueConstraint(columnNames={"cpf","userName"})})
 @Data
 @Builder
 @NoArgsConstructor
@@ -24,9 +27,8 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotEmpty(message = "O campo email não pode estar em branco.")
-    @Email(message = "Preencha um email válido")
     @UsuarioExisteValid(message="Já existe um usuário cadastrado com esse email.")
+    @Column(unique = true)
     private String userName;
     @NotEmpty(message = "O campo senha não pode está vazio")
     @Size(min = 6,max = 12, message = "A senha deve conter entre 6 a 12 caracteres.")
@@ -34,8 +36,6 @@ public class Usuario {
     private boolean ativo;
     @NotEmpty(message = "O campo nome não pode estar em branco.")
     private String nome;
-    @NotEmpty(message = "O campo CPF não pode estar em branco.")
-    @CPF(message = "O CPF informado não é valido")
     private String cpf;
 
     @Enumerated(EnumType.STRING)
@@ -43,6 +43,8 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     private AuthenticationProvider authProvider;
+
+    private Date dataCriacao;
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(

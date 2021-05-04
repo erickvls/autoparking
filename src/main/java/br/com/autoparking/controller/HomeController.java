@@ -34,11 +34,11 @@ public class HomeController {
     }
 
     @PostMapping(value="/cadastrar")
-    public String salvarCadastro(@Valid @ModelAttribute("usuario")  Usuario usuario, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String salvarCadastro(@Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             return "cadastrar";
         }
-        usuarioService.salvarUsuario(usuario);
+        usuarioService.criarNovoUsuarioFormularioRegistro(usuario);
         redirectAttributes.addFlashAttribute("mensagemSucesso","Usuário cadastrado com sucesso!");
         return "redirect:/login";
     }
