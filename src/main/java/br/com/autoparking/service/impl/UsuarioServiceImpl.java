@@ -45,20 +45,24 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public void criarNovoUsuarioDepoisOAuthSucesso( String email, String nome, AuthenticationProvider provider) {
-        boolean usuarioIsAvailable = usuariosIsAvailable(email);
-        if(usuarioIsAvailable) {
-            Role userRole = roleRepository.findByNome("CLIENTE");
-            Usuario usuario =  Usuario.builder()
-                    .ativo(true)
-                    .userName(email)
-                    .nome(nome)
-                    .authProvider(provider)
-                    .dataCriacao(new Date())
-                    .roles(new HashSet<Role>(Collections.singletonList(userRole)))
-                    .build();
-            usuarioRepository.save(usuario);
-        }
+    public void criarNovoUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider provider) {
+        Role userRole = roleRepository.findByNome("CLIENTE");
+        Usuario usuario =  Usuario.builder()
+                .ativo(true)
+                .userName(email)
+                .nome(nome)
+                .authProvider(provider)
+                .dataCriacao(new Date())
+                .roles(new HashSet<Role>(Collections.singletonList(userRole)))
+                .build();
+        usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public void atualizarUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider google) {
+        Optional<Usuario> usuario = usuarioRepository.findByUserName(email);
+        usuario.get().setAuthProvider(google);
+        usuarioRepository.save(usuario.get());
     }
 
     private Usuario mapearUsuario(Usuario usuario){

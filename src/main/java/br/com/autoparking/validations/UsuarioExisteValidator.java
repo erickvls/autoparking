@@ -20,9 +20,6 @@ public class UsuarioExisteValidator implements ConstraintValidator<UsuarioExiste
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        if(usuarioService == null){
-            return true;
-        }
         return usuarioService.usuariosIsAvailable(value);
     }
 }

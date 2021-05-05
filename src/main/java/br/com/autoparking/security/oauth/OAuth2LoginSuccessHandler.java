@@ -24,7 +24,13 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         CustomOAuth2Usuario oAuth2Usuario = (CustomOAuth2Usuario) authentication.getPrincipal();
         String email = oAuth2Usuario.getEmail();
         String nome = oAuth2Usuario.getFullName();
-        usuarioService.criarNovoUsuarioDepoisOAuthSucesso(email,nome, AuthenticationProvider.GOOGLE);
+        System.out.println(oAuth2Usuario.getAttributes());
+        boolean usuarioIsAvailable = usuarioService.usuariosIsAvailable(email);
+        if(usuarioIsAvailable){
+            usuarioService.criarNovoUsuarioDepoisOAuthSucesso(email,nome, AuthenticationProvider.GOOGLE);
+        }else{
+            usuarioService.atualizarUsuarioDepoisOAuthSucesso(email,nome,AuthenticationProvider.GOOGLE);
+        }
         super.onAuthenticationSuccess(request,response,authentication);
     }
 }
