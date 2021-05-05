@@ -36,6 +36,8 @@ public class Usuario {
     private boolean ativo;
     @NotEmpty(message = "O campo nome não pode estar em branco.")
     private String nome;
+
+    @CPF(message = "CPF insediro não é válido")
     private String cpf;
 
     @Enumerated(EnumType.STRING)

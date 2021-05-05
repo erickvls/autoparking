@@ -3,10 +3,12 @@ package br.com.autoparking.service;
 import br.com.autoparking.model.Usuario;
 import br.com.autoparking.model.enums.AuthenticationProvider;
 
+import java.util.Optional;
+
 public interface UsuarioService {
-    void criarNovoUsuarioFormularioRegistro(Usuario usuario);
-    void criarNovoUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider provider);
-    void atualizarUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider google);
-    boolean usuariosIsAvailable(String username);
+    Usuario criarNovoUsuarioFormularioRegistro(Usuario usuario);
+    Usuario criarNovoUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider provider);
+    Usuario atualizarUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider google);
+    Usuario encontrarUsuarioPorUserName(String username);
 
 }

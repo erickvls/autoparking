@@ -1,11 +1,14 @@
 package br.com.autoparking.validations;
 
+import br.com.autoparking.model.Usuario;
 import br.com.autoparking.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Objects;
+import java.util.Optional;
 
 @Component
 public class UsuarioExisteValidator implements ConstraintValidator<UsuarioExisteValid,String> {
@@ -20,6 +23,7 @@ public class UsuarioExisteValidator implements ConstraintValidator<UsuarioExiste
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        return usuarioService.usuariosIsAvailable(value);
+        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(value);
+        return Objects.isNull(usuario.getUserName());
     }
 }
