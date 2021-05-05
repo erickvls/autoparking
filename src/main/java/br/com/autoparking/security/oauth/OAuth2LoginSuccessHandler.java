@@ -28,7 +28,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String email = oAuth2Usuario.getEmail();
         String nome = oAuth2Usuario.getFullName();
 
-
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(email);
 
         if(Objects.isNull(usuario.getUserName())){

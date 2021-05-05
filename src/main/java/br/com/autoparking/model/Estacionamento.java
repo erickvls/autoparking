@@ -35,4 +35,8 @@ public class Estacionamento {
     @OneToMany(mappedBy="estacionamento")
     private Set<Order> order;
 
+    @ManyToOne
+    @JoinColumn(name="dono_id", nullable=false)
+    private Dono dono;
+
 }
