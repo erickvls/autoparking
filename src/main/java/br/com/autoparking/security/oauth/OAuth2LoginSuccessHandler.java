@@ -33,7 +33,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         if(Objects.isNull(usuario.getUserName())){
             usuarioService.criarNovoUsuarioDepoisOAuthSucesso(email,nome, AuthenticationProvider.GOOGLE);
         }else{
-            usuarioService.atualizarUsuarioDepoisOAuthSucesso(email,nome,AuthenticationProvider.GOOGLE);
+            usuarioService.atualizarUsuarioDepoisOAuthSucesso(usuario,AuthenticationProvider.GOOGLE);
         }
         super.onAuthenticationSuccess(request,response,authentication);
 

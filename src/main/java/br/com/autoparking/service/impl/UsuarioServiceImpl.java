@@ -58,10 +58,10 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario atualizarUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider google) {
-        Optional<Usuario> usuario = usuarioRepository.findByUserName(email);
-        usuario.get().setAuthProvider(google);
-        return usuarioRepository.save(usuario.get());
+    public Usuario atualizarUsuarioDepoisOAuthSucesso(Usuario usuario,AuthenticationProvider google) {
+
+        usuario.setAuthProvider(google);
+        return usuarioRepository.save(usuario);
     }
 
     private Usuario mapearUsuario(Usuario usuario){

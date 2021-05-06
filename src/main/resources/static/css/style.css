@@ -9,7 +9,6 @@
 # General
 --------------------------------------------------------------*/
 body {
-  font-family: "Open Sans", sans-serif;
   color: #444444;
 }
 
@@ -23,9 +22,6 @@ a:hover {
   text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Roboto", sans-serif;
-}
 
 /*--------------------------------------------------------------
 # Preloader
@@ -193,7 +189,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header .logo img {
-  max-height: 40px;
+  max-height: 120px;
 }
 
 .scrolled-offset {
