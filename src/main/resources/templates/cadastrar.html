@@ -2,6 +2,8 @@
 <html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
 
 <head th:replace="/fragments/head :: head(pageTitle='AutoParking - Página inicial')" />
+<link rel="stylesheet" type="text/css" media="all"
+      th:href="@{/css/form.css}" />
 <body>
 
 <!-- ======= Top Bar ======= -->
@@ -57,104 +59,70 @@
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
         <div class="container">
-
-            <div class="row gy-4">
-                <div class="col-lg-6">
-                    <div class="portfolio-info">
-                        <h3>Criar nova conta</h3>
-                        <form class="row g-3 needs-validation" novalidate th:object="${usuario}" method="POST" th:action="@{/cadastrar}">
-                            <div class="col-md-12">
-                                <label for="nome" class="form-label">Nome completo</label>
-                                <input type="text" class="form-control" th:field="*{nome}" required th:errorClass="is-invalid">
-                                <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="invalid-feedback"></div>
-                                <div class="invalid-feedback">
-                                    Preencha seu nome.
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="cpf" class="form-label">CPF</label>
-                                <input type="text" onkeypress="$(this).mask('000.000.000-00');" class="form-control" th:field="*{cpf}" required th:errorClass="is-invalid">
-                                <div th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="invalid-feedback"></div>
-                                <div class="invalid-feedback">
-                                    Preencha seu CPF.
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="genero" class="form-label">Gênero</label>
-                                <select th:field="*{genero}" class="form-select" id="genero" required>
-                                    <option selected disabled value="">Escolha...</option>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Feminino</option>
-                                    <option value="O">Outro</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="genero" class="form-label">Gênero</label>
-                                <select class="form-select">
-                                    <option selected disabled value="">Escolha...</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="genero" class="form-label">Gênero</label>
-                                <select class="form-select">
-                                    <option selected disabled value="">Escolha...</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="email" class="form-label">Email</label>
-                                <div class="input-group has-validation">
-                                    <input type="email" class="form-control" th:field="*{userName}"
-                                           aria-describedby="inputGroupPrepend" required th:errorClass="is-invalid">
-                                    <div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="invalid-feedback"></div>
-                                    <div class="invalid-feedback">
-                                        Preencha seu email.
+                    <div class="row m-2 no-gutters shadow-lg">
+                        <div class="col-md-6 d-none d-md-block col-12"  style="padding-left:0px;">
+                            <img th:src="@{/img/login.jpg}" class="img-fluid" style="min-height:100%;" />
+                        </div>
+                        <div class="col-md-6 bg-white p-5 col-12">
+                            <h3 class="pb-3">Cadastre-se</h3>
+                            <div class="form-style">
+                                <form class="row g-3 needs-validation" novalidate th:object="${usuario}" method="POST" th:action="@{/cadastrar}">
+                                    <div class="col-md-12 pb-3">
+                                        <input type="text" placeholder="Nome completo" class="form-control" th:field="*{nome}" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="invalid-feedback"></div>
+                                        <div class="invalid-feedback">
+                                            Preencha seu nome.
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="password" class="form-label">Senha</label>
-                                <div class="input-group" id="show_hide_password">
-                                    <input type="password" class="form-control" th:field="*{password}" required th:errorClass="is-invalid">
-                                    <span class="input-group-text" id="basic-addon1"> <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a></span>
-                                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
-                                    <div class="invalid-feedback">
-                                        Preencha sua senha.
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <br>
 
-                            <div class="col-12">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                                    <label class="form-check-label" for="invalidCheck">
-                                        Afiliado
-                                    </label>
-                                    <br>
-                                    <small>Ao clicar no botão acima,você está criando uma conta capaz de gerenciar estacionamentos, no modo afiliado.</small>
-
-                                    <div class="invalid-feedback">
-                                        Você deve aceitar os termos.
+                                    <div class="col-md-6 pb-3">
+                                        <input type="text" placeholder="CPF" onkeypress="$(this).mask('000.000.000-00');" class="form-control" th:field="*{cpf}" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="invalid-feedback"></div>
+                                        <div class="invalid-feedback">
+                                            Preencha seu CPF.
+                                        </div>
                                     </div>
-                                </div>
+
+                                    <div class="col-md-6 pb-3">
+                                        <select th:field="*{genero}" class="form-select" id="genero"  style="border:0px 0xp 1px 0px;" required>
+                                            <option selected value="">Selecione seu gênero</option>
+                                            <option value="M">Masculino</option>
+                                            <option value="F">Feminino</option>
+                                            <option value="O">Outro</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6 pb-3">
+                                        <div class="input-group has-validation">
+                                            <input type="email" placeholder="email" class="form-control" th:field="*{userName}"
+                                                   aria-describedby="inputGroupPrepend" required th:errorClass="is-invalid">
+                                            <div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="invalid-feedback"></div>
+                                            <div class="invalid-feedback">
+                                                Preencha seu email.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 pb-3">
+                                        <div class="input-group" id="show_hide_password">
+                                            <input type="password" placeholder="Senha" class="form-control" th:field="*{password}" required th:errorClass="is-invalid">
+                                            <span class="input-group-text" id="basic-addon1" style="border-left: 2px solid #ebebeb;background-color:white"> <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a></span>
+                                            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+                                            <div class="invalid-feedback">
+                                                Preencha sua senha.
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="pb-2">
+                                        <button type="submit" class="btn btn-dark w-100 font-weight-bold mt-2">Cadastrar</button>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="row"></div>
-                            <div class="col-12">
-                                <button class="btn btn-primary" type="submit">Cadastrar</button>
-                            </div>
-                        </form>
+
+                        </div>
                     </div>
-
-                </div>
-                <div class="col-lg-6">
-                        <img class="img-fluid" th:src="@{/img/login.png}">
-                </div>
-
-
-            </div>
 
         </div>
     </section><!-- End Portfolio Details Section -->

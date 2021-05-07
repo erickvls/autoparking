@@ -2,6 +2,8 @@
 <html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
 
 <head th:replace="/fragments/head :: head(pageTitle='AutoParking - Login')" />
+<link rel="stylesheet" type="text/css" media="all"
+      th:href="@{/css/form.css}" />
 <body>
 
 <!-- ======= Top Bar ======= -->
@@ -54,53 +56,48 @@
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
         <div class="container">
-
-            <div class="row gy-4">
-
-                <div class="col-lg-12">
-
+            <div class="row m-2 no-gutters shadow-lg">
+                <div class="col-md-6 d-none d-md-block" style="padding-left:0px;">
+                    <img th:src="@{/img/login.jpg}" class="img-fluid"/>
+                </div>
+                <div class="col-md-6 bg-white p-5">
                     <div th:if="${mensagemSucesso}" class="alert alert-success alert-dismissible fade show" role="alert">
                         <span th:utext="${mensagemSucesso}"></span>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                    <div class="portfolio-info">
-                        <div class="col-lg">
-                            <img th:src="@{/img/login.png}"/>
-
-                        </div>
-                        <div>
-                            <h4><a th:href="@{/oauth2/authorization/google}">Login with Google</a></h4>
-                        </div>
-                        <div><p>OR</p></div>
-
-                        <form th:action="@{/login}" method="post" style="max-width: 400px; margin: 0 auto;">
-                            <div class="border border-secondary rounded p-3">
-                                <div th:if="${param.error}">
-                                    <p class="text-danger">Invalid username or password.</p>
-                                </div>
-                                <div th:if="${param.logout}">
-                                    <p class="text-warning">You have been logged out.</p>
-                                </div>
-                                <div>
-                                    <p><input type="text" id="username" name="username" required class="form-control" placeholder="E-mail" /></p>
-                                </div>
-                                <div>
-                                    <p><input type="password" id="password" name="password"  required class="form-control" placeholder="Password" /></p>
-                                </div>
-                                <div>
-                                    <p><input type="submit" value="Login" class="btn btn-primary" /></p>
-                                </div>
+                    <div th:if="${#bools.isTrue(param.error)}" class="alert alert-danger" role="alert">
+                        O usuário e/ou senha incorretos.
+                    </div>
+                    <h3 class="pb-3">Acesse</h3>
+                    <div class="form-style">
+                        <form th:action="@{/login}" method="post" >
+                            <div class="form-group pb-3">
+                                <input type="email" id="username"  name="username" required class="form-control"  placeholder="Email"  />
+                            </div>
+                            <div class="form-group pb-4">
+                                <input type="password" id="password" name="password"  required class="form-control" placeholder="Senha" />
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div><a href="#">Esqueceu a senha?</a></div>
+                            </div>
+                            <div class="pb-2">
+                                <button type="submit" class="btn btn-dark w-100 font-weight-bold mt-2">Entrar</button>
                             </div>
                         </form>
-
-
+                        <div class="sideline">OR</div>
+                        <div>
+                            <a th:href="@{/oauth2/authorization/google}" class="btn btn-primary w-100 font-weight-bold mt-2"><i class="bi bi-google" aria-hidden="true"></i> Entrar com google</a>
+                        </div>
+                        <div class="pt-4 text-center">
+                            Cadastre seu estacionamento, seja afiliado! <a href="#">  Registrar</a>
+                        </div>
                     </div>
 
                 </div>
-
             </div>
 
         </div>
+
     </section><!-- End Portfolio Details Section -->
 
 </main><!-- End #main -->
