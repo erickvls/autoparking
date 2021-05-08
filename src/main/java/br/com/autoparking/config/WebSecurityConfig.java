@@ -1,7 +1,8 @@
 package br.com.autoparking.config;
 
+import br.com.autoparking.security.handler.FormLoginSuccessHandler;
 import br.com.autoparking.security.oauth.CustomOAuth2UsuarioService;
-import br.com.autoparking.security.oauth.OAuth2LoginSuccessHandler;
+import br.com.autoparking.security.handler.OAuth2LoginSuccessHandler;
 import br.com.autoparking.security.impl.UsuarioDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
+    @Autowired
+    private FormLoginSuccessHandler formLoginSuccessHandler;
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -55,12 +59,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/oauth2/**").permitAll()
                 .antMatchers("/cadastrar").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/admin").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/home").hasAnyAuthority("ROLE_USER")
                 .antMatchers("/").permitAll()
                 .antMatchers("/resources/*","/assets/**","/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
-                    .loginPage("/login")
+                .loginPage("/login")
+                    .successHandler(formLoginSuccessHandler)
                 .and()
                 .oauth2Login()
                     .loginPage("/login")

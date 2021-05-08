@@ -1,7 +1,8 @@
-package br.com.autoparking.security.oauth;
+package br.com.autoparking.security.handler;
 
 import br.com.autoparking.model.Usuario;
 import br.com.autoparking.model.enums.AuthenticationProvider;
+import br.com.autoparking.security.oauth.CustomOAuth2Usuario;
 import br.com.autoparking.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -21,6 +21,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private FormLoginSuccessHandler formLoginSuccessHandler;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
@@ -35,7 +37,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         }else{
             usuarioService.atualizarUsuarioDepoisOAuthSucesso(usuario,AuthenticationProvider.GOOGLE);
         }
-        super.onAuthenticationSuccess(request,response,authentication);
-
+        formLoginSuccessHandler.handle(request,response,authentication);
     }
 }
