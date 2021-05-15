@@ -10,6 +10,7 @@
 --------------------------------------------------------------*/
 body {
   color: #444444;
+  font-family: "Poppins", sans-serif;
 }
 
 a {
@@ -22,6 +23,9 @@ a:hover {
   text-decoration: none;
 }
 
+#main{
+  margin-bottom:3%;
+}
 
 /*--------------------------------------------------------------
 # Preloader
@@ -229,7 +233,6 @@ a:hover {
   justify-content: space-between;
   padding: 0 3px;
   font-size: 15px;
-  font-weight: 600;
   color: #222222;
   white-space: nowrap;
   transition: 0.3s;
@@ -1604,6 +1607,12 @@ section {
   color: #444444;
   font-size: 14px;
   background: #f1f6fe;
+z-index: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
 
 }
 

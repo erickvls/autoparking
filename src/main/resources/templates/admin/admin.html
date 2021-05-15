@@ -1,10 +1,253 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Cliente</title>
-</head>
+<html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="/fragments/head :: head(pageTitle='Administração - Página inicial')" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/cards.css}" />
 <body>
-Bem vindo Admin
+
+<!-- ======= Header ======= -->
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <h1 class="logo">
+            <a href="index.html"><img th:src="@{/img/logotipo.png}"/>
+            </a>
+        </h1>
+
+        <head th:replace="/fragments/navbar :: navbar" />
+
+    </div>
+</header>
+<!-- End Header -->
+
+
+<main id="main" data-aos="fade-up">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Home - Administração</h2>
+                <ol>
+                    <li>Administração</li>
+                </ol>
+            </div>
+
+        </div>
+    </section><!-- Breadcrumbs Section -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+
+    <div id="main-content" style="padding-bottom:10%;">
+        <div class="container">
+            <div class='dashboard-cards pt-5'>
+                <div class="row">
+
+                    <div class='card col-md-4'>
+                        <div class='card-title'>
+                            <h2>
+                                Contact Task
+                                <small>You have 14 pending tasks</small>
+                            </h2>
+                            <div class='task-count'>
+                                14
+                            </div>
+                        </div>
+                    </div>
+                    <div class='card col-md-4'>
+                        <div class='card-title'>
+                            <h2>
+                                Product Task
+                                <small>You have 101 pending tasks</small>
+                            </h2>
+                            <div class='task-count'>
+                                101
+                            </div>
+                        </div>
+                    </div>
+                    <div class='card col-md-4'>
+                        <div class='card-title'>
+                            <h2>
+                                Document Task
+                                <small>You have 9 pending tasks</small>
+                            </h2>
+                            <div class='task-count'>
+                                9
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                <div class="col-4 col-xs-12 card">
+                    <div class="single-card">
+                        <a href="#"><div class="card-menu-icon">
+                            <img src="http://atmoscape.com.au/hot-links/card-icon_Personal-development.svg" alt="Personal development">
+                            <div class="card-menu-hover">
+                                <i class="fa fa-link"></i>
+                            </div>
+
+                        </div></a>
+                        <div class="card-menu-content">
+                            <div class='card-title'>
+                                <h2>
+                                    Gerencie seu estacionamento
+                                    <small>Crie, edite e gerencie suas vagas no seu estacionamento.</small>
+                                </h2>
+
+                            </div>
+                        </div><a>
+                        </a>
+                        <div class='card-flap flap1'>
+                            <div class='card-description'>
+                                <ul class='task-list'>
+                                    <li>
+                                        Cadastrar estacionamento
+                                        <span><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                    </li>
+                                    <li>
+                                        Gerenciar estacionamento
+                                        <span><i class="fa fa-cog" aria-hidden="true"></i></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class='card-flap flap2'>
+                                <div class='card-actions'>
+                                    <a class='btn' href='#'>Fechar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><a>
+                </a>
+                </div>
+
+                <div class="col-4 col-xs-12 card"><a>
+                </a><a href="#"></a><div class="single-course"><a href="#">
+                    <div class="card-menu-icon">
+                        <img src="http://atmoscape.com.au/hot-links/card-icon_Support-services.svg" alt="Support services">
+                        <div class="card-menu-hover">
+                            <i class="fa fa-link"></i>
+                        </div>
+
+                    </div></a>
+                    <div class="card-menu-content">
+                        <div class='card-title'>
+                            <h2>
+                                Gestores
+                                <small>Crie, edite e gerencie suas gestores para seu estacionamento.</small>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class='card-flap flap1'>
+                        <div class='card-description'>
+                            <ul class='task-list'>
+                                <li>
+                                    Cadastrar gestor
+                                    <span><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                </li>
+                                <li>
+                                    Gerenciar gestor
+                                    <span><i class="fa fa-cog" aria-hidden="true"></i></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class='card-flap flap2'>
+                            <div class='card-actions'>
+                                <a class='btn' href='#'>Fechar</a>
+                            </div>
+                        </div>
+                    </div>
+                    </div><a>
+                </a></div>
+
+                <div class="col-4 col-xs-12 card"><a>
+                </a><div class="single-card"><a>
+                </a><a href="#"><div class="card-menu-icon">
+                    <img src="http://atmoscape.com.au/hot-links/card-icon_About-the-site.svg" alt="About the site">
+                    <div class="course-hover">
+                        <i class="fa fa-link"></i>
+                    </div>
+
+                </div></a>
+                    <div class="card-menu-content">
+                        <div class='card-title'>
+                            <h2>
+                                Estatísticas
+                                <small>Visualize as faturas estatísticas mensais e gere relatórios.</small>
+                            </h2>
+
+                        </div>
+                    </div><a>
+                    </a></div><a>
+                </a>
+                </div>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- End Portfolio Details Section -->
+
+</main><!-- End #main -->
+<div th:replace="/fragments/footer :: footer" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+    var zindex = 10;
+
+  $("div.card").click(function (e) {
+    e.preventDefault();
+
+    var isShowing = false;
+
+    if ($(this).hasClass("d-card-show")) {
+      isShowing = true;
+    }
+
+    if ($("div.dashboard-cards").hasClass("showing")) {
+      // a card is already in view
+      $("div.card.d-card-show").
+      removeClass("d-card-show");
+
+      if (isShowing) {
+        // this card was showing - reset the grid
+        $("div.dashboard-cards").
+        removeClass("showing");
+      } else {
+        // this card isn't showing - get in with it
+        $(this).
+        css({ zIndex: zindex }).
+        addClass("d-card-show");
+
+      }
+
+      zindex++;
+
+    } else {
+      // no dashboard-cards in view
+      $("div.dashboard-cards").
+      addClass("showing");
+      $(this).
+      css({ zIndex: zindex }).
+      addClass("d-card-show");
+
+      zindex++;
+    }
+
+  });
+
+
+	$('.card').delay(1800).queue(function(next) {
+		$(this).removeClass('hover');
+		$('a.hover').removeClass('hover');
+		next();
+	});
+});
+</script>
 </body>
+
 </html>

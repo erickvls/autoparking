@@ -45,7 +45,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario criarNovoUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider provider) {
-        Role userRole = roleRepository.findByNome("CLIENTE");
+        Role userRole = roleRepository.findByNome("ROLE_CLIENTE");
         Usuario usuario =  Usuario.builder()
                 .ativo(true)
                 .userName(email)
@@ -59,13 +59,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario atualizarUsuarioDepoisOAuthSucesso(Usuario usuario,AuthenticationProvider google) {
-
         usuario.setAuthProvider(google);
         return usuarioRepository.save(usuario);
     }
 
     private Usuario mapearUsuario(Usuario usuario){
-        Role userRole = roleRepository.findByNome("ADMIN");
+        Role userRole = roleRepository.findByNome("ROLE_ADMIN");
         return Usuario.builder()
                 .password(bCryptPasswordEncoder.encode(usuario.getPassword()))
                 .roles(new HashSet<Role>(Collections.singletonList(userRole)))
