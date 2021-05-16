@@ -174,20 +174,6 @@ a:hover {
   height: 70px;
 }
 
-#header .logo {
-  font-size: 30px;
-  margin: 0;
-  padding: 0;
-  line-height: 1;
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  font-family: "Poppins", sans-serif;
-}
-
-#header .logo a {
-  color: #222222;
-}
-
 #header .logo a span {
   color: #106eea;
 }
@@ -1783,3 +1769,4 @@ z-index: 0;
     padding: 2px 0;
   }
 }
+

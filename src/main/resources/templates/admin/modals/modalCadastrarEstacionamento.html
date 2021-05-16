@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="modalCadastroEstacionamento"  id="navbar" class="navbar">
+    <div class="modal fade" id="exampleModalXl" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h4" id="exampleModalXlLabel">Cadastrar estacionamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="form-style">
+                <div class="modal-body">
+                    <form class="row g-3 needs-validation" novalidate th:object="${estacionamento}" method="POST" th:action="@{/cadastrar}">
+                            <div class="card-body">
+                                <div class="row mt-4">
+                                    <div class="col-sm-5 pb-3">
+                                        <label for="nome">Nome</label>
+                                        <input class="form-control" th:field="*{nome}" type="text">
+                                    </div>
+                                    <div class="col-sm-3 pb-3">
+                                        <label for="exampleCtrl">Estado</label>
+                                        <select th:field="*{estado}" class="form-select">
+                                            <option th:each="estado : ${listaEstados}"
+                                                    th:value="${estado.id}"
+                                                    th:text="${estado.descricao}">
+                                                Address
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-4 pb-3">
+                                        <label for="exampleAmount">Cidade</label>
+                                        <div class="input-group">
+                                            <input class="form-control" th:field="*{nome}"  type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 pb-3">
+                                        <label for="exampleAmount">Endereço</label>
+                                        <div class="input-group">
+                                            <input class="form-control" th:field="*{endereco}" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 pb-3">
+                                        <label for="latitude">Latitude</label>
+                                        <input class="form-control" th:field="*{eixoX}" type="text">
+                                    </div>
+                                    <div class="col-sm-2 pb-3">
+                                        <label for="longitude">Longitude</label>
+                                        <input class="form-control" th:field="*{eixoY}" type="text">
+                                    </div>
+
+                                    <div class="col-sm-3 pb-3">
+                                        <label for="exampleAmount">Maps</label>
+                                            <input class="form-control btn btn-primary" type="reset" data-bs-dismiss="modal" value="Abrir Google Maps">
+                                    </div>
+
+                                    <div class="col-sm-5 pb-3">
+                                        <label for="exampleLast">Telefone</label>
+                                        <input class="form-control" th:field="*{telefone}" type="text">
+                                    </div>
+                                    <div class="col-sm-2 pb-3">
+                                        <label for="exampleCity">Horário/Abrir</label>
+                                        <input class="form-control" th:field="*{horarioAbre}" type="text">
+                                    </div>
+                                    <div class="col-sm-2 pb-3">
+                                        <label for="exampleCity">Horário/Fechar</label>
+                                        <input class="form-control" th:field="*{horarioFecha}" type="text">
+                                    </div>
+
+                                    <div class="col-sm-3 pb-3">
+                                        <label for="exampleAmount">Qtd Vagas</label>
+                                        <div class="input-group">
+                                            <input class="form-control" th:field="*{quantidadeVagas}" type="number">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <input class="btn btn-secondary" type="reset" data-bs-dismiss="modal" value="Cancelar">
+                                    <input class="btn btn-primary" type="submit" value="Cadastrar">
+                                </div>
+                            </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
+
+
+

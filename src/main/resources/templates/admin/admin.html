@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="row">
-                <div class="col-4 col-xs-12 card">
+                <div class="col-4 col-xs-12 card card-move">
                     <div class="single-card">
                         <a href="#"><div class="card-menu-icon">
                             <img src="http://atmoscape.com.au/hot-links/card-icon_Personal-development.svg" alt="Personal development">
@@ -104,8 +104,9 @@
                             <div class='card-description'>
                                 <ul class='task-list'>
                                     <li>
-                                        Cadastrar estacionamento
-                                        <span><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                        <a data-bs-toggle="modal" data-bs-target="#exampleModalXl">
+                                            Cadastrar estacionamento
+                                        <span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
                                     </li>
                                     <li>
                                         Gerenciar estacionamento
@@ -123,7 +124,7 @@
                 </a>
                 </div>
 
-                <div class="col-4 col-xs-12 card"><a>
+                <div class="col-4 col-xs-12 card card-move"><a>
                 </a><a href="#"></a><div class="single-course"><a href="#">
                     <div class="card-menu-icon">
                         <img src="http://atmoscape.com.au/hot-links/card-icon_Support-services.svg" alt="Support services">
@@ -162,7 +163,7 @@
                     </div><a>
                 </a></div>
 
-                <div class="col-4 col-xs-12 card"><a>
+                <div class="col-4 col-xs-12 card card-move"><a>
                 </a><div class="single-card"><a>
                 </a><a href="#"><div class="card-menu-icon">
                     <img src="http://atmoscape.com.au/hot-links/card-icon_About-the-site.svg" alt="About the site">
@@ -189,7 +190,10 @@
         </div>
     </div><!-- End Portfolio Details Section -->
 
+
+
 </main><!-- End #main -->
+<div th:replace="/admin/modals/modalCadastrarEstacionamento :: modalCadastroEstacionamento" />
 <div th:replace="/fragments/footer :: footer" />
 
 
@@ -199,7 +203,7 @@
 
     var zindex = 10;
 
-  $("div.card").click(function (e) {
+  $("div.card-move").click(function (e) {
     e.preventDefault();
 
     var isShowing = false;

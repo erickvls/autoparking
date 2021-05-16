@@ -22,6 +22,9 @@ public class Estacionamento {
     private String eixoX;
     private String eixoY;
     private String telefone;
+    private String cidade;
+    private String horarioAbre;
+    private String horarioFecha;
     private int quantidadeVagas;
     private BigDecimal precoHora;
     private BigDecimal precoFixo;
@@ -38,5 +41,9 @@ public class Estacionamento {
     @ManyToOne
     @JoinColumn(name="dono_id", nullable=false)
     private Dono dono;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "estado_id")
+    private Estado estado;
 
 }
