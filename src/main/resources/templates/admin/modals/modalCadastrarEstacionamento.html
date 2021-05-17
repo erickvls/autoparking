@@ -11,7 +11,8 @@
                 </div>
                 <div class="form-style">
                 <div class="modal-body">
-                    <form class="row g-3 needs-validation" novalidate th:object="${estacionamento}" method="POST" th:action="@{/cadastrar}">
+                    <form class="row g-3 needs-validation" novalidate th:object="${estacionamento}" method="POST" th:action="@{/admin/estacionamento}">
+
                             <div class="card-body">
                                 <div class="row mt-4">
                                     <div class="col-sm-5 pb-3">
@@ -32,7 +33,7 @@
                                     <div class="col-sm-4 pb-3">
                                         <label for="exampleAmount">Cidade</label>
                                         <div class="input-group">
-                                            <input class="form-control" th:field="*{nome}"  type="text">
+                                            <input class="form-control" th:field="*{cidade}"  type="text">
                                         </div>
                                     </div>
                                     <div class="col-sm-5 pb-3">
@@ -52,7 +53,7 @@
 
                                     <div class="col-sm-3 pb-3">
                                         <label for="exampleAmount">Maps</label>
-                                            <input class="form-control btn btn-primary" type="reset" data-bs-dismiss="modal" value="Abrir Google Maps">
+                                        <a class="form-control btn btn-primary" type="reset" data-bs-dismiss="modal">Abrir Google Maps</a>
                                     </div>
 
                                     <div class="col-sm-5 pb-3">
@@ -77,12 +78,12 @@
 
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <div class="float-right">
-                                    <input class="btn btn-secondary" type="reset" data-bs-dismiss="modal" value="Cancelar">
-                                    <input class="btn btn-primary" type="submit" value="Cadastrar">
-                                </div>
+
+                            <div style="float:right">
+                                <input class="btn btn-secondary" type="reset" data-bs-dismiss="modal" value="Cancelar">
+                                <input class="btn btn-primary" type="submit" value="Cadastrar">
                             </div>
+
                     </form>
                 </div>
                 </div>

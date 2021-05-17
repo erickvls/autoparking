@@ -19,9 +19,6 @@ public class Dono {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(mappedBy="dono")
-    private Set<Estacionamento> estacionamentos;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

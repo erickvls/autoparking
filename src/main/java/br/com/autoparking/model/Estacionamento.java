@@ -38,12 +38,12 @@ public class Estacionamento {
     @OneToMany(mappedBy="estacionamento")
     private Set<Order> order;
 
-    @ManyToOne
-    @JoinColumn(name="dono_id", nullable=false)
-    private Dono dono;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "estado_id")
     private Estado estado;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "dono")
+    private Dono dono;
 
 }

@@ -20,6 +20,7 @@ public class UsuarioDetails implements UserDetails {
     public UsuarioDetails(Usuario usuario){
         this.usuario = usuario;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Role> roles =  usuario.getRoles();
@@ -28,6 +29,10 @@ public class UsuarioDetails implements UserDetails {
             authorities.add(new SimpleGrantedAuthority(role.getNome()));
         }
         return  authorities;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
     }
 
     @Override

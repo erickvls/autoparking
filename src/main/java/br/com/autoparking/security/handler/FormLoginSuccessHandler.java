@@ -1,7 +1,9 @@
 package br.com.autoparking.security.handler;
 
+import br.com.autoparking.model.Usuario;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -25,6 +27,7 @@ public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
             return;
         }
         RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
