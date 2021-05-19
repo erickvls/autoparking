@@ -2,6 +2,7 @@ package br.com.autoparking.controller;
 
 import br.com.autoparking.model.Usuario;
 import br.com.autoparking.model.enums.Genero;
+import br.com.autoparking.service.EstadoService;
 import br.com.autoparking.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,10 @@ import javax.validation.Valid;
 public class HomeController {
 
     @Autowired
-    public UsuarioService usuarioService;
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private EstadoService estadoService;
 
     @GetMapping("/")
     public String home(){
@@ -29,6 +33,7 @@ public class HomeController {
     @GetMapping("/cadastrar")
     public String paginaCadastro(Model model){
        model.addAttribute("usuario", new Usuario());
+       model.addAttribute("estado", estadoService.listarTodosEstados());
        model.addAttribute("genero", Genero.values());
        return "cadastrar";
     }

@@ -34,6 +34,10 @@ public class Order {
     private Date duracao;
     private Date dataOrder;
     private StatusOrder statusOrder;
+
+    @ManyToOne
+    @JoinColumn(name="usuario", nullable=false)
+    private Usuario usuario;
     
 
 }

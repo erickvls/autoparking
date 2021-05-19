@@ -66,7 +66,7 @@
                             <h3 class="pb-3">Cadastre-se</h3>
                             <div class="form-style">
                                 <form class="row g-3 needs-validation" novalidate th:object="${usuario}" method="POST" th:action="@{/cadastrar}">
-                                    <div class="col-md-12 pb-3">
+                                    <div class="col-md-6 pb-3">
                                         <input type="text" placeholder="Nome completo" class="form-control" th:field="*{nome}" required th:errorClass="is-invalid">
                                         <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="invalid-feedback"></div>
                                         <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
@@ -82,6 +82,51 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-6 pb-3">
+                                        <select th:field="*{endereco.estado}" class="form-select"  style="border:0px 0xp 1px 0px;" required>
+                                            <option selected value="">Selecione seu estado</option>
+                                            <option th:each="e : ${estado}"
+                                                    th:value="${e.id}"
+                                                    th:utext="${e.descricao}"></option>
+                                        </select>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Selecione seu estado.
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 pb-3">
+                                        <select th:field="*{endereco.cidade}" class="form-select"  style="border:0px 0xp 1px 0px;" required>
+                                            <option selected value="">Selecione sua cidade</option>
+                                            <option value="M">Masculino</option>
+                                            <option value="F">Feminino</option>
+                                            <option value="O">Outro</option>
+                                        </select>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Selecione sua cidade.
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 pb-3">
+                                        <input type="text" placeholder="Rua" class="form-control" th:field="*{endereco.rua}" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('endereco.rua')}" th:errors="*{endereco.rua}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha sua rua.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 pb-3">
+                                        <input type="text" placeholder="Bairro" class="form-control" th:field="*{endereco.bairro}" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('endereco.bairro')}" th:errors="*{endereco.bairro}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha seu bairro.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 pb-3">
+                                        <input type="text" placeholder="Número da casa" class="form-control" th:field="*{endereco.numero}" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('endereco.numero')}" th:errors="*{endereco.numero}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha o número da sua casa.
+                                        </div>
+                                    </div>
                                     <div class="col-md-6 pb-3">
                                         <select th:field="*{genero}" class="form-select" id="genero"  style="border:0px 0xp 1px 0px;" required>
                                             <option selected value="">Selecione seu gênero</option>

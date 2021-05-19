@@ -18,11 +18,9 @@ public class Estacionamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nome;
-    private String endereco;
     private String eixoX;
     private String eixoY;
     private String telefone;
-    private String cidade;
     private String horarioAbre;
     private String horarioFecha;
     private int quantidadeVagas;
@@ -39,11 +37,10 @@ public class Estacionamento {
     private Set<Order> order;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "estado_id")
-    private Estado estado;
+    @JoinColumn(name = "endereco")
+    private Endereco endereco;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "dono")
-    private Dono dono;
+    @OneToMany(mappedBy="estacionamento")
+    private Set<Usuario> usuario;
 
 }

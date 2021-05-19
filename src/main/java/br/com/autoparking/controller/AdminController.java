@@ -1,9 +1,6 @@
 package br.com.autoparking.controller;
 
-import br.com.autoparking.model.Dono;
 import br.com.autoparking.model.Estacionamento;
-import br.com.autoparking.model.Usuario;
-import br.com.autoparking.repository.DonoRepository;
 import br.com.autoparking.repository.UsuarioRepository;
 import br.com.autoparking.security.UsuarioDetails;
 import br.com.autoparking.service.EstadoService;
@@ -14,12 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 

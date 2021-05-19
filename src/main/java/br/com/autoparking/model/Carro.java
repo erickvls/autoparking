@@ -21,7 +21,9 @@ public class Carro {
     private String modelo;
     private String placa;
     private boolean ativo;
+
     @ManyToOne
-    @JoinColumn(name="cliente_id", nullable=false)
-    private Cliente cliente;
+    @JoinColumn(name="usuario", nullable=false)
+    private Usuario usuario;
+
 }

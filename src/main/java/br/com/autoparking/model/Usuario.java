@@ -40,6 +40,8 @@ public class Usuario {
     @CPF(message = "CPF inserido não é válido")
     private String cpf;
 
+    private String telefone;
+
     @Enumerated(EnumType.STRING)
     private Genero genero;
 
@@ -55,6 +57,23 @@ public class Usuario {
             inverseJoinColumns = @JoinColumn(name="role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name="estacionamento", nullable=false)
+    private Estacionamento estacionamento;
+
+    @OneToMany(mappedBy="usuario")
+    private Set<Order> order;
+
+    @OneToMany(mappedBy="usuario")
+    private Set<Carro> carro;
+
+    @OneToMany(mappedBy="usuario")
+    private Set<FormaPagamento> formaPagamento;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco")
+    private Endereco endereco;
 
 
 }

@@ -6,20 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name = "dono")
+@Table(name = "cidade")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Dono {
+public class Cidade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    private String cidade;
 }
