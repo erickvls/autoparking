@@ -95,14 +95,10 @@
                                     </div>
 
                                     <div class="col-md-6 pb-3">
-                                        <select th:field="*{endereco.cidade}" class="form-select"  style="border:0px 0xp 1px 0px;" required>
-                                            <option selected value="">Selecione sua cidade</option>
-                                            <option value="M">Masculino</option>
-                                            <option value="F">Feminino</option>
-                                            <option value="O">Outro</option>
-                                        </select>
+                                        <input type="text" placeholder="Cidade" class="form-control" th:field="*{endereco.cidade}" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('endereco.cidade')}" th:errors="*{endereco.cidade}" class="invalid-feedback"></div>
                                         <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
-                                            Selecione sua cidade.
+                                            Preencha sua cidade.
                                         </div>
                                     </div>
 

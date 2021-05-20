@@ -5,7 +5,9 @@ import br.com.autoparking.model.enums.AuthenticationProvider;
 import br.com.autoparking.security.oauth.CustomOAuth2Usuario;
 import br.com.autoparking.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,10 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     @Autowired
     private FormLoginSuccessHandler formLoginSuccessHandler;
+
+    @Autowired
+    private FormLoginErrorHandler formLoginErrorHandler;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
@@ -34,9 +40,10 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         if(Objects.isNull(usuario.getUserName())){
             usuarioService.criarNovoUsuarioDepoisOAuthSucesso(email,nome, AuthenticationProvider.GOOGLE);
+            formLoginSuccessHandler.handle(request,response,authentication);
         }else{
             usuarioService.atualizarUsuarioDepoisOAuthSucesso(usuario,AuthenticationProvider.GOOGLE);
+            formLoginErrorHandler.onAuthenticationFailure(request,response, new BadCredentialsException("Acesso não permitido"));
         }
-        formLoginSuccessHandler.handle(request,response,authentication);
     }
 }

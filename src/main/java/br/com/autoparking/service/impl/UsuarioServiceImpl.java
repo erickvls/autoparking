@@ -74,6 +74,8 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .nome(usuario.getNome())
                 .userName(usuario.getUserName())
                 .dataCriacao(new Date())
+                .endereco(usuario.getEndereco())
+                .dataCriacao(new Date())
                 .authProvider(AuthenticationProvider.LOCAL)
                 .build();
     }

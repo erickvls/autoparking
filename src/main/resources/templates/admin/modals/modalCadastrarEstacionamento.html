@@ -15,40 +15,74 @@
 
                             <div class="card-body">
                                 <div class="row mt-4">
-                                    <div class="col-sm-5 pb-3">
+                                    <div class="col-sm-4 pb-3">
                                         <label for="nome">Nome</label>
-                                        <input class="form-control" th:field="*{nome}" type="text">
+                                        <input class="form-control" th:field="*{nome}" type="text" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha o nome do estacionamento.
+                                        </div>
                                     </div>
                                     <div class="col-sm-3 pb-3">
                                         <label for="exampleCtrl">Estado</label>
-                                        <select th:field="*{estado}" class="form-select">
+                                        <select th:field="*{endereco.estado}" class="form-select" required>
+                                            <option selected value="">Selecione seu estado</option>
                                             <option th:each="estado : ${listaEstados}"
                                                     th:value="${estado.id}"
                                                     th:text="${estado.descricao}">
-                                                Address
                                             </option>
                                         </select>
+                                        <div th:if="${#fields.hasErrors('endereco.estado')}" th:errors="*{endereco.estado}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Selecione o estado.
+                                        </div>
                                     </div>
 
-                                    <div class="col-sm-4 pb-3">
+                                    <div class="col-sm-3 pb-3">
                                         <label for="exampleAmount">Cidade</label>
                                         <div class="input-group">
-                                            <input class="form-control" th:field="*{cidade}"  type="text">
+                                            <input class="form-control" th:field="*{endereco.cidade}" type="text" required th:errorClass="is-invalid">
+                                            <div th:if="${#fields.hasErrors('endereco.cidade')}" th:errors="*{endereco.cidade}" class="invalid-feedback"></div>
+                                            <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                                Preencha a cidade.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 pb-3">
+                                        <label for="exampleAmount">Bairro</label>
+                                        <div class="input-group">
+                                            <input class="form-control" th:field="*{endereco.bairro}" type="text" required th:errorClass="is-invalid">
+                                            <div th:if="${#fields.hasErrors('endereco.bairro')}" th:errors="*{endereco.bairro}" class="invalid-feedback"></div>
+                                            <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                                Preencha o bairro.
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-5 pb-3">
-                                        <label for="exampleAmount">Endereço</label>
+                                        <label for="exampleAmount">Logradouro</label>
                                         <div class="input-group">
-                                            <input class="form-control" th:field="*{endereco}" type="text">
+                                            <input class="form-control" th:field="*{endereco.rua}" type="text" required th:errorClass="is-invalid">
+                                            <div th:if="${#fields.hasErrors('endereco.rua')}" th:errors="*{endereco.rua}" class="invalid-feedback"></div>
+                                            <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                                Preencha o logradouro.
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-2 pb-3">
                                         <label for="latitude">Latitude</label>
-                                        <input class="form-control" th:field="*{eixoX}" type="text">
+                                        <input class="form-control" th:field="*{eixoX}" type="text" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('eixoX')}" th:errors="*{eixoX}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha a Latitude.
+                                        </div>
                                     </div>
                                     <div class="col-sm-2 pb-3">
                                         <label for="longitude">Longitude</label>
-                                        <input class="form-control" th:field="*{eixoY}" type="text">
+                                        <input class="form-control" th:field="*{eixoY}" type="text" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('eixoY')}" th:errors="*{eixoY}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha a longitude.
+                                        </div>
                                     </div>
 
                                     <div class="col-sm-3 pb-3">
@@ -62,17 +96,29 @@
                                     </div>
                                     <div class="col-sm-2 pb-3">
                                         <label for="exampleCity">Horário/Abrir</label>
-                                        <input class="form-control" th:field="*{horarioAbre}" type="text">
+                                        <input class="form-control" th:field="*{horarioAbre}" type="text" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('horarioAbre')}" th:errors="*{horarioAbre}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha o horário.
+                                        </div>
                                     </div>
                                     <div class="col-sm-2 pb-3">
                                         <label for="exampleCity">Horário/Fechar</label>
-                                        <input class="form-control" th:field="*{horarioFecha}" type="text">
+                                        <input class="form-control" th:field="*{horarioFecha}" type="text" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('horarioFecha')}" th:errors="*{horarioFecha}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha o horário.
+                                        </div>
                                     </div>
 
                                     <div class="col-sm-3 pb-3">
                                         <label for="exampleAmount">Qtd Vagas</label>
                                         <div class="input-group">
-                                            <input class="form-control" th:field="*{quantidadeVagas}" type="number">
+                                            <input class="form-control" th:field="*{quantidadeVagas}" type="number" required th:errorClass="is-invalid">
+                                            <div th:if="${#fields.hasErrors('quantidadeVagas')}" th:errors="*{quantidadeVagas}" class="invalid-feedback"></div>
+                                            <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                                Preencha a quantidade de vagas.
+                                            </div>
                                         </div>
                                     </div>
 
@@ -81,7 +127,7 @@
 
                             <div style="float:right">
                                 <input class="btn btn-secondary" type="reset" data-bs-dismiss="modal" value="Cancelar">
-                                <input class="btn btn-primary" type="submit" value="Cadastrar">
+                                <button class="btn btn-primary" type="submit" value="Cadastrar">Cadastrar</button>
                             </div>
 
                     </form>

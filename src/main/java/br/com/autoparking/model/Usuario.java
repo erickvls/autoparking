@@ -59,7 +59,7 @@ public class Usuario {
     private Set<Role> roles = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name="estacionamento", nullable=false)
+    @JoinColumn(name="estacionamento")
     private Estacionamento estacionamento;
 
     @OneToMany(mappedBy="usuario")

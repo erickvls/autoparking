@@ -39,8 +39,10 @@ public class HomeController {
     }
 
     @PostMapping(value="/cadastrar")
-    public String salvarCadastro(@Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String salvarCadastro(@Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes redirectAttributes,Model model){
         if(bindingResult.hasErrors()){
+            model.addAttribute("estado", estadoService.listarTodosEstados());
+            model.addAttribute("genero", Genero.values());
             return "cadastrar";
         }
         usuarioService.criarNovoUsuarioFormularioRegistro(usuario);
