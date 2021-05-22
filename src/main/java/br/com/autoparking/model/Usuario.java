@@ -19,7 +19,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "usuario",uniqueConstraints={@UniqueConstraint(columnNames={"cpf","userName"})})
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -62,18 +61,111 @@ public class Usuario {
     @JoinColumn(name="estacionamento")
     private Estacionamento estacionamento;
 
-    @OneToMany(mappedBy="usuario")
-    private Set<Order> order;
-
-    @OneToMany(mappedBy="usuario")
-    private Set<Carro> carro;
-
-    @OneToMany(mappedBy="usuario")
-    private Set<FormaPagamento> formaPagamento;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco")
     private Endereco endereco;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
+    public AuthenticationProvider getAuthProvider() {
+        return authProvider;
+    }
+
+    public void setAuthProvider(AuthenticationProvider authProvider) {
+        this.authProvider = authProvider;
+    }
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Estacionamento getEstacionamento() {
+        return estacionamento;
+    }
+
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
 
 
 }

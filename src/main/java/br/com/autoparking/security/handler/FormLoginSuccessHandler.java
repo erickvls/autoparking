@@ -1,6 +1,8 @@
 package br.com.autoparking.security.handler;
 
 import br.com.autoparking.model.Usuario;
+import br.com.autoparking.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,10 +21,14 @@ import java.util.List;
 @Service
 public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         String targetUrl = determineTargetUrl(authentication);
-
+        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
+        request.getSession().setAttribute("user", usuario);
         if (response.isCommitted()) {
             return;
         }

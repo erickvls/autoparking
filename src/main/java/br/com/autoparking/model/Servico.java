@@ -23,7 +23,7 @@ public class Servico {
     private String descricao;
     private BigDecimal valor;
 
-    @OneToMany(mappedBy="servico")
+    @OneToMany(mappedBy="servico",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<FaturaServicos> faturaServicos;
 
     @ManyToOne

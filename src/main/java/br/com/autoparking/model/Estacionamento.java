@@ -36,13 +36,13 @@ public class Estacionamento {
     private BigDecimal precoHora;
     private BigDecimal precoFixo;
 
-    @OneToMany(mappedBy="estacionamento")
+    @OneToMany(mappedBy="estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Vaga> vaga;
 
-    @OneToMany(mappedBy="estacionamento")
+    @OneToMany(mappedBy="estacionamento",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Servico> servicos;
 
-    @OneToMany(mappedBy="estacionamento")
+    @OneToMany(mappedBy="estacionamento",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Order> order;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -50,7 +50,7 @@ public class Estacionamento {
     @NotNull
     private Endereco endereco;
 
-    @OneToMany(mappedBy="estacionamento")
+    @OneToMany(mappedBy="estacionamento",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private Set<Usuario> usuario;
 
 }

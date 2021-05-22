@@ -19,6 +19,8 @@
   transition: all 0.3s ease;
 }
 
+a { color: inherit; }
+
 .dashboard-cards .card:hover {
   box-shadow: 0 15px 10px -10px rgba(31, 31, 31, 0.5);
   transition: all 0.3s ease;

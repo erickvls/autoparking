@@ -1,8 +1,11 @@
 package br.com.autoparking.controller;
 
 import br.com.autoparking.model.Estacionamento;
+import br.com.autoparking.model.Usuario;
+import br.com.autoparking.model.dto.EstacionamentoForm;
 import br.com.autoparking.repository.UsuarioRepository;
 import br.com.autoparking.security.UsuarioDetails;
+import br.com.autoparking.service.EstacionamentoService;
 import br.com.autoparking.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -24,26 +28,32 @@ public class AdminController {
     private EstadoService estadoService;
 
     @Autowired
-    private UsuarioRepository donoRepository;
+    private EstacionamentoService estacionamentoService;
 
     @GetMapping("/admin")
-    public String homeAdmin(Model model, HttpServletRequest request){
-        model.addAttribute("estacionamento", new Estacionamento());
-        model.addAttribute("listaEstados",estadoService.listarTodosEstados());
+    public String homeAdmin(){
         return "/admin/admin";
     }
 
+    @GetMapping("/admin/estacionamento")
+    public String cadastrarEstacionamento(Model model){
+        model.addAttribute("estacionamentoForm", new EstacionamentoForm());
+        model.addAttribute("listaEstados",estadoService.listarTodosEstados());
+        return "admin/estacionamento/novo";
+    }
     @PostMapping ("/admin/estacionamento")
-    public String cadastrarEstacionamento(@Valid Estacionamento estacionamento, BindingResult bindingResult,
-                                          RedirectAttributes redirectAttributes, Authentication authentication){
-        UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
+    public String salvarEstacionamento(@Valid EstacionamentoForm estacionamentoForm, BindingResult bindingResult,
+                                          RedirectAttributes redirectAttributes, HttpSession session,
+                                        Model model){
+        Usuario usuario = (Usuario) session.getAttribute("user");
 
         if(bindingResult.hasErrors()){
-            return "/admin/admin";
+            model.addAttribute("listaEstados",estadoService.listarTodosEstados());
+            return "admin/estacionamento/novo";
         }
 
-        //usuarioService.criarNovoUsuarioFormularioRegistro(usuario);
-        redirectAttributes.addFlashAttribute("mensagemSucesso","Usuário cadastrado com sucesso!");
-        return "redirect:/login";
+        estacionamentoService.salvarEstacionamento(estacionamentoForm,usuario);
+        redirectAttributes.addFlashAttribute("mensagemSucesso","Estacionamento cadastrado com sucesso!");
+        return "redirect:/admin";
     }
 }

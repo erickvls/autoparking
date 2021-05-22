@@ -24,7 +24,7 @@ public class Fatura {
     private Date data;
     private BigDecimal total;
 
-    @OneToMany(mappedBy="fatura")
+    @OneToMany(mappedBy="fatura",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<FaturaServicos> faturaServicos;
 
     @OneToOne(mappedBy = "fatura")

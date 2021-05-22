@@ -42,7 +42,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             usuarioService.criarNovoUsuarioDepoisOAuthSucesso(email,nome, AuthenticationProvider.GOOGLE);
             formLoginSuccessHandler.handle(request,response,authentication);
         }else{
-            usuarioService.atualizarUsuarioDepoisOAuthSucesso(usuario,AuthenticationProvider.GOOGLE);
             formLoginErrorHandler.onAuthenticationFailure(request,response, new BadCredentialsException("Acesso não permitido"));
         }
     }
