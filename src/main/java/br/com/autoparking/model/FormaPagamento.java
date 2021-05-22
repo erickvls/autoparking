@@ -24,5 +24,7 @@ public class FormaPagamento {
 
     private String descricao;
 
-
+    @ManyToOne
+    @JoinColumn(name="usuario", nullable=false)
+    private Usuario usuario;
 }

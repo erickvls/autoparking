@@ -44,8 +44,13 @@
         <div class="container">
             <div class='dashboard-cards pt-5'>
 
-                <div th:if="${mensagemSucesso}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <div th:if="${mensagemSucesso}" class="alert alert-error alert-dismissible fade show" role="alert">
                     <span th:utext="${mensagemSucesso}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div th:if="${mensagemError}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span th:utext="${mensagemError}"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <div class="row">
@@ -88,10 +93,6 @@
                     <div class="single-card">
                         <a href="#"><div class="card-menu-icon">
                             <img src="http://atmoscape.com.au/hot-links/card-icon_Personal-development.svg" alt="Personal development">
-                            <div class="card-menu-hover">
-                                <i class="fa fa-link"></i>
-                            </div>
-
                         </div></a>
                         <div class="card-menu-content">
                             <div class='card-title'>
@@ -131,10 +132,6 @@
                 </a><a href="#"></a><div class="single-course"><a href="#">
                     <div class="card-menu-icon">
                         <img src="http://atmoscape.com.au/hot-links/card-icon_Support-services.svg" alt="Support services">
-                        <div class="card-menu-hover">
-                            <i class="fa fa-link"></i>
-                        </div>
-
                     </div></a>
                     <div class="card-menu-content">
                         <div class='card-title'>
@@ -170,10 +167,6 @@
                 </a><div class="single-card"><a>
                 </a><a href="#"><div class="card-menu-icon">
                     <img src="http://atmoscape.com.au/hot-links/card-icon_About-the-site.svg" alt="About the site">
-                    <div class="course-hover">
-                        <i class="fa fa-link"></i>
-                    </div>
-
                 </div></a>
                     <div class="card-menu-content">
                         <div class='card-title'>

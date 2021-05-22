@@ -57,14 +57,21 @@ public class Usuario {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name="estacionamento")
-    private Estacionamento estacionamento;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco")
     private Endereco endereco;
 
+    @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER)
+    private Set<Order> order;
+
+    @OneToMany(mappedBy="usuario",  fetch = FetchType.EAGER)
+    private Set<Carro> carro;
+
+    @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER)
+    private Set<FormaPagamento> formaPagamento;
+
+    @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER)
+    private Set<Estacionamento> estacionamentos;
 
     public int getId() {
         return id;
@@ -154,10 +161,6 @@ public class Usuario {
         this.roles = roles;
     }
 
-    public Estacionamento getEstacionamento() {
-        return estacionamento;
-    }
-
 
     public Endereco getEndereco() {
         return endereco;
@@ -168,4 +171,35 @@ public class Usuario {
     }
 
 
+    public Set<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(Set<Order> order) {
+        this.order = order;
+    }
+
+    public Set<Carro> getCarro() {
+        return carro;
+    }
+
+    public void setCarro(Set<Carro> carro) {
+        this.carro = carro;
+    }
+
+    public Set<FormaPagamento> getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(Set<FormaPagamento> formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public Set<Estacionamento> getEstacionamentos() {
+        return estacionamentos;
+    }
+
+    public void setEstacionamentos(Set<Estacionamento> estacionamentos) {
+        this.estacionamentos = estacionamentos;
+    }
 }

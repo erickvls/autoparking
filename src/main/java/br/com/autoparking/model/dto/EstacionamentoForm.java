@@ -36,6 +36,6 @@ public class EstacionamentoForm {
     private String cidade;
     @Size(min = 5,max = 20,message = "O campo deve conter entre 5 e 20 caracteres.")
     private String rua;
-    @Size(min = 4,max = 10,message = "O campo deve conter entre 4 e 10 caracteres.")
+    @Size(min = 4,max = 15,message = "O campo deve conter entre 4 e 15 caracteres.")
     private String bairro;
 }

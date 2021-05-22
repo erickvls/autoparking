@@ -22,5 +22,7 @@ public class Carro {
     private String placa;
     private boolean ativo;
 
-
+    @ManyToOne
+    @JoinColumn(name="usuario", nullable=false)
+    private Usuario usuario;
 }

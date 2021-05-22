@@ -10,18 +10,18 @@ import br.com.autoparking.service.EstacionamentoService;
 import br.com.autoparking.service.exception.FalhaAoSalvarException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Set;
 
 @Service
-@Transactional
 public class EstacionamentoServiceImpl implements EstacionamentoService {
 
     @Autowired
     private EstacionamentoRepository  estacionamentoRepository;
 
     @Override
+    @Transactional
     public void salvarEstacionamento(EstacionamentoForm estacionamentoForm, Usuario usuario) {
         try{
             Estacionamento estacionamento = mapToEntity(estacionamentoForm,usuario);
@@ -32,18 +32,9 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
     }
 
     private Estacionamento mapToEntity(EstacionamentoForm estacionamentoForm, Usuario usuario){
-
-        Endereco endereco = Endereco.builder()
-                .estado(estacionamentoForm.getEstado())
-                .cidade(estacionamentoForm.getCidade())
-                .bairro(estacionamentoForm.getBairro())
-                .rua(estacionamentoForm.getRua())
-                .build();
-
         return Estacionamento.builder()
-                .endereco(endereco)
                 .nome(estacionamentoForm.getNome())
-                .usuario(Set.of(usuario))
+                .usuario(usuario)
                 .eixoX(estacionamentoForm.getEixoX())
                 .eixoY(estacionamentoForm.getEixoY())
                 .horarioAbre(estacionamentoForm.getHorarioAbre())

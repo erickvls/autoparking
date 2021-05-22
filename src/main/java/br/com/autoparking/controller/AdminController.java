@@ -36,7 +36,12 @@ public class AdminController {
     }
 
     @GetMapping("/admin/estacionamento")
-    public String cadastrarEstacionamento(Model model){
+    public String cadastrarEstacionamento(Model model, HttpSession session,RedirectAttributes redirectAttributes){
+        Usuario usuario = (Usuario) session.getAttribute("user");
+        if(usuario.getEstacionamentos().size()>0){
+            redirectAttributes.addFlashAttribute("mensagemError","Você só pode criar 1 estacionamento.");
+            return "redirect:/admin";
+        }
         model.addAttribute("estacionamentoForm", new EstacionamentoForm());
         model.addAttribute("listaEstados",estadoService.listarTodosEstados());
         return "admin/estacionamento/novo";

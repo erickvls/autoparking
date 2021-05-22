@@ -50,7 +50,8 @@ public class Estacionamento {
     @NotNull
     private Endereco endereco;
 
-    @OneToMany(mappedBy="estacionamento",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
-    private Set<Usuario> usuario;
+    @ManyToOne
+    @JoinColumn(name="usuario")
+    private Usuario usuario;
 
 }
