@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="modalCadastrarServico(estacionamento)" id="navbar2" class="navbar2">
+    <div class="modal fade" id="exampleModalXl" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h4" id="exampleModalXlLabel">Cadastrar Serviço</h5>
+                    <h6>[[${estacionamento}]]</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="form-style">
+                    <div class="modal-body">
+                        <form class="row g-3 needs-validation" novalidate th:object="${servico}" method="POST" th:action="@{/admin/estacionamento/servico}">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6 pb-3">
+                                        <label for="nome">Descrição</label>
+                                        <input class="form-control" th:field="*{descricao}" type="text" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha o nome do serviço.
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 pb-3">
+                                        <label for="exampleAmount">Valor</label>
+                                        <div class="input-group">
+                                            <input value="0.00" class="form-control" th:field="*{valor}" type="text" required th:errorClass="is-invalid">
+                                            <span class="input-group-text" style="background-color:white;margin-left:1px;">R$</span>
+                                            <div th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}" class="invalid-feedback"></div>
+                                            <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                                Preencha o valor.
+                                            </div>
+                                            <input type="hidden" th:value="${estacionamento}" id="estacionamento" name="estacionamento"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="float:right">
+                                <input class="btn btn-secondary" type="reset" data-bs-dismiss="modal" value="Cancelar">
+                                <button class="btn btn-primary" type="submit" value="Adicionar">Adicionar</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

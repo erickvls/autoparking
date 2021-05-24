@@ -32,6 +32,14 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
     }
 
     private Estacionamento mapToEntity(EstacionamentoForm estacionamentoForm, Usuario usuario){
+
+        Endereco endereco = Endereco.builder()
+                .estado(estacionamentoForm.getEstado())
+                .bairro(estacionamentoForm.getBairro())
+                .cidade(estacionamentoForm.getCidade())
+                .rua(estacionamentoForm.getRua())
+                .build();
+
         return Estacionamento.builder()
                 .nome(estacionamentoForm.getNome())
                 .usuario(usuario)
@@ -41,6 +49,7 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
                 .horarioFecha(estacionamentoForm.getHorarioFecha())
                 .quantidadeVagas(estacionamentoForm.getQuantidadeVagas())
                 .telefone(estacionamentoForm.getTelefone())
+                .endereco(endereco)
                 .build();
     }
 }
