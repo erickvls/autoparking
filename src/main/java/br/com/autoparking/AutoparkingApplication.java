@@ -21,5 +21,6 @@ public class AutoparkingApplication {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         System.out.println("SENHA"+bCryptPasswordEncoder.encode("erickvls"));
         SpringApplication.run(AutoparkingApplication.class, args);
+
     }
 }

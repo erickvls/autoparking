@@ -14,7 +14,7 @@ import java.io.IOException;
 @Service
 public class FormLoginErrorHandler extends SimpleUrlAuthenticationFailureHandler {
 
-    private static final String URL_CADASTRO="/login?usuarioJaExistente";
+    private static final String URL_CADASTRO="${autoparking.url.cadastro}";
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
