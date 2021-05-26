@@ -73,6 +73,8 @@ public class Usuario {
     @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER)
     private Set<Estacionamento> estacionamentos;
 
+    private boolean senhaResetada;
+
     public int getId() {
         return id;
     }
@@ -201,5 +203,13 @@ public class Usuario {
 
     public void setEstacionamentos(Set<Estacionamento> estacionamentos) {
         this.estacionamentos = estacionamentos;
+    }
+
+    public boolean isSenhaResetada() {
+        return senhaResetada;
+    }
+
+    public void setSenhaResetada(boolean senhaResetada) {
+        this.senhaResetada = senhaResetada;
     }
 }

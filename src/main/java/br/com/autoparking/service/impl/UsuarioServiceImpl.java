@@ -5,6 +5,7 @@ import br.com.autoparking.model.Usuario;
 import br.com.autoparking.model.enums.AuthenticationProvider;
 import br.com.autoparking.repository.RoleRepository;
 import br.com.autoparking.repository.UsuarioRepository;
+import br.com.autoparking.service.CryptService;
 import br.com.autoparking.service.EmailService;
 import br.com.autoparking.service.UsuarioService;
 import br.com.autoparking.service.exception.SalvarEntidadeException;
@@ -34,6 +35,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    CryptService cryptService;
 
     @Override
     public Usuario criarNovoUsuarioFormularioRegistro(Usuario usuario) {
@@ -76,6 +80,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                     .roles(new HashSet<Role>(Collections.singletonList(userRole)))
                     .ativo(true)
                     .cpf(usuario.getCpf())
+                    .senhaResetada(false)
                     .genero(usuario.getGenero())
                     .nome(usuario.getNome())
                     .userName(usuario.getUserName())
@@ -92,14 +97,24 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public boolean resetarSenhaUsuario(String username, RedirectAttributes redirectAttributes){
-        String usuario = usuarioRepository.findByUserName(username).map(Usuario::getUserName).stream().collect(Collectors.joining());
-        if(Strings.isNullOrEmpty(usuario)){
+        Usuario usuario = usuarioRepository.findByUserName(username)
+                .filter(v->!Strings.isNullOrEmpty(v.getUserName()))
+                .stream().collect(Collectors.toList()).get(0);
+        if(Strings.isNullOrEmpty(usuario.getUserName())){
             redirectAttributes.addFlashAttribute("mensagemError", "Email não encontrado");
             return false;
         }else{
-            emailService.sendMail(usuario);
+            String novaSenha = cryptService.gerar();
+            emailService.sendMail(usuario.getUserName(),novaSenha);
+            atualizarSenhaUsuario(usuario,novaSenha);
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Um email foi enviado para "+username+" com a senha temporária.");
             return true;
         }
+    }
+
+    private void atualizarSenhaUsuario(Usuario usuario,String novaSenha){
+        usuario.setSenhaResetada(true);
+        usuario.setPassword(bCryptPasswordEncoder.encode(novaSenha));
+        usuarioRepository.save(usuario);
     }
 }

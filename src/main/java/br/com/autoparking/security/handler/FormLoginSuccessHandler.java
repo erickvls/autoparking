@@ -25,8 +25,8 @@ public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        String targetUrl = determineTargetUrl(authentication);
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
+        String targetUrl = determineTargetUrl(authentication,usuario);
         request.getSession().setAttribute("user", usuario);
         if (response.isCommitted()) {
             return;
@@ -36,7 +36,7 @@ public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     }
 
 
-    protected String determineTargetUrl(Authentication authentication) {
+    protected String determineTargetUrl(Authentication authentication, Usuario usuario) {
         String url = "${autoparking.url.login-error}";
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

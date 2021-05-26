@@ -71,7 +71,7 @@ public class HomeController {
         }
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(recuperarSenhaForm.getEmail());
         usuarioService.resetarSenhaUsuario(usuario.getUserName(),redirectAttributes);
-        return "redirect:/recuperar";
+        return "redirect:/login";
     }
 
 }

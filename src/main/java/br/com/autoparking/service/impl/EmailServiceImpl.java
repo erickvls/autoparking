@@ -1,6 +1,7 @@
 package br.com.autoparking.service.impl;
 
 import br.com.autoparking.service.EmailService;
+import br.com.autoparking.service.UsuarioService;
 import br.com.autoparking.service.exception.EnviarEmailException;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import org.slf4j.Logger;
@@ -24,18 +25,21 @@ public class EmailServiceImpl implements EmailService {
     @Qualifier("gmail")
     private JavaMailSender mailSender;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     private static final String RECUPERACAO_SUBJECT = "Recuperação de senha";
     private static final String EMAIL_FROM = "Suporte Autoparking";
 
     @Override
-    public void sendMail(String toAddresses) {
+    public void sendMail(String toAddresses,String novaSenha) {
         try{
             MimeMessagePreparator preparator = mimeMessage -> {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(toAddresses.split("[,;]"));
                 message.setFrom("SERVICO", EMAIL_FROM);
                 message.setSubject(RECUPERACAO_SUBJECT);
-                message.setText("Mensagem com senha resetada:", false);
+                message.setText("Sua nova senha temporária é : "+novaSenha+"", false);
             };
             mailSender.send(preparator);
             logger.info("Email enviado com sucesso para: {} com assunto: {}", toAddresses, RECUPERACAO_SUBJECT);
