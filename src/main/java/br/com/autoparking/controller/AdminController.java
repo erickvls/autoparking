@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -97,6 +98,23 @@ public class AdminController {
     /* FIM ESTACIONAMENTO */
     /* ------------------ */
 
+    @GetMapping("${autoparking.url.admin}/atualizar")
+    public String atualizarSenha(Model model,RedirectAttributes redirectAttribute,HttpSession session){
+        Usuario usuario = (Usuario) session.getAttribute("user");
+        usuario.setPassword("");
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("estado",estadoService.listarTodosEstados());
+        return "admin/atualizar";
+    }
+
+    @PostMapping("${autoparking.url.admin}/atualizar")
+    public String salvarNovaSenha(@RequestParam("userName") String userName,
+                                  @RequestParam("password") String password,
+                                  RedirectAttributes redirectAttribute,HttpSession session){
+
+        usuarioService.usuarioMudaSenhaQuandoResetada(userName,password,redirectAttribute);
+        return "redirect:/login";
+    }
 
     /* ------------------- */
     /* ALOCAR VAGA */

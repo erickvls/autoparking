@@ -10,5 +10,6 @@ public interface UsuarioService {
     Usuario criarNovoUsuarioFormularioRegistro(Usuario usuario);
     Usuario criarNovoUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider provider);
     Usuario encontrarUsuarioPorUserName(String username);
-    boolean resetarSenhaUsuario(String userName, RedirectAttributes redirectAttributes);
+    boolean gerarSenhaUsuario(String userName, RedirectAttributes redirectAttributes);
+    void usuarioMudaSenhaQuandoResetada(String usuario,String senhaAlterada, RedirectAttributes redirectAttribute);
 }

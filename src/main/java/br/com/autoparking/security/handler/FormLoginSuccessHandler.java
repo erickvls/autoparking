@@ -47,6 +47,9 @@ public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
         if (roles.contains("ROLE_ADMIN")) {
             url = "/admin";
+            if(usuario.isSenhaResetada()){
+                url = "/admin/atualizar";
+            }
         }
         else if (roles.contains("ROLE_USER")) {
             url = "/home";

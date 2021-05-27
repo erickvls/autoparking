@@ -96,7 +96,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public boolean resetarSenhaUsuario(String username, RedirectAttributes redirectAttributes){
+    public boolean gerarSenhaUsuario(String username, RedirectAttributes redirectAttributes){
         Usuario usuario = usuarioRepository.findByUserName(username)
                 .filter(v->!Strings.isNullOrEmpty(v.getUserName()))
                 .stream().collect(Collectors.toList()).get(0);
@@ -106,14 +106,21 @@ public class UsuarioServiceImpl implements UsuarioService {
         }else{
             String novaSenha = cryptService.gerar();
             emailService.sendMail(usuario.getUserName(),novaSenha);
-            atualizarSenhaUsuario(usuario,novaSenha);
+            resetarSenha(usuario,novaSenha,true);
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Um email foi enviado para "+username+" com a senha temporária.");
             return true;
         }
     }
 
-    private void atualizarSenhaUsuario(Usuario usuario,String novaSenha){
-        usuario.setSenhaResetada(true);
+    @Override
+    public void usuarioMudaSenhaQuandoResetada(String user,String senhaAlterada, RedirectAttributes redirectAttribute){
+        Usuario usuario = encontrarUsuarioPorUserName(user);
+        resetarSenha(usuario,senhaAlterada,false);
+        redirectAttribute.addFlashAttribute("mensagemSucesso", "Senha alterada, efetue login com a nova senha.");
+    }
+
+    private void resetarSenha(Usuario usuario,String novaSenha,boolean isResetada){
+        usuario.setSenhaResetada(isResetada);
         usuario.setPassword(bCryptPasswordEncoder.encode(novaSenha));
         usuarioRepository.save(usuario);
     }
