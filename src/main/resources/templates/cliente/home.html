@@ -1,10 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home Cliente</title>
-</head>
+<html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="/fragments/head :: head(pageTitle='Área do cliente - Página inicial')" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<style type="text/css">
+    #marker-tooltip {
+    display: none;
+    position:absolute;
+    width: 300px;
+    height: 200px;
+    background-color: #ccc;
+    margin: 15px;
+    .infowindow-container {
+      width: 330px;
+    }
+
+    .inner {
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      padding: 10px;
+    }
+}
+</style>
+<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+<script th:inline="javascript">
+
+
+$( document ).ready(function() {
+
+/*<![CDATA[*/
+var estacionamento = /*[[${estacionamentos}]]*/ 'default';
+
+
+  var eixoX = parseFloat(estacionamento[0].eixoX);
+  var eixoY = parseFloat(estacionamento[0].eixoY);
+  var inverness = {lat: +eixoX, lng: +eixoY};
+  var city1 = {position: inverness};
+  var map = new google.maps.Map(document.getElementById('map'), {zoom: 3, center: inverness});
+  var marker1 = new google.maps.Marker({position: inverness, map: map});
+
+
+
+
+let infowindow = new google.maps.InfoWindow();
+
+  estacionamento.forEach(est=>{
+        var eixoX = parseFloat(est.eixoX);
+        var eixoY = parseFloat(est.eixoY);
+        var posicaoCidade = {lat: +eixoX, lng: +eixoY};
+        var cidade = {position: posicaoCidade};
+        var marcador = new google.maps.Marker(
+                        {
+                            position: posicaoCidade,
+                            map: map
+                        }
+        );
+         marcador.addListener('click', function () {
+         infowindow.open(map, marcador);
+        infowindow.setContent("<div class='infowindow-container'>" +
+              "<div class='inner'><h6>" + est.nome+
+              "</h6><span>Capacidade: "+est.capacidade+" </span><br><span>Horário: "+est.horarioAbre+" às  "+est.horarioFecha+"</span></div>" +
+              "<a href=''>Detalhes</a></div>");
+        console.log("11111");
+         });
+  });
+
+
+  /*]]>*/
+});
+
+</script>
 <body>
-Bem vindo cliente
+
+<!-- ======= Header ======= -->
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <h1 class="logo">
+            <a href="index.html"><img th:src="@{/img/logotipo.png}"/>
+            </a>
+        </h1>
+
+        <head th:replace="/fragments/navbar :: navbar" />
+
+    </div>
+</header>
+<!-- End Header -->
+
+
+<main id="main" data-aos="fade-up">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Home - Área do cliente</h2>
+                <ol>
+                    <li>Página inicial</li>
+                </ol>
+            </div>
+
+        </div>
+    </section><!-- Breadcrumbs Section -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+        <div class="container">
+            <div class="row m-2 no-gutters shadow-lg">
+                <div class="col-md-12 bg-white p-3 col-12">
+                    <div class="container">
+                        <div class="row">
+                            <div id="map" style="height: 550px;width: 100%;"></div>
+                            <div id="marker-tooltip"></div>
+                            <!-- Replace the value of the key parameter with your own API key. -->
+                            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4NhM0mExvi2mC70t_7WBlV3FK2j4uMzc">
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</main><!-- End #main -->
+<div th:replace="/fragments/footer :: footer" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script th:src="@{/js/admin.js}"></script>
+
 </body>
+
 </html>

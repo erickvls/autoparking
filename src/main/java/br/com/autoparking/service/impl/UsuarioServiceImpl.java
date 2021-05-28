@@ -97,9 +97,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public boolean gerarSenhaUsuario(String username, RedirectAttributes redirectAttributes){
-        Usuario usuario = usuarioRepository.findByUserName(username)
-                .filter(v->!Strings.isNullOrEmpty(v.getUserName()))
-                .stream().collect(Collectors.toList()).get(0);
+        Usuario usuario = encontrarUsuarioPorUserName(username);
         if(Strings.isNullOrEmpty(usuario.getUserName())){
             redirectAttributes.addFlashAttribute("mensagemError", "Email não encontrado");
             return false;

@@ -1,5 +1,6 @@
 package br.com.autoparking.security.handler;
 
+import br.com.autoparking.model.Role;
 import br.com.autoparking.model.Usuario;
 import br.com.autoparking.model.enums.AuthenticationProvider;
 import br.com.autoparking.security.oauth.CustomOAuth2Usuario;
@@ -40,8 +41,11 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         if(Objects.isNull(usuario.getUserName())){
             usuarioService.criarNovoUsuarioDepoisOAuthSucesso(email,nome, AuthenticationProvider.GOOGLE);
             formLoginSuccessHandler.handle(request,response,authentication);
-        }else{
+
+        }else if(usuario.getRoles().stream().anyMatch(v->v.getNome().equals("ROLE_ADMIN"))) {
             formLoginErrorHandler.onAuthenticationFailure(request,response, new BadCredentialsException("Acesso não permitido"));
+        }else if(usuario.getRoles().stream().anyMatch(v->v.getNome().equals("ROLE_CLIENTE"))){
+            formLoginSuccessHandler.handle(request,response,authentication);
         }
     }
 }

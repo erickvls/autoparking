@@ -1,6 +1,7 @@
 package br.com.autoparking.model;
 
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -39,6 +40,7 @@ public class Estacionamento {
     @OneToMany(mappedBy="estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Vaga> vaga;
 
+    @JsonIgnore
     @OneToMany(mappedBy="estacionamento",cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private Set<Servico> servicos;
 

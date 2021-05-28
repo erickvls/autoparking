@@ -69,9 +69,10 @@ public class HomeController {
         if(bindingResult.hasErrors()){
             return recuperarSenha(model);
         }
-        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(recuperarSenhaForm.getEmail());
-        usuarioService.gerarSenhaUsuario(usuario.getUserName(),redirectAttributes);
-        return "redirect:/login";
+        if(usuarioService.gerarSenhaUsuario(recuperarSenhaForm.getEmail(),redirectAttributes)){
+            return "redirect:/login";
+        }
+       return "redirect:/recuperar";
     }
 
 }
