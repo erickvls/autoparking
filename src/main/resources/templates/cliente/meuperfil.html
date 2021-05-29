@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="/fragments/head :: head(pageTitle='AutoParking - Se cadastre como afiliado')" />
+
+<body>
+
+<!-- ======= Top Bar ======= -->
+<section id="topbar" class="d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+        <div class="contact-info d-flex align-items-center">
+            <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com">contact@example.com</a></i>
+            <i class="bi bi-phone d-flex align-items-center ms-4"><span>+1 5589 55488 55</span></i>
+        </div>
+        <div class="social-links d-none d-md-flex align-items-center">
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+        </div>
+    </div>
+</section>
+
+<!-- ======= Header ======= -->
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <h1 class="logo">
+            <a href="index.html"><img th:src="@{/img/logotipo.png}"/>
+            </a>
+        </h1>
+
+        <head th:replace="/fragments/navbar :: navbar" />
+
+    </div>
+</header>
+<!-- End Header -->
+
+
+<main id="main" data-aos="fade-up">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Meu Perfil</h2>
+                <ol>
+                    <li><a th:href="@{/home}">Página inicial</a></li>
+                    <li>Concluir perfil</li>
+                </ol>
+            </div>
+
+        </div>
+    </section><!-- Breadcrumbs Section -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+        <div class="container">
+            <div class="row m-1">
+                    <div th:unless="${usuario.perfilAtualizado}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <span>Preencha as informações do seu perfil para continuar</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+            </div>
+            <div class="row m-2 no-gutters shadow-lg">
+                <div class="col-md-12 bg-white p-5 col-12">
+                    <h3 class="pb-3" th:if="${usuario.perfilAtualizado}">Edite seu perfil</h3>
+                    <h3 class="pb-3" th:unless="${usuario.perfilAtualizado}">Complete seu perfil</h3>
+                    <div class="form-style">
+                        <form class="row g-3 needs-validation" novalidate th:object="${usuario}" method="POST" th:action="@{/home/perfil}">
+                            <div class="col-md-6 pb-3">
+                                <input type="text" readonly placeholder="Nome completo" class="form-control" th:field="*{nome}" required th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="invalid-feedback"></div>
+                                <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                    Preencha seu nome.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 pb-3">
+                                <input type="text" placeholder="CPF" onkeypress="$(this).mask('000.000.000-00');" class="form-control" th:field="*{cpf}" required th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="invalid-feedback"></div>
+                                <div th:unless="${#fields.hasAnyErrors()}"  class="invalid-feedback">
+                                    Preencha seu CPF.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 pb-3">
+                                <select th:field="*{endereco.estado}" class="form-select"  style="border:0px 0xp 1px 0px;" required>
+                                    <option selected value="">Selecione seu estado</option>
+                                    <option th:each="e : ${estado}"
+                                            th:value="${e.id}"
+                                            th:utext="${e.descricao}"></option>
+                                </select>
+                                <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                    Selecione seu estado.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 pb-3">
+                                <input type="text" placeholder="Cidade" class="form-control" th:field="*{endereco.cidade}" required th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('endereco.cidade')}" th:errors="*{endereco.cidade}" class="invalid-feedback"></div>
+                                <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                    Preencha sua cidade.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 pb-3">
+                                <input type="text" placeholder="Rua" class="form-control" th:field="*{endereco.rua}" required th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('endereco.rua')}" th:errors="*{endereco.rua}" class="invalid-feedback"></div>
+                                <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                    Preencha sua rua.
+                                </div>
+                            </div>
+                            <div class="col-md-6 pb-3">
+                                <input type="text" placeholder="Bairro" class="form-control" th:field="*{endereco.bairro}" required th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('endereco.bairro')}" th:errors="*{endereco.bairro}" class="invalid-feedback"></div>
+                                <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                    Preencha seu bairro.
+                                </div>
+                            </div>
+                            <div class="col-md-4 pb-3">
+                                <input type="text" placeholder="Número da casa" class="form-control" th:field="*{endereco.numero}" required th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('endereco.numero')}" th:errors="*{endereco.numero}" class="invalid-feedback"></div>
+                                <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                    Preencha o número da sua casa.
+                                </div>
+                            </div>
+                            <div class="col-md-4 pb-3">
+                                <select th:field="*{genero}" class="form-select" id="genero"  style="border:0px 0xp 1px 0px;" required>
+                                    <option selected value="">Selecione seu gênero</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                    <option value="O">Outro</option>
+                                </select>
+                                <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                    Selecione seu gênero.
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 pb-3">
+                                <div class="input-group has-validation">
+                                    <input type="email" placeholder="email" class="form-control" readonly th:field="*{userName}"
+                                           aria-describedby="inputGroupPrepend" required th:errorClass="is-invalid">
+                                    <div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="invalid-feedback"></div>
+                                    <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                        Preencha seu email.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pb-2">
+                                <button type="submit" class="btn btn-dark w-100 font-weight-bold mt-2">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div  th:if="${usuario.perfilAtualizado}">
+                        <hr>
+                        <h3 class="pb-3">Carros</h3>
+                        <div class="col-12" style="margin-top:-15px;" th:if="${usuario.carro.size()>0}">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Cor</th>
+                                    <th scope="col">Modelo</th>
+                                    <th scope="col">Placa</th>
+                                    <th scope="col">Ativo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="carro,count : ${usuario.carro}">
+                                    <th scope="row" th:text="${count.count}"></th>
+                                    <td th:text="${carro.modelo}"></td>
+                                    <td th:text="${carro.placa}"></td>
+                                    <td th:text="${carro.ativo}"></td>
+                                    <td>Editar/Apagar</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div th:unless="${usuario.carro.size()>0}" class="d-flex justify-content-center pb-3">
+                            <h6>Você não possui nenhum carro associado a sua conta.</h6>
+                        </div>
+                        <div th:class="${usuario.carro.size()<1} ? 'd-flex justify-content-center' : 'float-end'">
+                            <a th:classappend="${usuario.carro.size()<1} ? 'd-flex justify-content-center' : 'float-end'" data-bs-toggle="modal" class="btn btn-light" data-bs-target="#exampleModalXl"><i class="fas fa-plus"></i> &nbsp;Adicionar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Portfolio Details Section -->
+
+</main><!-- End #main -->
+
+
+<div th:replace="/fragments/footer :: footer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script th:src="@{/js/cadastrar.js}"></script>
+</body>
+
+</html>

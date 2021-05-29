@@ -3,6 +3,18 @@
 
 <head th:replace="/fragments/head :: head(pageTitle='AutoParking - Gerenciar estacionamento')" />
 <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+<style type="text/css">
+    .alocacao{
+  border: 1px solid grey;
+  width: 90px;
+  height: 120px;
+  background-size: cover;
+}
+
+.alocacao img{
+  width: 100%;
+}
+</style>
 <script th:inline="javascript">
 $( document ).ready(function() {
   var eixoX = parseFloat($("#eixoX").val());
@@ -91,26 +103,30 @@ $( document ).ready(function() {
                                                 <div class="col-md-12 lead">Estacionamento<hr></div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-3 text-center">
-                                                    <img class="img-circle avatar avatar-original" style="-webkit-user-select:none;
-                                                        display:block; margin:auto;" src="http://robohash.org/sitsequiquia.png?size=120x120">
-                                                </div>
-                                                <div class="col-md-9">
+                                                <div class="col-md-7 pt-3">
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <h1 class="only-bottom-margin" th:text="${estacionamento.nome}"></h1>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-12">
                                                             <span class="text-muted">Endereço:</span> <span th:text="|${estacionamento.endereco.rua} , ${estacionamento.endereco.rua}, ${estacionamento.endereco.cidade} - ${estacionamento.endereco.estado.descricao}|"></span><br>
                                                             <span class="text-muted">Horário:</span> <span th:text="|Aberto de ${estacionamento.horarioAbre} às ${estacionamento.horarioFecha}| "></span><br>
-                                                            <span class="text-muted">Telefone:</span> <span th:text="${estacionamento.telefone}"></span><br><br>
+                                                            <span class="text-muted">Telefone:</span> <span th:text="${estacionamento.telefone}"></span><br>
+                                                            <span class="text-muted">Capacidade:</span> <span th:text="|${estacionamento.quantidadeVagas} vagas|"></span><br><br>
                                                             <input type="hidden" id="eixoX" th:value="*{estacionamento.eixoX}"/>
                                                             <input type="hidden" id="eixoY" th:value="*{estacionamento.eixoY}"/>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-5 text-center">
+                                                    <div id="map" style="height: 200px;width: 100%;"></div>
+                                                    <!-- Replace the value of the key parameter with your own API key. -->
+                                                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4NhM0mExvi2mC70t_7WBlV3FK2j4uMzc">
+                                                    </script>
+                                                </div>
+
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12 lead">Serviços<hr></div>
@@ -142,18 +158,42 @@ $( document ).ready(function() {
                                                 </div>
 
                                             </div>
-                                            <hr>
                                             <div class="row">
-                                                <!--The div element for the map -->
-                                                <div id="map" style="height: 400px;width: 100%;"></div>
-                                                <!-- Replace the value of the key parameter with your own API key. -->
-                                                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4NhM0mExvi2mC70t_7WBlV3FK2j4uMzc">
-                                                </script>
+
+                                                <div class="col-md-12 lead">Vagas<hr></div>
+                                                <div class="col-md-12">
+
+                                                        <div class="alocacao">
+                                                            <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
+                                                        </div>
+                                                        <div class="alocacao">
+                                                            <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
+                                                        </div>
+                                                    <div class="alocacao">
+                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
+                                                    </div>
+                                                    <div class="alocacao">
+                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
+                                                    </div>
+                                                    <div class="alocacao">
+                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
+                                                    </div>
+                                                    <div class="alocacao">
+                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
+                                                    </div>
+                                                    <div class="alocacao">
+                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
+                                                    </div>
+                                                    <div class="alocacao">
+                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
+                                                    </div>
+
+                                                </div>
                                             </div>
+                                            <hr>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

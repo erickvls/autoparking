@@ -3,18 +3,19 @@ package br.com.autoparking.service.impl;
 import br.com.autoparking.model.Endereco;
 import br.com.autoparking.model.Estacionamento;
 import br.com.autoparking.model.Usuario;
+import br.com.autoparking.model.Vaga;
 import br.com.autoparking.model.dto.EstacionamentoDTO;
 import br.com.autoparking.model.dto.EstacionamentoForm;
+import br.com.autoparking.model.enums.StatusVaga;
 import br.com.autoparking.repository.EstacionamentoRepository;
+import br.com.autoparking.repository.VagaRepository;
 import br.com.autoparking.service.EstacionamentoService;
 import br.com.autoparking.service.exception.SalvarEntidadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,12 +24,16 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
     @Autowired
     private EstacionamentoRepository  estacionamentoRepository;
 
+    @Autowired
+    private VagaRepository vagaRepository;
+
     @Override
     @Transactional
     public void salvarEstacionamento(EstacionamentoForm estacionamentoForm, Usuario usuario) {
         try{
             Estacionamento estacionamento = mapToEntity(estacionamentoForm,usuario);
-            estacionamentoRepository.save(estacionamento);
+            estacionamento = estacionamentoRepository.save(estacionamento);
+            Set<Vaga> vagas = gerarVagas(estacionamentoForm.getQuantidadeVagas(),estacionamento);
         }catch(Exception e){
             throw new SalvarEntidadeException("Falha ao salvar um novo estacionamento", e);
         }
@@ -56,6 +61,8 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
                 .rua(estacionamentoForm.getRua())
                 .build();
 
+
+
         return Estacionamento.builder()
                 .nome(estacionamentoForm.getNome())
                 .usuario(usuario)
@@ -67,5 +74,16 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
                 .telefone(estacionamentoForm.getTelefone())
                 .endereco(endereco)
                 .build();
+    }
+
+    private Set<Vaga> gerarVagas(int quantidade, Estacionamento estacionamento){
+        Set<Vaga> listaVagas = new HashSet<>();
+        for (int i = 0; i <quantidade ; i++) {
+            listaVagas.add(vagaRepository.save(Vaga.builder().numero("VAGA"+ i)
+                    .status(StatusVaga.LIVRE)
+                    .estacionamento(estacionamento)
+                    .build()));
+        }
+        return listaVagas;
     }
 }

@@ -75,6 +75,8 @@ public class Usuario {
 
     private boolean senhaResetada;
 
+    private boolean perfilAtualizado = false;
+
     public int getId() {
         return id;
     }
@@ -211,5 +213,13 @@ public class Usuario {
 
     public void setSenhaResetada(boolean senhaResetada) {
         this.senhaResetada = senhaResetada;
+    }
+
+    public boolean isPerfilAtualizado() {
+        return perfilAtualizado;
+    }
+
+    public void setPerfilAtualizado(boolean perfilAtualizado) {
+        this.perfilAtualizado = perfilAtualizado;
     }
 }

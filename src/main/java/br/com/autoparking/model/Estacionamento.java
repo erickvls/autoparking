@@ -37,7 +37,7 @@ public class Estacionamento {
     private BigDecimal precoHora;
     private BigDecimal precoFixo;
 
-    @OneToMany(mappedBy="estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy="estacionamento",cascade = CascadeType.ALL)
     private Set<Vaga> vaga;
 
     @JsonIgnore

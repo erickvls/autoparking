@@ -23,7 +23,7 @@ public class Vaga {
     private String numero;
     private StatusVaga status;
 
-    @ManyToOne
-    @JoinColumn(name="estacionamento_id", nullable=false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="estacionamento_id",nullable = false, updatable = true, insertable = true)
     private Estacionamento estacionamento;
 }

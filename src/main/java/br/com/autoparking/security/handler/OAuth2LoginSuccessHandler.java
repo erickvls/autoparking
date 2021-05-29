@@ -8,6 +8,9 @@ import br.com.autoparking.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Objects;
 
 @Service
@@ -28,6 +32,10 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     @Autowired
     private FormLoginErrorHandler formLoginErrorHandler;
+
+    private String url;
+
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -45,7 +53,13 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         }else if(usuario.getRoles().stream().anyMatch(v->v.getNome().equals("ROLE_ADMIN"))) {
             formLoginErrorHandler.onAuthenticationFailure(request,response, new BadCredentialsException("Acesso não permitido"));
         }else if(usuario.getRoles().stream().anyMatch(v->v.getNome().equals("ROLE_CLIENTE"))){
-            formLoginSuccessHandler.handle(request,response,authentication);
+            if(!usuario.isPerfilAtualizado()){
+                url = "/home/perfil";
+            }else{
+                url = "/home";
+            }
+            request.getSession().setAttribute("user", usuario);
+            redirectStrategy.sendRedirect(request, response, url);
         }
     }
 }

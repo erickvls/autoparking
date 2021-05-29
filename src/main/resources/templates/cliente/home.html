@@ -110,11 +110,17 @@ let infowindow = new google.maps.InfoWindow();
         <div class="container">
             <div class="row m-2 no-gutters shadow-lg">
                 <div class="col-md-12 bg-white p-3 col-12">
+                    <div th:if="${mensagemSucesso}" class="alert alert-success alert-dismissible fade show" role="alert">
+                        <span th:utext="${mensagemSucesso}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 lead">Estacionamentos perto de você<hr></div>
+                        </div>
                         <div class="row">
                             <div id="map" style="height: 550px;width: 100%;"></div>
                             <div id="marker-tooltip"></div>
-                            <!-- Replace the value of the key parameter with your own API key. -->
                             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4NhM0mExvi2mC70t_7WBlV3FK2j4uMzc">
                             </script>
                         </div>

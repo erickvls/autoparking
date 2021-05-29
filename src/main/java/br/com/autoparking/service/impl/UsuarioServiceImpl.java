@@ -2,6 +2,7 @@ package br.com.autoparking.service.impl;
 
 import br.com.autoparking.model.Role;
 import br.com.autoparking.model.Usuario;
+import br.com.autoparking.model.dto.UsuarioEditarPerfil;
 import br.com.autoparking.model.enums.AuthenticationProvider;
 import br.com.autoparking.repository.RoleRepository;
 import br.com.autoparking.repository.UsuarioRepository;
@@ -117,9 +118,21 @@ public class UsuarioServiceImpl implements UsuarioService {
         redirectAttribute.addFlashAttribute("mensagemSucesso", "Senha alterada, efetue login com a nova senha.");
     }
 
+    @Override
+    public void editarPerfil(UsuarioEditarPerfil usuarioEditarPerfil){
+        Usuario usuario = encontrarUsuarioPorUserName(usuarioEditarPerfil.getUserName());
+        usuario.setGenero(usuarioEditarPerfil.getGenero());
+        usuario.setCpf(usuarioEditarPerfil.getCpf());
+        usuario.setEndereco(usuarioEditarPerfil.getEndereco());
+        usuario.setPerfilAtualizado(true);
+        usuarioRepository.save(usuario);
+    }
+
     private void resetarSenha(Usuario usuario,String novaSenha,boolean isResetada){
         usuario.setSenhaResetada(isResetada);
         usuario.setPassword(bCryptPasswordEncoder.encode(novaSenha));
         usuarioRepository.save(usuario);
     }
+
+
 }
