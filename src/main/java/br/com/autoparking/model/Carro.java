@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "carro")
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,9 +19,57 @@ public class Carro {
     private Cor cor;
     private String modelo;
     private String placa;
-    private boolean ativo;
+    private boolean ativo =false;
 
     @ManyToOne
     @JoinColumn(name="usuario", nullable=false)
     private Usuario usuario;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Cor getCor() {
+        return cor;
+    }
+
+    public void setCor(Cor cor) {
+        this.cor = cor;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

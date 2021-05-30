@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="modalAdicionarCarro(usuario)" id="navbar2" class="navbar2">
+    <div class="modal fade" id="exampleModalXl" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h4" id="exampleModalXlLabel">Adicionar Carro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="form-style">
+                    <div class="modal-body">
+                        <form class="row g-3 needs-validation" novalidate th:object="${carro}" method="POST" th:action="@{/home/carros/novo}">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12 pb-3">
+                                        <label for="nome">Modelo</label>
+                                        <input class="form-control" th:field="*{modelo}" type="text" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('modelo')}" th:errors="*{modelo}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha o modelo do carro.
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 pb-3">
+                                        <label for="nome">Placa</label>
+                                        <input class="form-control" th:field="*{placa}" type="text" required th:errorClass="is-invalid">
+                                        <div th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}" class="invalid-feedback"></div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha a placa do carro.
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 pb-3">
+                                        <label for="cor">Cor</label>
+                                        <select  th:field="*{cor}" class="form-select" id="cor"  style="border:0px 0xp 1px 0px;" required>
+                                            <option selected value="">Selecione a cor do veículo</option>
+                                            <option th:each="c : ${cor}"
+                                                    th:value="${c}"
+                                                    th:utext="${c}"></option>
+                                        </select>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha a cor do carro.
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 pb-3">
+                                         <div class="form-check">
+                                            <input  type="checkbox" name="ativo" th:checked="${ativo} ? 'checked'">
+                                            <label for="ativo">Ativo</label>
+                                        </div>
+                                        <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                            Preencha se é seu carro atual.
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="float:right">
+                                <input class="btn btn-secondary" type="reset" data-bs-dismiss="modal" value="Cancelar">
+                                <button class="btn btn-primary" type="submit" value="Adicionar">Adicionar</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -153,38 +153,6 @@
                             </div>
                         </form>
                     </div>
-                    <div  th:if="${usuario.perfilAtualizado}">
-                        <hr>
-                        <h3 class="pb-3">Carros</h3>
-                        <div class="col-12" style="margin-top:-15px;" th:if="${usuario.carro.size()>0}">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Cor</th>
-                                    <th scope="col">Modelo</th>
-                                    <th scope="col">Placa</th>
-                                    <th scope="col">Ativo</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="carro,count : ${usuario.carro}">
-                                    <th scope="row" th:text="${count.count}"></th>
-                                    <td th:text="${carro.modelo}"></td>
-                                    <td th:text="${carro.placa}"></td>
-                                    <td th:text="${carro.ativo}"></td>
-                                    <td>Editar/Apagar</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div th:unless="${usuario.carro.size()>0}" class="d-flex justify-content-center pb-3">
-                            <h6>Você não possui nenhum carro associado a sua conta.</h6>
-                        </div>
-                        <div th:class="${usuario.carro.size()<1} ? 'd-flex justify-content-center' : 'float-end'">
-                            <a th:classappend="${usuario.carro.size()<1} ? 'd-flex justify-content-center' : 'float-end'" data-bs-toggle="modal" class="btn btn-light" data-bs-target="#exampleModalXl"><i class="fas fa-plus"></i> &nbsp;Adicionar</a>
-                        </div>
-                    </div>
                 </div>
 
             </div>
