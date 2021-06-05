@@ -57,20 +57,27 @@
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
         <div class="container">
-            <div class="row m-1">
-                    <div th:unless="${usuario.perfilAtualizado}" class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <span>Preencha as informações do seu perfil para continuar</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+
+            <div th:unless="${usuario.perfilAtualizado}" class="m-2 alert alert-warning alert-dismissible fade show" role="alert">
+                <span>Preencha as informações do seu perfil para continuar</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+
+            <div th:if="${mensagemError}" class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:utext="${mensagemError}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
             <div class="row m-2 no-gutters shadow-lg">
                 <div class="col-md-12 bg-white p-5 col-12">
                     <h3 class="pb-3" th:if="${usuario.perfilAtualizado}">Edite seu perfil</h3>
                     <h3 class="pb-3" th:unless="${usuario.perfilAtualizado}">Complete seu perfil</h3>
+
                     <div class="form-style">
                         <form class="row g-3 needs-validation" novalidate th:object="${usuario}" method="POST" th:action="@{/home/perfil}">
+
                             <div class="col-md-6 pb-3">
-                                <input type="text" readonly placeholder="Nome completo" class="form-control" th:field="*{nome}" required th:errorClass="is-invalid">
+                                <input type="text" readonly placeholder="Nome completo" class="form-control" id="nome" name="nome" th:value="${#authentication.getPrincipal().getName()}" required th:errorClass="is-invalid">
                                 <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="invalid-feedback"></div>
                                 <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
                                     Preencha seu nome.
@@ -148,9 +155,34 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pb-2">
-                                <button type="submit" class="btn btn-dark w-100 font-weight-bold mt-2">Salvar</button>
+
+                            <h3 class="pb-3" th:if="${usuario.perfilAtualizado}">Forma de Pagamento</h3>
+                            <h3 class="pb-3" th:unless="${usuario.perfilAtualizado}">Forma de pagamento</h3>
+
+                            <div class="col-md-6 pb-3">
+                                <select class="form-select" th:field="*{formaPagamento.metodoPagamento}">
+                                    <option th:value="${tipoPagamento}" th:text="${tipoPagamento}" selected> Cartão de Débito/Crédito
+                                    </option>
+                                </select>
+                                <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                    Selecione o tipo de pagamento.
+                                </div>
                             </div>
+
+                            <div class="col-md-6 pb-3">
+                                <div class="input-group has-validation">
+                                    <input type="text" placeholder="Número do cartão" class="form-control" th:field="*{formaPagamento.descricao}" required th:errorClass="is-invalid">
+                                    <div th:if="${#fields.hasErrors('formaPagamento.descricao')}" th:errors="*{formaPagamento.descricao}" class="invalid-feedback"></div>
+                                    <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                        Preencha com o número do seu cartão.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pb-2">
+                                <button type="submit" class="btn btn-dark float-end font-weight-bold mt-2">Salvar</button>
+                            </div>
+
                         </form>
                     </div>
                 </div>

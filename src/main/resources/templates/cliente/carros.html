@@ -68,7 +68,7 @@
             </div>
             <div class="row m-2 no-gutters shadow-lg">
                 <div class="col-md-12 bg-white p-5 col-12">
-                    <h3 class="pb-3">Carros</h3>
+                    <h3 class="pb-3">Veículos</h3>
                         <div class="col-12" style="margin-top:-15px;" th:if="${carros.size()>0}">
                             <table class="table table-hover">
                                 <thead>
@@ -87,14 +87,20 @@
                                     <td th:text="${carro.cor}"></td>
                                     <td th:text="${carro.modelo}"></td>
                                     <td th:text="${carro.placa}"></td>
-                                    <td th:text="${carro.ativo}"></td>
-                                    <td>Editar/Apagar</td>
+                                    <td>
+                                        <i th:if="${carro.ativo}" class="fas fa-check"></i>
+                                    </td>
+                                    <td><a th:href="@{'/home/veiculos/' + ${carro.id}}" data-toggle="tooltip" title="Editar"><i class="fas fa-edit"></i></a>
+                                        <a th:if="${carro.ativo} == false" href="#" style="color:#8B0000" data-bs-target="#confirmarExclusaoModal" data-bs-toggle="modal"
+                                           th:attr="data-codigo=${carro.id},data-descricao=${carro.modelo}"
+                                           title="Excluir" data-placement="top" rel="tooltip"><i class="fa fa-trash"></i></a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div th:unless="${carros.size()>0}" class="d-flex justify-content-center pb-3">
-                            <h6>Você não possui nenhum carro associado a sua conta.</h6>
+                            <h6>Você não possui nenhum veículo associado a sua conta.</h6>
                         </div>
                         <div th:class="${carros.size()<1} ? 'd-flex justify-content-center' : 'float-end'">
                             <a th:classappend="${carros.size()<1} ? 'd-flex justify-content-center' : 'float-end'" data-bs-toggle="modal" class="btn btn-light" data-bs-target="#exampleModalXl"><i class="fas fa-plus"></i> &nbsp;Adicionar</a>
@@ -108,12 +114,50 @@
     </section><!-- End Portfolio Details Section -->
 
 </main><!-- End #main -->
+<div class="modal fade" tabindex="-1" role="dialog" id="confirmarExclusaoModal" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <form th:attr="data-url-base='/home/veiculos/excluir'" method="POST">
+            <input type="hidden" name="_method" value="DELETE"/>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h4" id="exampleModalXlLabel">Excluir</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="form-style">
+                    <div class="modal-body">
+                        <p></p>
+                    </div>
+                    <div style="float:right" class="p-4">
+                        <input class="btn btn-secondary" type="reset" data-bs-dismiss="modal" value="Cancelar">
+                        <button class="btn btn-primary" type="submit" value="Adicionar">Excluir</button>
+                        <input type="hidden" name="carro" id="carro"/>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </form>
+    </div><!-- /.modal-dialog -->
+
+</div>
 <div th:replace="/admin/modal/modalAdicionarCarro :: modalAdicionarCarro(usuario=${session.user})" />
-
-
 <div th:replace="/fragments/footer :: footer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 <script th:src="@{/js/cadastrar.js}"></script>
+<script th:inline="javascript">
+    $(document).on('show.bs.modal', '#confirmarExclusaoModal', function (event){
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var codigoTitulo = button.data('codigo'); // Extract info from data-* attributes
+  var descricao  = button.data('descricao')
+  var modal = $(this);
+  var form = modal.find('form');
+  var action = form.data('url-base');
+  if(!action.endsWith('/')){
+	  action +='/';
+  }
+  form.attr('action', action);
+  $("#carro").attr("value",codigoTitulo);
+  modal.find('.modal-body p').html('Tem certeza que deseja excluir <strong>'+ descricao + '</strong>');
+});
+</script>
 </body>
 
 </html>

@@ -67,8 +67,9 @@ public class Usuario {
     @OneToMany(mappedBy="usuario",  fetch = FetchType.EAGER)
     private Set<Carro> carro;
 
-    @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER)
-    private Set<FormaPagamento> formaPagamento;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "formaPagamento")
+    private FormaPagamento formaPagamento;
 
     @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER)
     private Set<Estacionamento> estacionamentos;
@@ -191,11 +192,11 @@ public class Usuario {
         this.carro = carro;
     }
 
-    public Set<FormaPagamento> getFormaPagamento() {
+    public FormaPagamento getFormaPagamento() {
         return formaPagamento;
     }
 
-    public void setFormaPagamento(Set<FormaPagamento> formaPagamento) {
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
 

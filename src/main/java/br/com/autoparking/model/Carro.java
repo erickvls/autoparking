@@ -1,8 +1,8 @@
 package br.com.autoparking.model;
 
+import br.com.autoparking.model.enums.Cor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -16,10 +16,13 @@ public class Carro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Enumerated(EnumType.STRING)
     private Cor cor;
     private String modelo;
     private String placa;
     private boolean ativo =false;
+    private boolean excluido;
 
     @ManyToOne
     @JoinColumn(name="usuario", nullable=false)
@@ -65,9 +68,18 @@ public class Carro {
         this.ativo = ativo;
     }
 
+    public boolean isExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(boolean excluido) {
+        this.excluido = excluido;
+    }
+
     public Usuario getUsuario() {
         return usuario;
     }
+
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;

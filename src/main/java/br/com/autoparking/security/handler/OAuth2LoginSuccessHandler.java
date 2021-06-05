@@ -47,8 +47,14 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(email);
 
         if(Objects.isNull(usuario.getUserName())){
-            usuarioService.criarNovoUsuarioDepoisOAuthSucesso(email,nome, AuthenticationProvider.GOOGLE);
-            formLoginSuccessHandler.handle(request,response,authentication);
+            usuario = usuarioService.criarNovoUsuarioDepoisOAuthSucesso(email,nome, AuthenticationProvider.GOOGLE);
+            if(!usuario.isPerfilAtualizado()){
+                url = "/home/perfil";
+            }else{
+                url = "/home";
+            }
+            request.getSession().setAttribute("user", usuario);
+            redirectStrategy.sendRedirect(request, response, url);
 
         }else if(usuario.getRoles().stream().anyMatch(v->v.getNome().equals("ROLE_ADMIN"))) {
             formLoginErrorHandler.onAuthenticationFailure(request,response, new BadCredentialsException("Acesso não permitido"));

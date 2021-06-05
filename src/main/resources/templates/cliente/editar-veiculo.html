@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="/fragments/head :: head(pageTitle='AutoParking - Editar veículo')" />
+
+<body>
+
+<!-- ======= Top Bar ======= -->
+<section id="topbar" class="d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+        <div class="contact-info d-flex align-items-center">
+            <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com">contact@example.com</a></i>
+            <i class="bi bi-phone d-flex align-items-center ms-4"><span>+1 5589 55488 55</span></i>
+        </div>
+        <div class="social-links d-none d-md-flex align-items-center">
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+        </div>
+    </div>
+</section>
+
+<!-- ======= Header ======= -->
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <h1 class="logo">
+            <a href="index.html"><img th:src="@{/img/logotipo.png}"/>
+            </a>
+        </h1>
+
+        <head th:replace="/fragments/navbar :: navbar" />
+
+    </div>
+</header>
+<!-- End Header -->
+
+
+<main id="main" data-aos="fade-up">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Veículos</h2>
+                <ol>
+                    <li><a th:href="@{/home}">Home</a></li>
+                    <li><a th:href="@{/home/carros}">Veículos</a></li>
+                    <li>Editar veículos</li>
+                </ol>
+            </div>
+
+        </div>
+    </section><!-- Breadcrumbs Section -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+        <div class="container">
+            <div th:if="${carro != null}" class="row m-2 no-gutters shadow-lg">
+                <div class="col-md-12 bg-white p-5 col-12">
+                    <h3 class="pb-3">Edite veículo</h3>
+                    <div class="form-style">
+                        <form class="row g-3 needs-validation" novalidate th:object="${carro}" method="POST" th:action="@{/home/veiculos/editar}">
+                            <div class="col-md-6 pb-3">
+                                <input type="text" readonly placeholder="Modelo" class="form-control" th:field="*{modelo}" required th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('modelo')}" th:errors="*{modelo}" class="invalid-feedback"></div>
+                                <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                    Preencha o modelo.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 pb-3">
+                                <input type="text" readonly placeholder="Placa" class="form-control" th:field="*{placa}" required th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}" class="invalid-feedback"></div>
+                                <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                    Preencha a placa.
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 pb-3">
+                                <div class="form-check">
+                                    <label><input  style="width:20px" type="checkbox" name="ativo" th:checked="*{ativo}">Ativo</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 pb-3">
+                                <select class="form-select"  th:field="*{cor}">
+                                    <option th:each="cor : ${T(br.com.autoparking.model.enums.Cor).values()}"
+                                            th:value="${cor}"
+                                            th:text="${cor}">
+                                    </option>
+                                </select>
+                                <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">
+                                    Selecione a cor do carro.
+                                </div>
+                                <input type="hidden" id="usuario" name="usuario" th:value="*{usuario.id}">
+                                <input type="hidden" id="id" name="id" th:value="*{id}">
+                            </div>
+
+                            <div class="pb-2">
+                                <button type="submit" class="btn btn-dark float-end font-weight-bold mt-2">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Portfolio Details Section -->
+
+</main><!-- End #main -->
+
+
+<div th:replace="/fragments/footer :: footer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script th:src="@{/js/cadastrar.js}"></script>
+</body>
+
+</html>

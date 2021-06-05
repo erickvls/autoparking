@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CarroRepository extends JpaRepository<Carro,Long> {
-    List<Carro> findCarroByUsuario(Usuario usuario);
+    List<Carro> findCarroByUsuarioAndExcluidoIsFalse(Usuario usuario);
+    Carro findCarroByUsuarioAndId(Usuario usuario,Long id );
 }

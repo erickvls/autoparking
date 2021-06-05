@@ -37,5 +37,5 @@ public class UsuarioEditarPerfil {
 
     private List<Carro> carros;
 
-    private List<FormaPagamento> formaPagamentos;
+    private FormaPagamento formaPagamento;
 }

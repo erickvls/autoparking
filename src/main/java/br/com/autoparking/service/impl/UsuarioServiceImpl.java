@@ -125,6 +125,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setCpf(usuarioEditarPerfil.getCpf());
         usuario.setEndereco(usuarioEditarPerfil.getEndereco());
         usuario.setPerfilAtualizado(true);
+        usuario.setFormaPagamento(usuarioEditarPerfil.getFormaPagamento());
         usuarioRepository.save(usuario);
     }
 
