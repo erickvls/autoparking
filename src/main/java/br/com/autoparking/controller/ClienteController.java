@@ -1,6 +1,8 @@
 package br.com.autoparking.controller;
 
 import br.com.autoparking.model.Carro;
+import br.com.autoparking.model.Estacionamento;
+import br.com.autoparking.model.Servico;
 import br.com.autoparking.model.Usuario;
 import br.com.autoparking.model.dto.UsuarioEditarPerfil;
 import br.com.autoparking.model.enums.Cor;
@@ -11,6 +13,7 @@ import br.com.autoparking.service.EstacionamentoService;
 import br.com.autoparking.service.EstadoService;
 import br.com.autoparking.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -114,4 +117,12 @@ public class ClienteController {
         carroService.deletarCarroLogicamente(carro,userSession);
         return paginaListaVeiculos(model,session);
     }
+
+    @GetMapping("/estacionamento/visualizar/{estacionamento}")
+    public String visualizarEstacionamento(@PathVariable Estacionamento estacionamento,Model model){
+        model.addAttribute("estacionamento", estacionamento);
+        return "/cliente/detalhes-estacionamento";
+    }
+
+
 }

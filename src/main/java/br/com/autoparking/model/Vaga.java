@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "vaga")
@@ -26,4 +27,7 @@ public class Vaga {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="estacionamento_id",nullable = false, updatable = true, insertable = true)
     private Estacionamento estacionamento;
+
+    @OneToMany(mappedBy="vaga",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Alocacao> alocacao;
 }

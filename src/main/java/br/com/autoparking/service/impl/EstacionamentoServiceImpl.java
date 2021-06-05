@@ -47,6 +47,7 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
                         .nome(v.getNome())
                         .eixoX(v.getEixoX())
                         .eixoY(v.getEixoY())
+                        .id((int)v.getId())
                         .horarioAbre(v.getHorarioAbre())
                         .horarioFecha(v.getHorarioFecha())
                         .build()).collect(Collectors.toList());

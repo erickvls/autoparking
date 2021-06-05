@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "order_est")
@@ -38,4 +39,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name="usuario", nullable=false)
     private Usuario usuario;
+
+    @OneToMany(mappedBy="order",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Alocacao> alocacao;
 }

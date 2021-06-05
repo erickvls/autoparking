@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "carro")
@@ -27,6 +28,9 @@ public class Carro {
     @ManyToOne
     @JoinColumn(name="usuario", nullable=false)
     private Usuario usuario;
+
+    @OneToMany(mappedBy="carro",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Alocacao> alocacao;
 
     public long getId() {
         return id;

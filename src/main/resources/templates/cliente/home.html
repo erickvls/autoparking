@@ -61,8 +61,8 @@ let infowindow = new google.maps.InfoWindow();
         infowindow.setContent("<div class='infowindow-container'>" +
               "<div class='inner'><h6>" + est.nome+
               "</h6><span>Capacidade: "+est.capacidade+" </span><br><span>Horário: "+est.horarioAbre+" às  "+est.horarioFecha+"</span></div>" +
-              "<a href=''>Detalhes</a></div>");
-        console.log("11111");
+              "<a href='/home/estacionamento/visualizar/"+est.id+"'>Detalhes</a></div>");
+
          });
   });
 
