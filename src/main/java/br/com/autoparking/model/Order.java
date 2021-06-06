@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -29,11 +30,11 @@ public class Order {
     @JoinColumn(name = "fatura_id")
     private Fatura fatura;
 
-    private Date dataPrevista;
-    private Date dataEntrada;
-    private Date dataSaida;
-    private Date duracao;
-    private Date dataOrder;
+    private LocalDate dataPrevista;
+    private LocalDate dataEntrada;
+    private LocalDate dataSaida;
+    private LocalDate duracao;
+    private LocalDate dataOrder;
     private StatusOrder statusOrder;
 
     @ManyToOne

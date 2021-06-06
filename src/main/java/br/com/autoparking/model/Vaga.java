@@ -22,6 +22,8 @@ public class Vaga {
     private long id;
 
     private String numero;
+
+    @Enumerated(EnumType.STRING)
     private StatusVaga status;
 
     @ManyToOne(cascade = CascadeType.ALL)

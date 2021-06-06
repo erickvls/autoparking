@@ -22,6 +22,11 @@ public class CarroServiceImpl implements CarroService {
     }
 
     @Override
+    public List<Carro> listaCarrosAtivosPorUsuario(Usuario usuario) {
+        return carroRepository.findCarroByUsuarioAndAtivoIsTrueAndExcluidoIsFalse(usuario);
+    }
+
+    @Override
     public void salvarCarro(Carro carro) {
         carro.setModelo(carro.getModelo().toUpperCase());
         carro.setPlaca(carro.getPlaca().toUpperCase());
@@ -37,6 +42,7 @@ public class CarroServiceImpl implements CarroService {
     public void deletarCarroLogicamente(Carro carro, Usuario usuario) {
         Carro car = encontrarVeiculoPeloUsuarioEIdVeiculo(usuario,carro.getId());
         car.setExcluido(true);
+        car.setAtivo(false);
         carroRepository.save(car);
     }
 

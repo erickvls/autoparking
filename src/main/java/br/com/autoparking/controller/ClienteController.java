@@ -2,18 +2,16 @@ package br.com.autoparking.controller;
 
 import br.com.autoparking.model.Carro;
 import br.com.autoparking.model.Estacionamento;
-import br.com.autoparking.model.Servico;
 import br.com.autoparking.model.Usuario;
+import br.com.autoparking.model.Vaga;
+import br.com.autoparking.model.dto.SolicitarVagaDTO;
 import br.com.autoparking.model.dto.UsuarioEditarPerfil;
 import br.com.autoparking.model.enums.Cor;
 import br.com.autoparking.model.enums.Genero;
 import br.com.autoparking.model.enums.MetodoPagamento;
-import br.com.autoparking.service.CarroService;
-import br.com.autoparking.service.EstacionamentoService;
-import br.com.autoparking.service.EstadoService;
-import br.com.autoparking.service.UsuarioService;
+import br.com.autoparking.model.enums.StatusVaga;
+import br.com.autoparking.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,6 +40,12 @@ public class ClienteController {
 
     @Autowired
     private CarroService carroService;
+
+    @Autowired
+    private VagaService vagaService;
+
+    @Autowired
+    private AlocacaoService alocacaoService;
 
 
     @GetMapping
@@ -119,9 +125,24 @@ public class ClienteController {
     }
 
     @GetMapping("/estacionamento/visualizar/{estacionamento}")
-    public String visualizarEstacionamento(@PathVariable Estacionamento estacionamento,Model model){
+    public String visualizarEstacionamento(@PathVariable Estacionamento estacionamento,Model model, HttpSession session){
+        Usuario userSession = (Usuario) session.getAttribute("user");
+        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(userSession.getUserName());
+        List<Carro> carros = carroService.listaCarrosAtivosPorUsuario(usuario);
         model.addAttribute("estacionamento", estacionamento);
+        model.addAttribute("usuario",usuario);
+        model.addAttribute("carros",carros);
         return "/cliente/detalhes-estacionamento";
+    }
+
+    @PostMapping("/estacionamento/solicitar")
+    public String solicitarVaga(@ModelAttribute("estacionamento") Estacionamento estacionamento,Model model,HttpSession session,RedirectAttributes redirectAttributes,Carro carro){
+        Usuario userSession = (Usuario) session.getAttribute("user");
+        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(userSession.getUserName());
+        model.addAttribute("estacionamento", estacionamento);
+        model.addAttribute("usuario",usuario);
+        //alocacaoService.alocarVagaPorEstacionamento(StatusVaga.RESERVADO,estacionamento,userSession,redirectAttributes,tomorrow,carro);
+        return "/cliente/solicitar-vaga";
     }
 
 
