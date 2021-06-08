@@ -1,9 +1,6 @@
 package br.com.autoparking.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -19,14 +16,17 @@ public class Alocacao {
     private long id;
 
     @ManyToOne
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="vaga_id", nullable=false)
     private Vaga vaga;
 
     @ManyToOne
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="order_id", nullable=false)
     private Order order;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="carro_id", nullable=false)
     private Carro carro;
 }

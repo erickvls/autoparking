@@ -82,18 +82,17 @@ $( document ).ready(function() {
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
         <div class="container">
+            <div th:if="${mensagemSucesso}" class="m-2 alert alert-success alert-dismissible fade show" role="alert">
+                <span th:utext="${mensagemSucesso}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${mensagemError}" class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:utext="${mensagemError}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             <div class="row m-2 no-gutters shadow-lg">
                 <div class="col-md-12 bg-white p-3 col-12">
                     <div class="container">
-                        <div th:if="${mensagemSucesso}" class="alert alert-success alert-dismissible fade show" role="alert">
-                            <span th:utext="${mensagemSucesso}"></span>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-
-                        <div th:if="${mensagemError}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <span th:utext="${mensagemError}"></span>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
                         <div class="row">
                                 <div class="col-md-12">
                                     <div class="panel panel-default">
@@ -218,6 +217,21 @@ $( document ).ready(function() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 <script th:src="@{/js/cadastrar.js}"></script>
 <script th:inline="javascript">
+
+$(document).ready(function(){
+     elem = document.getElementById("dataPrevistaEntrada")
+      var iso = new Date().toISOString().replace(/.\d+Z$/g, "Z");
+      var minDate = iso.substring(0,iso.length-1);
+      elem.value = minDate
+      elem.min = minDate
+
+      elem2 = document.getElementById("dataPrevistaSaida")
+      var iso2 = new Date().toISOString().replace(/.\d+Z$/g, "Z");
+      var minDate2 = iso2.substring(0,iso.length-1);
+      elem2.value = minDate
+      elem2.min = minDate
+
+});
 
 $('.counter-count').each(function () {
         $(this).prop('Counter',0).animate({

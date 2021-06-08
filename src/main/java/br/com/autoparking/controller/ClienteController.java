@@ -1,9 +1,6 @@
 package br.com.autoparking.controller;
 
-import br.com.autoparking.model.Carro;
-import br.com.autoparking.model.Estacionamento;
-import br.com.autoparking.model.Usuario;
-import br.com.autoparking.model.Vaga;
+import br.com.autoparking.model.*;
 import br.com.autoparking.model.dto.SolicitarVagaDTO;
 import br.com.autoparking.model.dto.UsuarioEditarPerfil;
 import br.com.autoparking.model.enums.Cor;
@@ -46,6 +43,9 @@ public class ClienteController {
 
     @Autowired
     private AlocacaoService alocacaoService;
+
+    @Autowired
+    private OrderService orderService;
 
 
     @GetMapping
@@ -125,10 +125,16 @@ public class ClienteController {
     }
 
     @GetMapping("/estacionamento/visualizar/{estacionamento}")
-    public String visualizarEstacionamento(@PathVariable Estacionamento estacionamento,Model model, HttpSession session){
+    public String visualizarEstacionamento(@PathVariable Estacionamento estacionamento,Model model, HttpSession session,RedirectAttributes redirectAttributes){
         Usuario userSession = (Usuario) session.getAttribute("user");
+        if(orderService.usuarioPossuiOrderAberta(userSession,estacionamento)){
+            redirectAttributes.addFlashAttribute("mensagemError","Você já possui uma ordem ativa nesse estacionamento em aberto ou andamento. Para vi" +
+                    "sualizar, acesse Perfil > Orders");
+            return "redirect:/home";
+        }
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(userSession.getUserName());
         List<Carro> carros = carroService.listaCarrosAtivosPorUsuario(usuario);
+        orderService.listarOrderHorariosOcupados(estacionamento);
         model.addAttribute("estacionamento", estacionamento);
         model.addAttribute("usuario",usuario);
         model.addAttribute("carros",carros);
@@ -136,13 +142,16 @@ public class ClienteController {
     }
 
     @PostMapping("/estacionamento/solicitar")
-    public String solicitarVaga(@ModelAttribute("estacionamento") Estacionamento estacionamento,Model model,HttpSession session,RedirectAttributes redirectAttributes,Carro carro){
+    public String solicitarVaga(@ModelAttribute("SolicitarVagaDTO") SolicitarVagaDTO solicitarVagaDTO,Model model,HttpSession session,RedirectAttributes redirectAttributes){
         Usuario userSession = (Usuario) session.getAttribute("user");
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(userSession.getUserName());
-        model.addAttribute("estacionamento", estacionamento);
-        model.addAttribute("usuario",usuario);
-        //alocacaoService.alocarVagaPorEstacionamento(StatusVaga.RESERVADO,estacionamento,userSession,redirectAttributes,tomorrow,carro);
-        return "/cliente/solicitar-vaga";
+        return alocacaoService.alocarVagaPorEstacionamento(StatusVaga.LIVRE,
+                solicitarVagaDTO.getEstacionamento(),
+                usuario,
+                redirectAttributes,
+                solicitarVagaDTO.getDataPrevistaEntrada(),
+                solicitarVagaDTO.getDataPrevistaSaida(),
+                solicitarVagaDTO.getVeiculo());
     }
 
 

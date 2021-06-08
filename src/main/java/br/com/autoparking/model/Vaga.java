@@ -1,10 +1,7 @@
 package br.com.autoparking.model;
 
 import br.com.autoparking.model.enums.StatusVaga;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -27,7 +24,9 @@ public class Vaga {
     private StatusVaga status;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="estacionamento_id",nullable = false, updatable = true, insertable = true)
+
     private Estacionamento estacionamento;
 
     @OneToMany(mappedBy="vaga",cascade = CascadeType.ALL, fetch = FetchType.LAZY)

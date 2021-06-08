@@ -61,17 +61,17 @@ public class Usuario {
     @JoinColumn(name = "endereco")
     private Endereco endereco;
 
-    @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="usuario", fetch = FetchType.LAZY)
     private Set<Order> order;
 
-    @OneToMany(mappedBy="usuario",  fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="usuario",  fetch = FetchType.LAZY)
     private Set<Carro> carro;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "formaPagamento")
     private FormaPagamento formaPagamento;
 
-    @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="usuario", fetch = FetchType.LAZY)
     private Set<Estacionamento> estacionamentos;
 
     private boolean senhaResetada;

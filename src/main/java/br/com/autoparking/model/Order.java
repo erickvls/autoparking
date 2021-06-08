@@ -1,13 +1,11 @@
 package br.com.autoparking.model;
 
 import br.com.autoparking.model.enums.StatusOrder;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -23,6 +21,7 @@ public class Order {
     private long id;
 
     @ManyToOne
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="estacionamento_id", nullable=false)
     private Estacionamento estacionamento;
 
@@ -30,11 +29,13 @@ public class Order {
     @JoinColumn(name = "fatura_id")
     private Fatura fatura;
 
-    private LocalDate dataPrevista;
-    private LocalDate dataEntrada;
-    private LocalDate dataSaida;
-    private LocalDate duracao;
-    private LocalDate dataOrder;
+    private LocalDateTime dataPrevistaEntrada;
+    private LocalDateTime dataPrevistaSaída;
+    private LocalDateTime dataEntrada;
+    private LocalDateTime dataSaida;
+    private LocalDateTime duracao;
+    private LocalDateTime dataOrder;
+    @Enumerated(EnumType.STRING)
     private StatusOrder statusOrder;
 
     @ManyToOne

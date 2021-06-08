@@ -1,9 +1,6 @@
 package br.com.autoparking.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -28,6 +25,7 @@ public class Servico {
 
     @ManyToOne
     @JoinColumn(name="estacionamento_id", nullable=false)
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     private Estacionamento estacionamento;
 
 

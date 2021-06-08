@@ -108,12 +108,16 @@ let infowindow = new google.maps.InfoWindow();
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
         <div class="container">
+            <div th:if="${mensagemSucesso}" class="m-2 alert alert-success alert-dismissible fade show" role="alert">
+                <span th:utext="${mensagemSucesso}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${mensagemError}" class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:utext="${mensagemError}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             <div class="row m-2 no-gutters shadow-lg">
                 <div class="col-md-12 bg-white p-3 col-12">
-                    <div th:if="${mensagemSucesso}" class="alert alert-success alert-dismissible fade show" role="alert">
-                        <span th:utext="${mensagemSucesso}"></span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12 lead">Estacionamentos perto de você<hr></div>
