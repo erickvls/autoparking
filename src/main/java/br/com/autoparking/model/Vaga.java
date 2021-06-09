@@ -20,9 +20,6 @@ public class Vaga {
 
     private String numero;
 
-    @Enumerated(EnumType.STRING)
-    private StatusVaga status;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="estacionamento_id",nullable = false, updatable = true, insertable = true)
@@ -31,4 +28,10 @@ public class Vaga {
 
     @OneToMany(mappedBy="vaga",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Alocacao> alocacao;
+
+    @OneToMany(mappedBy="vaga",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<VagaHorario> vagaHorarios;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVaga status;
 }

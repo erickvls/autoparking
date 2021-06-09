@@ -3,6 +3,7 @@ package br.com.autoparking.service.impl;
 import br.com.autoparking.model.*;
 import br.com.autoparking.model.enums.StatusVaga;
 import br.com.autoparking.repository.AlocacaoRepository;
+import br.com.autoparking.repository.VagaHorarioRepository;
 import br.com.autoparking.repository.VagaRepository;
 import br.com.autoparking.service.AlocacaoService;
 import br.com.autoparking.service.OrderService;
@@ -20,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class AlocacaoServiceImpl implements AlocacaoService {
@@ -36,6 +38,11 @@ public class AlocacaoServiceImpl implements AlocacaoService {
     @Autowired
     private AlocacaoRepository alocacaoRepository;
 
+    @Autowired
+    private VagaHorarioRepository vagaHorarioRepository;
+
+    @Autowired
+    private VagaHorarioServiceImpl vagaHorarioService;
 
     private LocalDateTime dataHoraLimite = LocalDateTime.now(ZoneId.systemDefault()).plusHours(5);
 
@@ -56,23 +63,19 @@ public class AlocacaoServiceImpl implements AlocacaoService {
             redirectAttributes.addFlashAttribute("mensagemError", "A Data/hora de saída não pode ser inferior a entrada");
             return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
         }
-
-        //if(horarioEstaOcupado(estacionamento,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida))){
-
-        //}
-        List<Vaga> vagasDisponiveis = vagaService.encontrarPorStatusVagaEEstacionamento(statusVaga,estacionamento);
-
-        if(vagasDisponiveis.size()<1){
-            redirectAttributes.addFlashAttribute("mensagemError", "Estacionamento não possui vagas disponíveis");
+        VagaHorario vagaHorario = horarioEstaLivre(estacionamento,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
+        if(Objects.isNull(vagaHorario.getStatusVaga())){
+            redirectAttributes.addFlashAttribute("mensagemError", "Não há vagas disponíveis para o horário selecionado.");
             return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
         }
 
-        Vaga vagaEstacionamento = vagaService.reservarVaga(vagasDisponiveis.get(0));
+        VagaHorario vagaEstacionamento = vagaHorarioService.reservarVagaHorario(vagaHorario,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
+
         Order order = orderService.criarOrderPeloCliente(estacionamento,usuario,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
         Alocacao alocacao = Alocacao.builder()
                 .carro(carro)
                 .order(order)
-                .vaga(vagaEstacionamento)
+                .vaga(vagaEstacionamento.getVaga())
                 .build();
         alocacaoRepository.save(alocacao);
 
@@ -104,16 +107,28 @@ public class AlocacaoServiceImpl implements AlocacaoService {
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 
-    private boolean horarioEstaOcupado(Estacionamento estacionamento,LocalDateTime dataEntradaPrevista, LocalDateTime dataSaidaPrevista){
+    private VagaHorario horarioEstaLivre(Estacionamento estacionamento,LocalDateTime dataEntradaPrevista, LocalDateTime dataSaidaPrevista){
         Map<LocalDateTime,LocalDateTime> horariosOcupados = orderService.listarOrderHorariosOcupados(estacionamento);
-
-        for (Map.Entry<LocalDateTime, LocalDateTime> pair : horariosOcupados.entrySet()) {
-            if(dataEntradaPrevista.isAfter(pair.getKey()) && dataSaidaPrevista.isBefore(pair.getValue())){
-               return true;
-            }else if(1){
-                return true;
+        List<Vaga> vagas = vagaService.listarVagasEstacionamento(estacionamento);
+        VagaHorario vagaHorarioBuild = new VagaHorario();
+        for (int i = 0; i < vagas.size(); i++) {
+            List<VagaHorario> horariosVaga = vagaHorarioRepository.findByVaga(vagas.get(i));
+            if(horariosVaga.isEmpty()){
+                return VagaHorario.builder()
+                        .horaChegada(dataEntradaPrevista)
+                        .horaSaida(dataSaidaPrevista)
+                        .statusVaga(StatusVaga.RESERVADO)
+                        .vaga(vagas.get(i))
+                        .build();
+            }
+            for (VagaHorario vagaHorario : horariosVaga) {
+                if (dataEntradaPrevista.isBefore(horariosVaga.get(i).getHoraChegada()) && dataSaidaPrevista.isBefore(horariosVaga.get(i).getHoraSaida())) {
+                    return vagaHorario;
+                } else if (dataEntradaPrevista.isAfter(horariosVaga.get(i).getHoraChegada()) && dataSaidaPrevista.isAfter(horariosVaga.get(i).getHoraSaida())) {
+                    return vagaHorario;
+                }
             }
         }
-        return false;
+        return new VagaHorario();
     }
 }

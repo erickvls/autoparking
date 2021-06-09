@@ -17,8 +17,8 @@ public class VagaServiceImpl implements VagaService {
     private VagaRepository vagaRepository;
 
     @Override
-    public List<Vaga> encontrarPorStatusVagaEEstacionamento(StatusVaga statusVaga, Estacionamento estacionamento){
-        return vagaRepository.findByStatusAndEstacionamento(statusVaga,estacionamento);
+    public List<Vaga> listarVagasEstacionamento(Estacionamento estacionamento){
+        return vagaRepository.findByEstacionamento(estacionamento);
     }
 
     @Override
@@ -26,4 +26,5 @@ public class VagaServiceImpl implements VagaService {
         vaga.setStatus(StatusVaga.RESERVADO);
         return vagaRepository.save(vaga);
     }
+
 }

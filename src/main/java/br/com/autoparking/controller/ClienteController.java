@@ -130,19 +130,19 @@ public class ClienteController {
     public String visualizarEstacionamento(@PathVariable Estacionamento estacionamento,Model model, HttpSession session,RedirectAttributes redirectAttributes){
         Usuario userSession = (Usuario) session.getAttribute("user");
         if(orderService.usuarioPossuiOrderAberta(userSession,estacionamento)){
-            redirectAttributes.addFlashAttribute("mensagemError","Você já possui uma ordem ativa nesse estacionamento em aberto ou andamento. Para vi" +
+            redirectAttributes.addFlashAttribute("mensagemError","Você já possui uma ordem em aberto ou andamento nesse estacionamento. Para vi" +
                     "sualizar, acesse Perfil > Orders");
             return "redirect:/home";
         }
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(userSession.getUserName());
         List<Carro> carros = carroService.listaCarrosAtivosPorUsuario(usuario);
-        Map<LocalDateTime,LocalDateTime> horariosOcupados = orderService.listarOrderHorariosOcupados(estacionamento);
+        //Map<LocalDateTime,LocalDateTime> horariosOcupados = orderService.listarOrderHorariosOcupados(estacionamento);
         model.addAttribute("estacionamento", estacionamento);
         model.addAttribute("usuario",usuario);
         model.addAttribute("carros",carros);
-        model.addAttribute("horariosOcupados",horariosOcupados);
+        //model.addAttribute("horariosOcupados",horariosOcupados);
         model.addAttribute("vagasTotais",estacionamento.getQuantidadeVagas());
-        model.addAttribute("vagasDisponiveis",estacionamento.getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.LIVRE)).count());
+        model.addAttribute("vagasDisponiveis",estacionamento.getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
         model.addAttribute("vagasReservadas",estacionamento.getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.RESERVADO)).count());
         model.addAttribute("vagasOcupadas",estacionamento.getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.OCUPADO)).count());
         return "/cliente/detalhes-estacionamento";
@@ -161,5 +161,17 @@ public class ClienteController {
                 solicitarVagaDTO.getVeiculo());
     }
 
+
+
+
+
+    @GetMapping("/orders")
+    public String minhasOrders(Model model, HttpSession session,RedirectAttributes redirectAttributes){
+        Usuario userSession = (Usuario) session.getAttribute("user");
+        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(userSession.getUserName());
+        List<Order> orders = orderService.listarTodasOrdersDeUmUsuario(usuario);
+        model.addAttribute("orders",orders);
+        return "/cliente/orders";
+    }
 
 }

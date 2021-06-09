@@ -18,4 +18,6 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
     @Query("SELECT o FROM Order o WHERE " + "o.estacionamento = :estacionamento "
             + "AND o.statusOrder like 'EM_ABERTO' OR o.statusOrder = 'ANDAMENTO'")
     List<Order> findByEstacionamentoAndStatusOrderIsEmAbertoOrEmAndamento(@Param("estacionamento") Estacionamento estacionamento);
+
+    List<Order> findByUsuario(Usuario usuario);
 }

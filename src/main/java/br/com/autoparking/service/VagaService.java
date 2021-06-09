@@ -7,6 +7,6 @@ import br.com.autoparking.model.enums.StatusVaga;
 import java.util.List;
 
 public interface VagaService {
-    List<Vaga> encontrarPorStatusVagaEEstacionamento(StatusVaga statusVaga, Estacionamento estacionamento);
+    List<Vaga> listarVagasEstacionamento(Estacionamento estacionamento);
     Vaga reservarVaga(Vaga vaga);
 }

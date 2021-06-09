@@ -26,7 +26,7 @@
                                         <label for="estacionamento">Estacionamento</label>
                                         <input type="text" readonly class="form-control" th:value="${estacionamento.nome}">
                                     </div>
-                                    <div class="col-sm-12 pb-3" th:if="${#maps.size(horariosOcupados)}">
+                                   <!--<div class="col-sm-12 pb-3" th:if="${#maps.size(horariosOcupados)}">
                                         <div class="alert alert-warning" role="alert">
                                             <i class="fas fa-info-circle"></i>
                                             <small><strong>Atenção: Horários indisponíveis</strong>
@@ -36,7 +36,7 @@
                                                 <small th:text="| Até ${#temporals.format(instance.value, 'dd/MM/yyyy HH:mm')}|"></small>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>!-->
                                     <div class="col-sm-12 pb-3">
                                         <label for="nome">Data e hora prevista de chegada</label>
                                         <input required type="datetime-local" class="form-control" id="dataPrevistaEntrada" name="dataPrevistaEntrada">

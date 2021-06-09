@@ -52,4 +52,9 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toMap(Order::getDataPrevistaEntrada, Order::getDataPrevistaSaída));
     }
 
+    @Override
+    public List<Order> listarTodasOrdersDeUmUsuario(Usuario usuario) {
+        return orderRepository.findByUsuario(usuario);
+    }
+
 }
