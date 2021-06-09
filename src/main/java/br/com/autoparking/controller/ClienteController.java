@@ -18,8 +18,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -134,10 +136,15 @@ public class ClienteController {
         }
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(userSession.getUserName());
         List<Carro> carros = carroService.listaCarrosAtivosPorUsuario(usuario);
-        orderService.listarOrderHorariosOcupados(estacionamento);
+        Map<LocalDateTime,LocalDateTime> horariosOcupados = orderService.listarOrderHorariosOcupados(estacionamento);
         model.addAttribute("estacionamento", estacionamento);
         model.addAttribute("usuario",usuario);
         model.addAttribute("carros",carros);
+        model.addAttribute("horariosOcupados",horariosOcupados);
+        model.addAttribute("vagasTotais",estacionamento.getQuantidadeVagas());
+        model.addAttribute("vagasDisponiveis",estacionamento.getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.LIVRE)).count());
+        model.addAttribute("vagasReservadas",estacionamento.getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.RESERVADO)).count());
+        model.addAttribute("vagasOcupadas",estacionamento.getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.OCUPADO)).count());
         return "/cliente/detalhes-estacionamento";
     }
 

@@ -19,6 +19,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AlocacaoServiceImpl implements AlocacaoService {
@@ -35,12 +36,15 @@ public class AlocacaoServiceImpl implements AlocacaoService {
     @Autowired
     private AlocacaoRepository alocacaoRepository;
 
+
     private LocalDateTime dataHoraLimite = LocalDateTime.now(ZoneId.systemDefault()).plusHours(5);
 
     @Override
     @Transactional
     public String alocarVagaPorEstacionamento(StatusVaga statusVaga, Estacionamento estacionamento, Usuario usuario, RedirectAttributes redirectAttributes,
                                                 String dataPrevistaEntrada,String dataPrevistaSaida, Carro carro){
+
+
 
         if(!validarData(dataPrevistaEntrada)){
             DateTimeFormatter dTF = DateTimeFormatter.ofPattern("dd MMM uuuu  HH:mm");
@@ -52,6 +56,10 @@ public class AlocacaoServiceImpl implements AlocacaoService {
             redirectAttributes.addFlashAttribute("mensagemError", "A Data/hora de saída não pode ser inferior a entrada");
             return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
         }
+
+        //if(horarioEstaOcupado(estacionamento,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida))){
+
+        //}
         List<Vaga> vagasDisponiveis = vagaService.encontrarPorStatusVagaEEstacionamento(statusVaga,estacionamento);
 
         if(vagasDisponiveis.size()<1){
@@ -94,5 +102,18 @@ public class AlocacaoServiceImpl implements AlocacaoService {
             e.printStackTrace();
         }
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+    }
+
+    private boolean horarioEstaOcupado(Estacionamento estacionamento,LocalDateTime dataEntradaPrevista, LocalDateTime dataSaidaPrevista){
+        Map<LocalDateTime,LocalDateTime> horariosOcupados = orderService.listarOrderHorariosOcupados(estacionamento);
+
+        for (Map.Entry<LocalDateTime, LocalDateTime> pair : horariosOcupados.entrySet()) {
+            if(dataEntradaPrevista.isAfter(pair.getKey()) && dataSaidaPrevista.isBefore(pair.getValue())){
+               return true;
+            }else if(1){
+                return true;
+            }
+        }
+        return false;
     }
 }

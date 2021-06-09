@@ -14,17 +14,28 @@
                         <form class="row g-3 needs-validation" novalidate th:object="${solicitarVagaDTO}" method="POST" th:action="@{/home/estacionamento/solicitar}">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-sm-16 pb-3">
+                                    <div class="col-sm-6 pb-3">
                                         <label for="usuario">Nome</label>
                                         <input type="text" readonly class="form-control" th:value="${usuario.nome}">
                                     </div>
-                                    <div class="col-sm-16 pb-3">
+                                    <div class="col-sm-6 pb-3">
                                         <label for="usuario">Email</label>
                                         <input type="text" readonly class="form-control" th:value="${usuario.userName}">
                                     </div>
                                     <div class="col-sm-12 pb-3">
                                         <label for="estacionamento">Estacionamento</label>
                                         <input type="text" readonly class="form-control" th:value="${estacionamento.nome}">
+                                    </div>
+                                    <div class="col-sm-12 pb-3" th:if="${#maps.size(horariosOcupados)}">
+                                        <div class="alert alert-warning" role="alert">
+                                            <i class="fas fa-info-circle"></i>
+                                            <small><strong>Atenção: Horários indisponíveis</strong>
+                                            </small>
+                                            <div class="pt-1 ps-1" th:each="instance : ${horariosOcupados}">
+                                                <small th:text="| Dia ${#temporals.format(instance.key, 'dd/MM/yyyy HH:mm')}|"></small>
+                                                <small th:text="| Até ${#temporals.format(instance.value, 'dd/MM/yyyy HH:mm')}|"></small>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-sm-12 pb-3">
                                         <label for="nome">Data e hora prevista de chegada</label>
