@@ -2,6 +2,7 @@ package br.com.autoparking.model;
 
 import br.com.autoparking.model.enums.StatusVaga;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -23,13 +24,15 @@ public class Vaga {
     @ManyToOne(cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="estacionamento_id",nullable = false, updatable = true, insertable = true)
-
+    @JsonIgnore
     private Estacionamento estacionamento;
 
     @OneToMany(mappedBy="vaga",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Alocacao> alocacao;
 
     @OneToMany(mappedBy="vaga",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<VagaHorario> vagaHorarios;
 
     @Enumerated(EnumType.STRING)

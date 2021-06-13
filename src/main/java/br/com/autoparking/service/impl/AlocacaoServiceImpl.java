@@ -51,7 +51,10 @@ public class AlocacaoServiceImpl implements AlocacaoService {
     public String alocarVagaPorEstacionamento(StatusVaga statusVaga, Estacionamento estacionamento, Usuario usuario, RedirectAttributes redirectAttributes,
                                                 String dataPrevistaEntrada,String dataPrevistaSaida, Carro carro){
 
-
+        if(Objects.isNull(usuario.getFormaPagamento())){
+            redirectAttributes.addFlashAttribute("mensagemError", "Você deve adicionar o número de cartão para poder reservar uma vaga.");
+            return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
+        }
 
         if(!validarData(dataPrevistaEntrada)){
             DateTimeFormatter dTF = DateTimeFormatter.ofPattern("dd MMM uuuu  HH:mm");
@@ -81,6 +84,11 @@ public class AlocacaoServiceImpl implements AlocacaoService {
 
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Sua vaga foi reservada. Para visualizá-la acesse o menu Perfil > Orders.");
         return "redirect:/home/";
+    }
+
+    @Override
+    public Alocacao retonaAlocacaoPorOrder(Order order){
+        return alocacaoRepository.findByOrder(order);
     }
 
 

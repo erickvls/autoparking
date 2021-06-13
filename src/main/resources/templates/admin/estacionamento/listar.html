@@ -82,18 +82,21 @@ $( document ).ready(function() {
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
         <div class="container">
+
+            <div th:if="${mensagemSucesso}" class="m-2 alert alert-success alert-dismissible fade show" role="alert">
+                <span th:utext="${mensagemSucesso}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div th:if="${mensagemError}" class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:utext="${mensagemError}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
             <div class="row m-2 no-gutters shadow-lg">
                 <div class="col-md-12 bg-white p-3 col-12">
                     <div class="container">
-                        <div th:if="${mensagemSucesso}" class="alert alert-success alert-dismissible fade show" role="alert">
-                            <span th:utext="${mensagemSucesso}"></span>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
 
-                        <div th:if="${mensagemError}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <span th:utext="${mensagemError}"></span>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
                         <div class="row">
                             <div th:each="estacionamento : ${estacionamentos}">
                                 <div class="col-md-12">
@@ -135,6 +138,7 @@ $( document ).ready(function() {
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">#</th>
+                                                            <th scope="col">Tipo</th>
                                                             <th scope="col">Descrição</th>
                                                             <th scope="col">Valor</th>
                                                             <th scope="col">#</th>
@@ -143,6 +147,7 @@ $( document ).ready(function() {
                                                         <tbody>
                                                         <tr th:each="servico,count : ${estacionamento.servicos}">
                                                             <th scope="row" th:text="${count.count}"></th>
+                                                            <td th:text="${servico.tipoServico.name}"></td>
                                                             <td th:text="${servico.descricao}"></td>
                                                             <td th:text="${servico.valor}"></td>
                                                             <td>Editar/Apagar</td>
@@ -159,33 +164,46 @@ $( document ).ready(function() {
 
                                             </div>
                                             <div class="row">
+                                                <div class="row pt-3">
+                                                    <br>
+                                                    <h2 class="only-bottom-margin">Vagas</h2>
+                                                    <hr>
+                                                </div>
+                                                <div class="row">
 
-                                                <div class="col-md-12 lead">Vagas<hr></div>
-                                                <div class="col-md-12">
-
-                                                        <div class="alocacao">
-                                                            <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
+                                                    <div class="col-md-4">
+                                                        <div class="card" style="height:290px;">
+                                                            <div class="pt-3">
+                                                                <div class="card-body text-center" style="font: normal 26px Poppins; text-transform: uppercase;">
+                                                                    <img  width="90px" height="90px" th:src="@{/img/parked-car.png}"/>
+                                                                    <h5 class="card-title pt-3">Vagas Reservadas</h5>
+                                                                    <p class="card-text counter-count" th:text="${vagasReservadas}"></p>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="alocacao">
-                                                            <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="card" style="height:290px;">
+                                                            <div class="pt-3">
+                                                                <div class="card-body text-center" style="font: normal 26px Poppins; text-transform: uppercase;">
+                                                                    <img  width="90px" height="90px" th:src="@{/img/parking.png}"/>
+                                                                    <h5 class="card-title pt-3">Vagas disponíveis</h5>
+                                                                    <p class="card-text counter-count" th:text="${vagasDisponiveis}"></p>
+                                                                    <a href="#" data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#modalAlocar">Alocar Vaga</a>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    <div class="alocacao">
-                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
                                                     </div>
-                                                    <div class="alocacao">
-                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
-                                                    </div>
-                                                    <div class="alocacao">
-                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
-                                                    </div>
-                                                    <div class="alocacao">
-                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
-                                                    </div>
-                                                    <div class="alocacao">
-                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
-                                                    </div>
-                                                    <div class="alocacao">
-                                                        <img style="max-height:100%; max-width:100%;" src="https://i.ibb.co/Z2jQbqc/parking-lot.png8-970_306x423.jpg"/>
+                                                    <div class="col-md-4">
+                                                        <div class="card" style="height:290px;">
+                                                            <div class="pt-3">
+                                                                <div class="card-body text-center" style="font: normal 26px Poppins; text-transform: uppercase;">
+                                                                    <img  width="90px" height="90px" th:src="@{/img/parking-block.png}"/>
+                                                                    <h5 class="card-title pt-3">Vagas ocupadas</h5>
+                                                                    <p class="card-text counter-count" th:text="${vagasOcupadas}"></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                 </div>
@@ -207,9 +225,14 @@ $( document ).ready(function() {
 <div th:each="estacionamento : ${estacionamentos}">
     <div th:replace="/admin/modal/modalCadastrarServico :: modalCadastrarServico(estacionamento=${estacionamento.id})" />
 </div>
+<div th:each="estacionamento : ${estacionamentos}">
+    <div th:replace="/admin/modal/modalAlocarVaga :: modalAlocarVaga(estacionamento=*{estacionamento})" />
+</div>
+
 <div th:replace="/fragments/footer :: footer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script src="https://cdn.rawgit.com/plentz/jquery-maskmoney/master/dist/jquery.maskMoney.min.js"></script>
 <script th:src="@{/js/cadastrar.js}"></script>
+<script th:src="@{/js/alocar.js}"></script>
 <script th:inline="javascript">
 
 function setSelectionRange(input, selectionStart, selectionEnd) {
@@ -231,30 +254,13 @@ function setCaretToPos(input, pos) {
 }
 
 
-$("#valor").click(function() {
-  var inputLength = $("#valor").val().length;
-  setCaretToPos($("#valor")[0], inputLength)
+
+$(".mascara").maskMoney({
+ decimal: ".",
+ thousands: "."
 });
 
-var options = {
-  onKeyPress: function(cep, e, field, options){
-      if (cep.length<=6)
-      {
 
-        var inputVal = parseFloat(cep);
-        jQuery('#valor').val(inputVal.toFixed(2));
-      }
-
-      // setCaretToPos(jQuery('#valor')[0], 4);
-
-      var masks = ['#,##0.00', '0.00'];
-      mask = (cep == 0) ? masks[1] : masks[0];
-      $('#valor').mask(mask, options);
-  },
-  reverse: true
-};
-
-$('#valor').mask('#,##0.00', options);
 </script>
 </body>
 

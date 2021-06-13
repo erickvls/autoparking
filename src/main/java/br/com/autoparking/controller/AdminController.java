@@ -1,24 +1,26 @@
 package br.com.autoparking.controller;
 
-import br.com.autoparking.model.Servico;
-import br.com.autoparking.model.Usuario;
+import br.com.autoparking.model.*;
+import br.com.autoparking.model.dto.CarroDTO;
 import br.com.autoparking.model.dto.EstacionamentoForm;
-import br.com.autoparking.service.EstacionamentoService;
-import br.com.autoparking.service.EstadoService;
-import br.com.autoparking.service.ServicoService;
-import br.com.autoparking.service.UsuarioService;
+import br.com.autoparking.model.dto.ReservaExibirDTO;
+import br.com.autoparking.model.dto.ServicoFormDTO;
+import br.com.autoparking.model.enums.StatusVaga;
+import br.com.autoparking.model.enums.TipoServico;
+import br.com.autoparking.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdminController {
@@ -34,6 +36,12 @@ public class AdminController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private AlocacaoService alocacaoService;
 
 
     @GetMapping("${autoparking.url.admin}")
@@ -64,7 +72,13 @@ public class AdminController {
             redirectAttribute.addFlashAttribute("mensagemError","Você ainda não possui nenhum estacionamento cadastrado");
             return "redirect:/admin";
         }
+        Optional<Estacionamento> estacionamento = usuario.getEstacionamentos().stream().findFirst();
+        model.addAttribute("vagasDisponiveis",estacionamento.get().getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
+        model.addAttribute("vagasReservadas",estacionamento.get().getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.RESERVADO)).count());
+        model.addAttribute("vagasOcupadas",estacionamento.get().getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.OCUPADO)).count());
+
         model.addAttribute("estacionamentos", usuario.getEstacionamentos());
+        model.addAttribute("tipoServico", TipoServico.values());
         return "admin/estacionamento/listar";
     }
 
@@ -86,12 +100,9 @@ public class AdminController {
     }
 
     @PostMapping ("${autoparking.url.admin}/estacionamento/servico")
-    public String salvarServico(@Valid Servico servico, BindingResult bindingResult,
-                                       RedirectAttributes redirectAttributes,
-                                       Model model){
-        servicoService.salvar(servico);
-        redirectAttributes.addFlashAttribute("mensagemSucesso","Serviço adicionao com sucesso!");
-        return "redirect:/admin/estacionamentos";
+    public String salvarServico(@Valid ServicoFormDTO servico,
+                                RedirectAttributes redirectAttributes){
+        return servicoService.salvar(servico,redirectAttributes);
     }
 
     /* ------------------- */
@@ -119,4 +130,33 @@ public class AdminController {
     /* ------------------- */
     /* ALOCAR VAGA */
     /* ------------------ */
+
+
+    @PostMapping("${autoparking.url.admin}/pesquisar/usuario")
+    public @ResponseBody ReservaExibirDTO pesquisarUsuario(@RequestParam("email") String email,
+                           @RequestParam("estacionamento") Estacionamento estacionamento,
+                           RedirectAttributes redirectAttribute, HttpSession session){
+
+        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(email);
+        Order order =  orderService.usuarioPossuiReserva(usuario,estacionamento);
+        if(!Objects.isNull(order.getDataPrevistaEntrada())){
+            Alocacao alocacao = alocacaoService.retonaAlocacaoPorOrder(order);
+            return ReservaExibirDTO.builder().dataPrevistaEntrada(order.getDataPrevistaEntrada())
+                    .dataPrevistaSaída(order.getDataPrevistaSaída())
+                    .id(order.getId())
+                    .veiculoSelecionado(CarroDTO.builder().id(alocacao.getCarro().getId())
+                            .modelo(alocacao.getCarro().getModelo())
+                            .placa(alocacao.getCarro().getPlaca()).build())
+                    .build();
+        }
+        return ReservaExibirDTO.builder().dataPrevistaEntrada(order.getDataPrevistaEntrada())
+                .dataPrevistaSaída(order.getDataPrevistaSaída())
+                .veiculos(usuario.getCarro().stream().filter(Carro::isAtivo).map(v->CarroDTO.builder()
+                        .id(v.getId())
+                        .modelo(v.getModelo())
+                        .placa(v.getPlaca()).build()).collect(Collectors.toList()))
+                .id(order.getId())
+                .build();
+
+    }
 }

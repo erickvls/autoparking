@@ -37,12 +37,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean usuarioPossuiOrderAberta(Usuario usuario, Estacionamento estacionamento) {
+    public boolean usuarioPossuiOrderAbertaOuAndamento(Usuario usuario, Estacionamento estacionamento) {
         List<Order> order = orderRepository.findByUsuarioAndEstacionamento(usuario,estacionamento);
         List<Order> emAbertoOuEmAndamento = order.stream()
                     .filter(o->o.getStatusOrder().equals(StatusOrder.ANDAMENTO) || o.getStatusOrder().equals(StatusOrder.EM_ABERTO))
                         .collect(Collectors.toList());
         return emAbertoOuEmAndamento.size() > 0;
+    }
+
+    public Order usuarioPossuiReserva(Usuario usuario, Estacionamento estacionamento){
+        List<Order> order = orderRepository.findByUsuarioAndEstacionamento(usuario,estacionamento);
+        if(order.isEmpty()){
+            return new Order();
+        }
+        Order reservaEmAberto = order.stream()
+                .filter(o->o.getStatusOrder().equals(StatusOrder.EM_ABERTO)).findFirst().get();
+        return reservaEmAberto;
     }
 
     @Override

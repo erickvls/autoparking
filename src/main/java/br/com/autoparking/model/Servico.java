@@ -1,8 +1,12 @@
 package br.com.autoparking.model;
 
+import br.com.autoparking.model.enums.TipoServico;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
@@ -18,7 +22,12 @@ public class Servico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String descricao;
+
+    @NumberFormat(style= NumberFormat.Style.CURRENCY)
     private BigDecimal valor;
+
+    @Enumerated(EnumType.STRING)
+    private TipoServico tipoServico;
 
     @OneToMany(mappedBy="servico",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<FaturaServicos> faturaServicos;
@@ -26,6 +35,7 @@ public class Servico {
     @ManyToOne
     @JoinColumn(name="estacionamento_id", nullable=false)
     @EqualsAndHashCode.Exclude @ToString.Exclude
+    @JsonIgnore
     private Estacionamento estacionamento;
 
 
@@ -67,6 +77,14 @@ public class Servico {
 
     public void setEstacionamento(Estacionamento estacionamento) {
         this.estacionamento = estacionamento;
+    }
+
+    public TipoServico getTipoServico() {
+        return tipoServico;
+    }
+
+    public void setTipoServico(TipoServico tipoServico) {
+        this.tipoServico = tipoServico;
     }
 
     @Override

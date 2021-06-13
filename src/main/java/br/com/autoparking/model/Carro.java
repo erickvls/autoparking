@@ -1,9 +1,8 @@
 package br.com.autoparking.model;
 
 import br.com.autoparking.model.enums.Cor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -26,10 +25,13 @@ public class Carro {
     private boolean excluido;
 
     @ManyToOne
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="usuario", nullable=false)
+    @JsonIgnore
     private Usuario usuario;
 
     @OneToMany(mappedBy="carro",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Alocacao> alocacao;
 
     public long getId() {

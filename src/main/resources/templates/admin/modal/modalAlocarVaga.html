@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="modalAlocarVaga(estacionamento)" id="navbar2" class="navbar2">
+    <div class="modal fade" id="modalAlocar" tabindex="-1" aria-labelledby="modalAlocarLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h4" id="modalAlocarLabel">Alocar Vaga</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="form-style">
+                    <div class="modal-body">
+                        <form class="row g-3 needs-validation" novalidate th:object="${solicitarVagaDTO}" method="POST" th:action="@{/home/estacionamento/solicitar}">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12 pb-3">
+                                        <label for="usuario">Email</label>
+                                        <input  type="text" id="email" name="email" class="form-control">
+                                    </div>
+
+                                    <div style="float:right">
+                                        <a class="btn btn-primary" id="btn-pesquisar-usuario">Pesquisar</a>
+                                    </div>
+                                    <div id="mensagem" style="display:none">
+                                        <div class="alert alert-warning" role="alert">
+                                            Digite o email de um usuário
+                                        </div>
+                                    </div>
+                                    <div id="resultado" class="pt-2" style="display:none">
+                                        <div class="alert alert-primary" role="alert">
+                                            <span id="alert-resultado"></span>
+                                        </div>
+                                    </div>
+                                    <div id="corpo-formulario" style="display:none">
+                                        <div class="col-sm-12 pb-3">
+                                            <label for="nome">Selecione o veículo</label>
+                                            <select  id="veiculo" name="veiculo" class="form-select" required>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Selecione um veículo. Caso não apareça, você precisará adicionar um veículo ativo (Perfil -> Veículos).
+                                            </div>
+                                            <input type="hidden" name="estacionamento" id="estacionamento" th:value="${estacionamento.id}"/>
+                                        </div>
+
+                                        <div class="col-sm-12 pb-3">
+                                            <label for="nome">Data/hora entrada</label>
+                                            <input required type="datetime-local" class="form-control" id="dataHoraEntrada" name="dataHoraEntrada">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="display:none">
+                                <input class="btn btn-secondary" type="reset" data-bs-dismiss="modal" value="Cancelar">
+                                <button class="btn btn-primary" type="submit" value="Adicionar">Solicitar</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

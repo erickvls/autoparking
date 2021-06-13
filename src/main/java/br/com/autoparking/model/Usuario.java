@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -61,22 +63,25 @@ public class Usuario {
     @JoinColumn(name = "endereco")
     private Endereco endereco;
 
-    @OneToMany(mappedBy="usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Order> order;
 
-    @OneToMany(mappedBy="usuario",  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="usuario",  fetch = FetchType.EAGER)
     private Set<Carro> carro;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "formaPagamento")
     private FormaPagamento formaPagamento;
 
-    @OneToMany(mappedBy="usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Estacionamento> estacionamentos;
 
     private boolean senhaResetada;
 
     private boolean perfilAtualizado = false;
+
 
     public int getId() {
         return id;
@@ -166,7 +171,6 @@ public class Usuario {
         this.roles = roles;
     }
 
-
     public Endereco getEndereco() {
         return endereco;
     }
@@ -174,7 +178,6 @@ public class Usuario {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-
 
     public Set<Order> getOrder() {
         return order;
@@ -222,5 +225,35 @@ public class Usuario {
 
     public void setPerfilAtualizado(boolean perfilAtualizado) {
         this.perfilAtualizado = perfilAtualizado;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return id == usuario.id &&
+                ativo == usuario.ativo &&
+                senhaResetada == usuario.senhaResetada &&
+                perfilAtualizado == usuario.perfilAtualizado &&
+                Objects.equals(userName, usuario.userName) &&
+                Objects.equals(password, usuario.password) &&
+                Objects.equals(nome, usuario.nome) &&
+                Objects.equals(cpf, usuario.cpf) &&
+                Objects.equals(telefone, usuario.telefone) &&
+                genero == usuario.genero &&
+                authProvider == usuario.authProvider &&
+                Objects.equals(dataCriacao, usuario.dataCriacao) &&
+                Objects.equals(roles, usuario.roles) &&
+                Objects.equals(endereco, usuario.endereco) &&
+                Objects.equals(order, usuario.order) &&
+                Objects.equals(carro, usuario.carro) &&
+                Objects.equals(formaPagamento, usuario.formaPagamento) &&
+                Objects.equals(estacionamentos, usuario.estacionamentos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userName, password, ativo, nome, cpf, telefone, genero, authProvider, dataCriacao, roles, endereco, order, carro, formaPagamento, estacionamentos, senhaResetada, perfilAtualizado);
     }
 }

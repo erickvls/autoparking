@@ -3,7 +3,7 @@
 
 <div th:fragment="modalCadastrarServico(estacionamento)" id="navbar2" class="navbar2">
     <div class="modal fade" id="exampleModalXl" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title h4" id="exampleModalXlLabel">Cadastrar Serviço</h5>
@@ -14,7 +14,18 @@
                         <form class="row g-3 needs-validation" novalidate th:object="${servico}" method="POST" th:action="@{/admin/estacionamento/servico}">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-sm-6 pb-3">
+                                    <div class="col-sm-12 pb-3">
+                                        <label for="nome">Tipo do Serviço</label>
+                                        <select class="form-select"  name="tipoServico" id="tipoServico" required th:errorClass="is-invalid">
+                                            <option selected value="">Selecione o tipo do serviço</option>
+                                            <option th:each="tipoServico : ${T(br.com.autoparking.model.enums.TipoServico).values()}"
+                                                    th:value="${tipoServico.name}"
+                                                    th:text="${tipoServico}">
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-12 pb-3">
                                         <label for="nome">Descrição</label>
                                         <input class="form-control" th:field="*{descricao}" type="text" required th:errorClass="is-invalid">
                                         <div th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}" class="invalid-feedback"></div>
@@ -23,10 +34,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6 pb-3">
+                                    <div class="col-sm-12 pb-3">
                                         <label for="exampleAmount">Valor</label>
                                         <div class="input-group">
-                                            <input value="0.00" class="form-control" th:field="*{valor}" type="text" required th:errorClass="is-invalid">
+                                            <input class="form-control mascara" th:field="*{valor}" type="text" required th:errorClass="is-invalid">
                                             <span class="input-group-text" style="background-color:white;margin-left:1px;">R$</span>
                                             <div th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}" class="invalid-feedback"></div>
                                             <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">

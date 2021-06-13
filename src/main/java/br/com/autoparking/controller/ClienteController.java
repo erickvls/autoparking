@@ -129,7 +129,7 @@ public class ClienteController {
     @GetMapping("/estacionamento/visualizar/{estacionamento}")
     public String visualizarEstacionamento(@PathVariable Estacionamento estacionamento,Model model, HttpSession session,RedirectAttributes redirectAttributes){
         Usuario userSession = (Usuario) session.getAttribute("user");
-        if(orderService.usuarioPossuiOrderAberta(userSession,estacionamento)){
+        if(orderService.usuarioPossuiOrderAbertaOuAndamento(userSession,estacionamento)){
             redirectAttributes.addFlashAttribute("mensagemError","Você já possui uma ordem em aberto ou andamento nesse estacionamento. Para vi" +
                     "sualizar, acesse Perfil > Orders");
             return "redirect:/home";

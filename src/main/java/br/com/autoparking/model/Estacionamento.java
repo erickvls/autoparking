@@ -39,13 +39,15 @@ public class Estacionamento {
     private BigDecimal precoFixo;
 
     @OneToMany(mappedBy="estacionamento",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Vaga> vaga;
 
-    @JsonIgnore
     @OneToMany(mappedBy="estacionamento",cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Servico> servicos;
 
     @OneToMany(mappedBy="estacionamento",cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Order> order;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -56,9 +58,8 @@ public class Estacionamento {
     @ManyToOne
     @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="usuario")
+    @JsonIgnore
     private Usuario usuario;
-
-
 
 
 }

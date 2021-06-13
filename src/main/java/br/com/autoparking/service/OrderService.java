@@ -10,7 +10,8 @@ import java.util.Map;
 
 public interface OrderService {
     Order criarOrderPeloCliente(Estacionamento estacionamento, Usuario usuario, LocalDateTime dataPrevistaEntrada, LocalDateTime dataPrevistaSaida);
-    boolean usuarioPossuiOrderAberta(Usuario usuario,Estacionamento estacionamento);
+    boolean usuarioPossuiOrderAbertaOuAndamento(Usuario usuario,Estacionamento estacionamento);
     Map<LocalDateTime, LocalDateTime> listarOrderHorariosOcupados(Estacionamento estacionamento);
     List<Order> listarTodasOrdersDeUmUsuario(Usuario usuario);
+    Order usuarioPossuiReserva(Usuario usuario,Estacionamento estacionamento);
 }

@@ -2,6 +2,7 @@ package br.com.autoparking.model;
 
 import br.com.autoparking.model.enums.StatusOrder;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ public class Order {
     @ManyToOne
     @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="estacionamento_id", nullable=false)
+    @JsonIgnore
     private Estacionamento estacionamento;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -39,7 +41,9 @@ public class Order {
     private StatusOrder statusOrder;
 
     @ManyToOne
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="usuario", nullable=false)
+    @JsonIgnore
     private Usuario usuario;
 
     @OneToMany(mappedBy="order",cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -27,7 +27,7 @@ public class Endereco {
     private Estado estado;
     @NotEmpty(message = "O campo cidade não pode está vazio")
     private String cidade;
-    @Size(min = 5,max = 20,message = "O campo deve conter entre 5 e 20 caracteres.")
+    @Size(min = 5,max = 40,message = "O campo deve conter entre 5 e 40 caracteres.")
     private String rua;
     @Size(min = 4,max = 10,message = "O campo deve conter entre 4 e 10 caracteres.")
     private String bairro;
