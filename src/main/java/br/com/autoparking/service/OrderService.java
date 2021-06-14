@@ -14,4 +14,6 @@ public interface OrderService {
     Map<LocalDateTime, LocalDateTime> listarOrderHorariosOcupados(Estacionamento estacionamento);
     List<Order> listarTodasOrdersDeUmUsuario(Usuario usuario);
     Order usuarioPossuiReserva(Usuario usuario,Estacionamento estacionamento);
+    Order mudarStatusOrdemComDataEntrada(Order order);
+    Order criarOrderPeloAdmin(Estacionamento estacionamento,Usuario usuario,LocalDateTime dataPrevistaSaida);
 }

@@ -8,4 +8,6 @@ public interface AlocacaoService {
     String alocarVagaPorEstacionamento(StatusVaga statusVaga, Estacionamento estacionamento, Usuario usuario, RedirectAttributes redirectAttributes,
                                          String dataPrevistaEntrada, String dataPrevistaSaida, Carro carro);
     Alocacao retonaAlocacaoPorOrder(Order order);
+    String alocarVagaReservaAdmin(Estacionamento estacionamento, Usuario usuario, RedirectAttributes redirectAttributes,
+                                  String dataPrevistaSaida, Carro carro);
 }

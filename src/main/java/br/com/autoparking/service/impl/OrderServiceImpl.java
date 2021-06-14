@@ -10,6 +10,7 @@ import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +38,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order criarOrderPeloAdmin(Estacionamento estacionamento,Usuario usuario,LocalDateTime dataPrevistaSaida){
+        Order order = Order.builder()
+                .dataOrder(LocalDateTime.now())
+                .statusOrder(StatusOrder.ANDAMENTO)
+                .dataPrevistaEntrada(LocalDateTime.now())
+                .dataEntrada(LocalDateTime.now())
+                .dataPrevistaSaída(dataPrevistaSaida)
+                .estacionamento(estacionamento)
+                .usuario(usuario)
+                .build();
+        return orderRepository.save(order);
+    }
+
+    @Override
     public boolean usuarioPossuiOrderAbertaOuAndamento(Usuario usuario, Estacionamento estacionamento) {
         List<Order> order = orderRepository.findByUsuarioAndEstacionamento(usuario,estacionamento);
         List<Order> emAbertoOuEmAndamento = order.stream()
@@ -45,6 +60,7 @@ public class OrderServiceImpl implements OrderService {
         return emAbertoOuEmAndamento.size() > 0;
     }
 
+    @Override
     public Order usuarioPossuiReserva(Usuario usuario, Estacionamento estacionamento){
         List<Order> order = orderRepository.findByUsuarioAndEstacionamento(usuario,estacionamento);
         if(order.isEmpty()){
@@ -65,6 +81,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> listarTodasOrdersDeUmUsuario(Usuario usuario) {
         return orderRepository.findByUsuario(usuario);
+    }
+
+    @Override
+    public Order mudarStatusOrdemComDataEntrada(Order order){
+        order.setDataEntrada(LocalDateTime.now());
+        order.setStatusOrder(StatusOrder.ANDAMENTO);
+        return orderRepository.save(order);
     }
 
 }

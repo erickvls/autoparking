@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface VagaService {
     List<Vaga> listarVagasEstacionamento(Estacionamento estacionamento);
-    Vaga reservarVaga(Vaga vaga);
+    Vaga reservarVaga(StatusVaga statusVaga,Vaga vaga);
 }

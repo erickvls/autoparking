@@ -11,7 +11,7 @@
                 </div>
                 <div class="form-style">
                     <div class="modal-body">
-                        <form class="row g-3 needs-validation" novalidate th:object="${solicitarVagaDTO}" method="POST" th:action="@{/home/estacionamento/solicitar}">
+                        <form class="row g-3 needs-validation" novalidate th:object="${solicitarVagaDTO}" method="POST" th:action="@{/admin/estacionamento/reservar}">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-sm-12 pb-3">
@@ -38,22 +38,33 @@
                                             <select  id="veiculo" name="veiculo" class="form-select" required>
                                             </select>
                                             <div class="invalid-feedback">
-                                                Selecione um veículo. Caso não apareça, você precisará adicionar um veículo ativo (Perfil -> Veículos).
+                                                Selecione um veículo. Caso não apareça, o cliente precisará adicionar um veículo ativo (Perfil -> Veículos).
                                             </div>
                                             <input type="hidden" name="estacionamento" id="estacionamento" th:value="${estacionamento.id}"/>
                                         </div>
 
                                         <div class="col-sm-12 pb-3">
-                                            <label for="nome">Data/hora entrada</label>
-                                            <input required type="datetime-local" class="form-control" id="dataHoraEntrada" name="dataHoraEntrada">
+                                            <label for="nome">Data e hora prevista de saída</label>
+                                            <input required type="datetime-local" class="form-control" id="dataPrevistaSaida" name="dataPrevistaSaida">
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="info pt-3 pb-3">
+                                                <div class="alert alert-warning" role="alert">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    <span th:text="|Atenção: O horário de entrada usado será ${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}|">
+                                                    </span>
+                                                </div>
+                                                <input type="hidden" id="order" name="order"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div style="display:none">
+                            <div id="botoes-enviar" style="display:none">
                                 <input class="btn btn-secondary" type="reset" data-bs-dismiss="modal" value="Cancelar">
-                                <button class="btn btn-primary" type="submit" value="Adicionar">Solicitar</button>
+                                <button class="btn btn-primary" type="submit" value="Adicionar">Alocar</button>
                             </div>
 
                         </form>

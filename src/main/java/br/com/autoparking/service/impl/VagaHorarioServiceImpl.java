@@ -19,14 +19,8 @@ public class VagaHorarioServiceImpl {
     @Autowired
     private VagaService vagaService;
 
-    VagaHorario reservarVagaHorario(VagaHorario vagaHorario, LocalDateTime horaChegada,LocalDateTime horaSaida){
-        Vaga vagaS = vagaService.reservarVaga(vagaHorario.getVaga());
-        VagaHorario vH = VagaHorario.builder().vaga(vagaS)
-                .statusVaga(StatusVaga.RESERVADO)
-                .horaChegada(horaChegada)
-                .horaSaida(horaSaida)
-                .build();
-
+    VagaHorario reservarVagaHorario(StatusVaga statusVaga,VagaHorario vagaHorario, LocalDateTime horaChegada,LocalDateTime horaSaida){
+        vagaService.reservarVaga(statusVaga,vagaHorario.getVaga());
         return vagaHorarioRepository.save(vagaHorario);
     }
 }

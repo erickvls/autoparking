@@ -66,13 +66,13 @@ public class AlocacaoServiceImpl implements AlocacaoService {
             redirectAttributes.addFlashAttribute("mensagemError", "A Data/hora de saída não pode ser inferior a entrada");
             return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
         }
-        VagaHorario vagaHorario = horarioEstaLivre(estacionamento,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
+        VagaHorario vagaHorario = horarioEstaLivre(StatusVaga.RESERVADO,estacionamento,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
         if(Objects.isNull(vagaHorario.getStatusVaga())){
             redirectAttributes.addFlashAttribute("mensagemError", "Não há vagas disponíveis para o horário selecionado.");
             return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
         }
 
-        VagaHorario vagaEstacionamento = vagaHorarioService.reservarVagaHorario(vagaHorario,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
+        VagaHorario vagaEstacionamento = vagaHorarioService.reservarVagaHorario(StatusVaga.RESERVADO,vagaHorario,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
 
         Order order = orderService.criarOrderPeloCliente(estacionamento,usuario,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
         Alocacao alocacao = Alocacao.builder()
@@ -83,6 +83,34 @@ public class AlocacaoServiceImpl implements AlocacaoService {
         alocacaoRepository.save(alocacao);
 
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Sua vaga foi reservada. Para visualizá-la acesse o menu Perfil > Orders.");
+        return "redirect:/home/";
+    }
+
+    @Override
+    public String alocarVagaReservaAdmin(Estacionamento estacionamento, Usuario usuario, RedirectAttributes redirectAttributes,
+                                         String dataPrevistaSaida, Carro carro){
+
+        if(Objects.isNull(usuario.getFormaPagamento())){
+            redirectAttributes.addFlashAttribute("mensagemError", "Você deve adicionar o número de cartão para poder reservar uma vaga.");
+            return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
+        }
+
+        VagaHorario vagaHorario = horarioEstaLivre(StatusVaga.OCUPADO,estacionamento,LocalDateTime.now(),converterDataString(dataPrevistaSaida));
+        if(Objects.isNull(vagaHorario.getStatusVaga())){
+            redirectAttributes.addFlashAttribute("mensagemError", "Não há vagas disponíveis para o horário selecionado.");
+            return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
+        }
+        VagaHorario vagaEstacionamento = vagaHorarioService.reservarVagaHorario(StatusVaga.OCUPADO,vagaHorario,LocalDateTime.now(),converterDataString(dataPrevistaSaida));
+
+        Order order = orderService.criarOrderPeloAdmin(estacionamento,usuario,converterDataString(dataPrevistaSaida));
+        Alocacao alocacao = Alocacao.builder()
+                .carro(carro)
+                .order(order)
+                .vaga(vagaEstacionamento.getVaga())
+                .build();
+        alocacaoRepository.save(alocacao);
+
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "A vaga foi alocada. O cliente poderá entrar no estacionamento");
         return "redirect:/home/";
     }
 
@@ -115,7 +143,7 @@ public class AlocacaoServiceImpl implements AlocacaoService {
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 
-    private VagaHorario horarioEstaLivre(Estacionamento estacionamento,LocalDateTime dataEntradaPrevista, LocalDateTime dataSaidaPrevista){
+    private VagaHorario horarioEstaLivre(StatusVaga statusVaga,Estacionamento estacionamento,LocalDateTime dataEntradaPrevista, LocalDateTime dataSaidaPrevista){
         Map<LocalDateTime,LocalDateTime> horariosOcupados = orderService.listarOrderHorariosOcupados(estacionamento);
         List<Vaga> vagas = vagaService.listarVagasEstacionamento(estacionamento);
         VagaHorario vagaHorarioBuild = new VagaHorario();
@@ -125,7 +153,7 @@ public class AlocacaoServiceImpl implements AlocacaoService {
                 return VagaHorario.builder()
                         .horaChegada(dataEntradaPrevista)
                         .horaSaida(dataSaidaPrevista)
-                        .statusVaga(StatusVaga.RESERVADO)
+                        .statusVaga(statusVaga)
                         .vaga(vagas.get(i))
                         .build();
             }

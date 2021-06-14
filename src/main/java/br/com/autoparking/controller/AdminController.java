@@ -159,4 +159,21 @@ public class AdminController {
                 .build();
 
     }
+
+    @PostMapping("${autoparking.url.admin}/estacionamento/reservar")
+    public String reservarVaga(@RequestParam("email") String email,
+                                  @RequestParam("veiculo") Carro veiculo,
+                                  @RequestParam("estacionamento") Estacionamento estacionamento,
+                                  @RequestParam(defaultValue = "0") Order order,
+                                  @RequestParam("dataPrevistaSaida") String dataPrevistaSaida,
+                                  RedirectAttributes redirectAttribute,HttpSession session){
+
+        if(Objects.isNull(order)){
+            Usuario usuario = usuarioService.encontrarUsuarioPorUserName(email);
+            alocacaoService.alocarVagaReservaAdmin(estacionamento,usuario,redirectAttribute,dataPrevistaSaida,veiculo);
+        }else{
+            orderService.mudarStatusOrdemComDataEntrada(order);
+        }
+        return "redirect:/admin/estacionamentos";
+    }
 }

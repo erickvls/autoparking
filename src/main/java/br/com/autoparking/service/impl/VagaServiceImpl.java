@@ -22,8 +22,8 @@ public class VagaServiceImpl implements VagaService {
     }
 
     @Override
-    public Vaga reservarVaga(Vaga vaga){
-        vaga.setStatus(StatusVaga.RESERVADO);
+    public Vaga reservarVaga(StatusVaga statusVaga,Vaga vaga){
+        vaga.setStatus(statusVaga);
         return vagaRepository.save(vaga);
     }
 

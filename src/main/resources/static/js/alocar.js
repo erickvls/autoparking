@@ -25,9 +25,8 @@
                     });
 
 
-
                     }else{
-                       $("#alert-resultado").html("O Usuário já possui uma ordem em aberto devido a reserva.<br>"+
+                       $("#alert-resultado").html("O Usuário já possui uma ordem em aberto devido a reserva. "+
                        "Utilizaremos a order já criada.");
                        $("#veiculo")
                            .append(
@@ -35,11 +34,13 @@
                                    .text(msg.veiculoSelecionado.modelo + " - " +msg.veiculoSelecionado.placa)
                                    .val(msg.veiculoSelecionado.id)
                            );
+                           $("#order").val(msg.id);
 
                    }
                    $("#resultado").css("display","");
                    $("#corpo-formulario").css("display","");
                    $("#btn-pesquisar-usuario").css("display","none");
+                   $("#botoes-enviar").css("display","");
             })
             .fail(function(jqXHR, textStatus, msg){
                  alert(msg);

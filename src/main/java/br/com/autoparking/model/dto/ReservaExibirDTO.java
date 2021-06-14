@@ -23,4 +23,5 @@ public class ReservaExibirDTO {
     private LocalDateTime dataPrevistaSaída;
     private List<CarroDTO> veiculos;
     private CarroDTO veiculoSelecionado;
+    private Order order;
 }
