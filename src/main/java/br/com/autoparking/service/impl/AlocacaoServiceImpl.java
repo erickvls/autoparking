@@ -74,7 +74,7 @@ public class AlocacaoServiceImpl implements AlocacaoService {
 
         VagaHorario vagaEstacionamento = vagaHorarioService.reservarVagaHorario(StatusVaga.RESERVADO,vagaHorario,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
 
-        Order order = orderService.criarOrderPeloCliente(estacionamento,usuario,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
+        Order order = orderService.criarOrderPeloCliente(estacionamento,usuario,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida),vagaEstacionamento);
         Alocacao alocacao = Alocacao.builder()
                 .carro(carro)
                 .order(order)
@@ -102,7 +102,7 @@ public class AlocacaoServiceImpl implements AlocacaoService {
         }
         VagaHorario vagaEstacionamento = vagaHorarioService.reservarVagaHorario(StatusVaga.OCUPADO,vagaHorario,LocalDateTime.now(),converterDataString(dataPrevistaSaida));
 
-        Order order = orderService.criarOrderPeloAdmin(estacionamento,usuario,converterDataString(dataPrevistaSaida));
+        Order order = orderService.criarOrderPeloAdmin(estacionamento,usuario,converterDataString(dataPrevistaSaida),vagaEstacionamento);
         Alocacao alocacao = Alocacao.builder()
                 .carro(carro)
                 .order(order)

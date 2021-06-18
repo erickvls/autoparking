@@ -32,7 +32,7 @@ public class Order {
     private Fatura fatura;
 
     private LocalDateTime dataPrevistaEntrada;
-    private LocalDateTime dataPrevistaSaída;
+    private LocalDateTime dataPrevistaSaida;
     private LocalDateTime dataEntrada;
     private LocalDateTime dataSaida;
     private LocalDateTime duracao;
@@ -48,4 +48,9 @@ public class Order {
 
     @OneToMany(mappedBy="order",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Alocacao> alocacao;
+
+    @EqualsAndHashCode.Exclude @ToString.Exclude
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vagaHorario_id")
+    private VagaHorario vagaHorario;
 }

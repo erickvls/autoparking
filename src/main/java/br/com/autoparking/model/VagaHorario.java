@@ -26,6 +26,10 @@ public class VagaHorario {
     @Enumerated(EnumType.STRING)
     private StatusVaga statusVaga;
 
+    @OneToOne(mappedBy = "vagaHorario", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private Order order;
+
     private LocalDateTime horaChegada;
     private LocalDateTime horaSaida;
 }

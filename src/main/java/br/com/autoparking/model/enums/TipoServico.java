@@ -1,10 +1,8 @@
 package br.com.autoparking.model.enums;
 
 public enum TipoServico {
-    RESERVA("Valor para reservar"),
-    PENALIDADE("Penalidade de reserva não comparecida"),
+    RESERVA("Valor da reserva"),
     HORA("Valor da hora"),
-    FRACAO("Valor fração da hora"),
     OUTRO("Outro");
 
     private String tipoServico;

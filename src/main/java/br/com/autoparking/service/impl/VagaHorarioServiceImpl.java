@@ -23,4 +23,9 @@ public class VagaHorarioServiceImpl {
         vagaService.reservarVaga(statusVaga,vagaHorario.getVaga());
         return vagaHorarioRepository.save(vagaHorario);
     }
+
+    VagaHorario mudarStatusVagaHorario(StatusVaga statusVaga, VagaHorario vagaHorario){
+        vagaHorario.setStatusVaga(statusVaga);
+        return vagaHorarioRepository.save(vagaHorario);
+    }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
 
-<head th:replace="/fragments/head :: head(pageTitle='AutoParking - Minhas orders')" />
+<head th:replace="/fragments/head :: head(pageTitle='AutoParking - Todas Orders')" />
 
 <body>
 
@@ -60,38 +60,43 @@
         <div class="container">
             <div class="row m-2 no-gutters shadow-lg">
                 <div class="col-md-12 bg-white p-5 col-12">
-                    <h3 class="pb-3">Minhas Orders</h3>
+                    <h3 class="pb-3">Orders</h3>
                     <div class="col-12" style="margin-top:-15px;" th:if="${orders.size()>0}">
                         <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Estacionamento</th>
-                                <th scope="col">Data da criação</th>
-                                <th scope="col">Duração</th>
-                                <th scope="col">Previsão chega/saida</th>
+                                <th scope="col">Usuario</th>
+                                <th scope="col">Data/hora criação</th>
+                                <th scope="col">Data/Hora entrada</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Fatura</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="order,count : ${orders}">
+                            <tr class="align-middle" th:each="order,count : ${orders}">
                                 <th scope="row" th:text="${count.count}"></th>
-                                <td th:text="${order.estacionamento.nome}"></td>
+                                <td th:text="${order.usuario.userName}"></td>
                                 <td th:text="${#temporals.format(order.dataOrder, 'dd/MM/yyyy HH:mm')}"></td>
-                                <td th:text="${order.duracao}"></td>
-                                <td th:text="|${#temporals.format(order.dataPrevistaEntrada, 'dd/MM/yyyy HH:mm')} - ${#temporals.format(order.dataPrevistaSaida, 'dd/MM/yyyy HH:mm')}|"></td>
+                                <td th:text="${#temporals.format(order.dataPrevistaEntrada, 'dd/MM/yyyy HH:mm')}"></td>
                                 <td>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).EM_ABERTO}" class="badge bg-warning text-dark">Em Aberto</span>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).ANDAMENTO}" class="badge bg-primary text-dark">Em Andamento</span>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}" class="badge bg-success text-dark">Fechado</span>
+                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).EM_ABERTO}" class="badge bg-warning text-white">Em Aberto</span>
+                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).ANDAMENTO}" class="badge bg-primary text-white">Em Andamento</span>
+                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}" class="badge bg-success text-white">Fechado</span>
                                 </td>
                                 <td>
-                                    <span th:if="${order.fatura !=null}">
-                                        <a href="#">Ver fatura</a>
+                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).ANDAMENTO}">
+                                        <form method="POST" th:action="@{/admin/fatura}">
+                                            <input type="hidden"  id="order" name="order" th:value="${order.id}"/>
+                                            <button class="btn btn-light" type="submit" value="Adicionar">Gerar</button>
+
+                                        </form>
                                     </span>
-                                    <span th:unless="${order.fatura !=null}">
-                                        Não Disponível
+                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).EM_ABERTO}">
+                                       <button class="btn btn-light" value="Adicionar">Não disponível</button>
+                                    </span>
+                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}">
+                                        <a href="#">Visualizar</a>
                                     </span>
                                 </td>
                             </tr>

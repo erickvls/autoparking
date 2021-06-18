@@ -20,7 +20,7 @@ public class ReservaExibirDTO {
     Usuario usuario;
     private long id;
     private LocalDateTime dataPrevistaEntrada;
-    private LocalDateTime dataPrevistaSaída;
+    private LocalDateTime dataPrevistaSaida;
     private List<CarroDTO> veiculos;
     private CarroDTO veiculoSelecionado;
     private Order order;

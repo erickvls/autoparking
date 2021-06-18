@@ -43,6 +43,8 @@ public class AdminController {
     @Autowired
     private AlocacaoService alocacaoService;
 
+    @Autowired
+    private FaturaService faturaService;
 
     @GetMapping("${autoparking.url.admin}")
     public String homeAdmin(){
@@ -55,7 +57,7 @@ public class AdminController {
 
     @GetMapping("${autoparking.url.admin}/estacionamentos/novo")
     public String cadastrarEstacionamento(Model model, Authentication authentication,RedirectAttributes redirectAttributes, HttpSession session){
-        Usuario usuario = (Usuario) session.getAttribute("user");
+        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
         if(usuario.getEstacionamentos().size()>0){
             redirectAttributes.addFlashAttribute("mensagemError","Você só pode criar 1 estacionamento.");
             return "redirect:/admin";
@@ -138,11 +140,14 @@ public class AdminController {
                            RedirectAttributes redirectAttribute, HttpSession session){
 
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(email);
+        if(Objects.isNull(usuario.getUserName())){
+            return ReservaExibirDTO.builder().build();
+        }
         Order order =  orderService.usuarioPossuiReserva(usuario,estacionamento);
         if(!Objects.isNull(order.getDataPrevistaEntrada())){
             Alocacao alocacao = alocacaoService.retonaAlocacaoPorOrder(order);
             return ReservaExibirDTO.builder().dataPrevistaEntrada(order.getDataPrevistaEntrada())
-                    .dataPrevistaSaída(order.getDataPrevistaSaída())
+                    .dataPrevistaSaida(order.getDataPrevistaSaida())
                     .id(order.getId())
                     .veiculoSelecionado(CarroDTO.builder().id(alocacao.getCarro().getId())
                             .modelo(alocacao.getCarro().getModelo())
@@ -150,7 +155,7 @@ public class AdminController {
                     .build();
         }
         return ReservaExibirDTO.builder().dataPrevistaEntrada(order.getDataPrevistaEntrada())
-                .dataPrevistaSaída(order.getDataPrevistaSaída())
+                .dataPrevistaSaida(order.getDataPrevistaSaida())
                 .veiculos(usuario.getCarro().stream().filter(Carro::isAtivo).map(v->CarroDTO.builder()
                         .id(v.getId())
                         .modelo(v.getModelo())
@@ -176,4 +181,14 @@ public class AdminController {
         }
         return "redirect:/admin/estacionamentos";
     }
+
+    @GetMapping("${autoparking.url.admin}/orders")
+    public String visualizarOrders(Model model,RedirectAttributes redirectAttribute,HttpSession session, Authentication authentication){
+        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
+        Optional<Estacionamento> estacionamento = usuario.getEstacionamentos().stream().findFirst();
+        model.addAttribute("orders",estacionamento.get().getOrder());
+        return "/admin/orders";
+    }
+
+
 }

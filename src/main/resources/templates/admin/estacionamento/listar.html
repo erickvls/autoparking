@@ -132,7 +132,11 @@ $( document ).ready(function() {
 
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-12 lead">Serviços<hr></div>
+                                                <div class="row pt-3">
+                                                    <br>
+                                                    <h2 class="only-bottom-margin">Serviços</h2>
+                                                    <hr>
+                                                </div>
                                                 <div class="col-12" style="margin-top:-15px;" th:if="${estacionamento.servicos.size()>0}">
                                                     <table class="table table-hover">
                                                         <thead>
@@ -189,7 +193,7 @@ $( document ).ready(function() {
                                                                     <img  width="90px" height="90px" th:src="@{/img/parking.png}"/>
                                                                     <h5 class="card-title pt-3">Vagas disponíveis</h5>
                                                                     <p class="card-text counter-count" th:text="${vagasDisponiveis}"></p>
-                                                                    <a href="#" data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#modalAlocar">Alocar Vaga</a>
+                                                                    <a href="#" data-bs-toggle="modal" th:if="${estacionamento.servicos.size()>0} and ${vagasDisponiveis>0} " class="btn btn-primary" data-bs-target="#modalAlocar">Alocar Vaga</a>
                                                                 </div>
                                                             </div>
                                                         </div>

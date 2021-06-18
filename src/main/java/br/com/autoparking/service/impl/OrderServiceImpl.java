@@ -1,14 +1,16 @@
 package br.com.autoparking.service.impl;
 
-import br.com.autoparking.model.Estacionamento;
-import br.com.autoparking.model.Order;
-import br.com.autoparking.model.Usuario;
+import br.com.autoparking.model.*;
 import br.com.autoparking.model.enums.StatusOrder;
+import br.com.autoparking.model.enums.StatusVaga;
 import br.com.autoparking.repository.OrderRepository;
+import br.com.autoparking.service.AlocacaoService;
 import br.com.autoparking.service.OrderService;
+import br.com.autoparking.service.VagaService;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,29 +26,40 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private VagaService vagaService;
+
+    @Autowired
+    private AlocacaoService alocacaoService;
+
+    @Autowired
+    private VagaHorarioServiceImpl vagaHorarioService;
+
     @Override
-    public Order criarOrderPeloCliente(Estacionamento estacionamento, Usuario usuario, LocalDateTime dataPrevistaEntrada,LocalDateTime dataPrevistaSaida){
+    public Order criarOrderPeloCliente(Estacionamento estacionamento, Usuario usuario, LocalDateTime dataPrevistaEntrada,LocalDateTime dataPrevistaSaida,
+                                        VagaHorario vagaHorario){
         Order order = Order.builder()
                 .dataOrder(LocalDateTime.now())
                 .statusOrder(StatusOrder.EM_ABERTO)
                 .dataPrevistaEntrada(dataPrevistaEntrada)
-                .dataPrevistaSaída(dataPrevistaSaida)
+                .dataPrevistaSaida(dataPrevistaSaida)
                 .estacionamento(estacionamento)
                 .usuario(usuario)
+                .vagaHorario(vagaHorario)
                 .build();
         return orderRepository.save(order);
     }
 
     @Override
-    public Order criarOrderPeloAdmin(Estacionamento estacionamento,Usuario usuario,LocalDateTime dataPrevistaSaida){
+    public Order criarOrderPeloAdmin(Estacionamento estacionamento,Usuario usuario,LocalDateTime dataPrevistaSaida,VagaHorario vagaHorario){
         Order order = Order.builder()
                 .dataOrder(LocalDateTime.now())
                 .statusOrder(StatusOrder.ANDAMENTO)
-                .dataPrevistaEntrada(LocalDateTime.now())
                 .dataEntrada(LocalDateTime.now())
-                .dataPrevistaSaída(dataPrevistaSaida)
+                .dataPrevistaSaida(dataPrevistaSaida)
                 .estacionamento(estacionamento)
                 .usuario(usuario)
+                .vagaHorario(vagaHorario)
                 .build();
         return orderRepository.save(order);
     }
@@ -75,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
     public Map<LocalDateTime, LocalDateTime> listarOrderHorariosOcupados(Estacionamento estacionamento){
         List<Order> ordersAbertasOuAndamento = orderRepository.findByEstacionamentoAndStatusOrderIsEmAbertoOrEmAndamento(estacionamento);
         return ordersAbertasOuAndamento.stream()
-                .collect(Collectors.toMap(Order::getDataPrevistaEntrada, Order::getDataPrevistaSaída));
+                .collect(Collectors.toMap(Order::getDataPrevistaEntrada, Order::getDataPrevistaSaida));
     }
 
     @Override
@@ -84,7 +97,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order mudarStatusOrdemComDataEntrada(Order order){
+        Alocacao alocacao =  alocacaoService.retonaAlocacaoPorOrder(order);
+        vagaService.reservarVaga(StatusVaga.OCUPADO,alocacao.getVaga());
+        VagaHorario vagaHorario = order.getVagaHorario();
+        vagaHorarioService.mudarStatusVagaHorario(StatusVaga.OCUPADO,vagaHorario);
         order.setDataEntrada(LocalDateTime.now());
         order.setStatusOrder(StatusOrder.ANDAMENTO);
         return orderRepository.save(order);
