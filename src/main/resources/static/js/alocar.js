@@ -18,7 +18,12 @@
             .done(function(msg){
                     if(msg.veiculoSelecionado == null && msg.veiculos <1){
                         $("#resultado-error").css("display","");
-                        $("#alert-msg-error").html("Usuário não encontrado");
+                        $("#alert-msg-error").html("Usuário não possui veículos associados a conta.");
+                        return;
+                    }
+                    if(msg.userExiste == null){
+                        $("#resultado-error").css("display","");
+                        $("#alert-msg-error").html("Usuário não encontrado.");
                         return;
                     }
                     if(msg.dataPrevistaEntrada == null){

@@ -24,4 +24,5 @@ public class ReservaExibirDTO {
     private List<CarroDTO> veiculos;
     private CarroDTO veiculoSelecionado;
     private Order order;
+    private boolean userExiste;
 }

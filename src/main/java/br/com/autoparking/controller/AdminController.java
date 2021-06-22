@@ -18,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -152,6 +154,7 @@ public class AdminController {
                     .veiculoSelecionado(CarroDTO.builder().id(alocacao.getCarro().getId())
                             .modelo(alocacao.getCarro().getModelo())
                             .placa(alocacao.getCarro().getPlaca()).build())
+                    .userExiste(true)
                     .build();
         }
         return ReservaExibirDTO.builder().dataPrevistaEntrada(order.getDataPrevistaEntrada())
@@ -161,6 +164,7 @@ public class AdminController {
                         .modelo(v.getModelo())
                         .placa(v.getPlaca()).build()).collect(Collectors.toList()))
                 .id(order.getId())
+                .userExiste(false)
                 .build();
 
     }
@@ -187,7 +191,17 @@ public class AdminController {
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
         Optional<Estacionamento> estacionamento = usuario.getEstacionamentos().stream().findFirst();
         model.addAttribute("orders",estacionamento.get().getOrder());
+        model.addAttribute("servicos",estacionamento.get().getServicos().stream().filter(v->v.getTipoServico().equals(TipoServico.OUTRO)).collect(Collectors.toList()));
         return "/admin/orders";
+    }
+
+    @PostMapping("${autoparking.url.admin}/fatura/gerar")
+    public String gerarFatura(@RequestParam("order") Order order,
+                              @RequestParam(value="servicos", required = false)  Servico[] servicos,
+                              Authentication authentication){
+        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
+        faturaService.gerarFaturaPadrao(order,servicos);
+        return "";
     }
 
 

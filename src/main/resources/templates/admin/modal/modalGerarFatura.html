@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="modalGerarFatura" id="navbar2" class="navbar2">
+    <div class="modal fade" id="modalFatura" tabindex="-1" aria-labelledby="modalFaturaLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h4" id="modalAlocarLabel">Gerar Fatura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div>
+                    <div class="modal-body">
+                        <form class="row g-3 needs-validation" novalidate method="POST" th:action="@{/admin/fatura/gerar}">
+                            <div class="card-body">
+                                <div id="resultado-error" class="pt-2" style="display:none">
+                                    <div class="alert alert-danger" role="alert">
+                                        <span id="alert-msg-error"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <h4 class="pb-3">Serviços adicionais</h4>
+
+                                    <div id="corpo-formulario" style="display:none">
+                                        <div class="col-sm-12 pb-3">
+                                            <table class="table table-bordered table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Tipo</th>
+                                                    <th scope="col">Descrição</th>
+                                                    <th scope="col">Valor</th>
+                                                    <th scope="col">#</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="servico,count : ${servicos}">
+                                                        <td scope="row" th:text="${count.count}"></td>
+                                                        <td scope="row" th:text="${servico.tipoServico}"></td>
+                                                        <td scope="row" th:text="${servico.descricao}"></td>
+                                                        <td scope="row" th:text="${servico.valor}"></td>
+                                                        <td scope="row">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" th:value="*{servico.id}" name="servicos">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div id="mensagem" style="display:none">
+                                                <div class="alert alert-warning" role="alert">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    <span id="mensagem-alert"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <input type="hidden" id="order" name="order">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="botoes-enviar">
+                                <input class="btn btn-secondary" type="reset" data-bs-dismiss="modal" value="Cancelar">
+                                <button class="btn btn-primary" type="submit" value="Adicionar">Calcular</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -158,6 +158,9 @@ public class AlocacaoServiceImpl implements AlocacaoService {
                         .build();
             }
             for (VagaHorario vagaHorario : horariosVaga) {
+                if(vagaHorario.getStatusVaga().equals(StatusVaga.LIVRE)){
+                    return vagaHorario;
+                }
                 if (dataEntradaPrevista.isBefore(horariosVaga.get(i).getHoraChegada()) && dataSaidaPrevista.isBefore(horariosVaga.get(i).getHoraSaida())) {
                     return vagaHorario;
                 } else if (dataEntradaPrevista.isAfter(horariosVaga.get(i).getHoraChegada()) && dataSaidaPrevista.isAfter(horariosVaga.get(i).getHoraSaida())) {

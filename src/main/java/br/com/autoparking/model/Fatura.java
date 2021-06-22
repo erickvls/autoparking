@@ -1,9 +1,6 @@
 package br.com.autoparking.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -24,9 +21,11 @@ public class Fatura {
     private Date data;
     private BigDecimal total;
 
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     @OneToMany(mappedBy="fatura",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<FaturaServicos> faturaServicos;
 
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     @OneToOne(mappedBy = "fatura")
     private Order order;
 

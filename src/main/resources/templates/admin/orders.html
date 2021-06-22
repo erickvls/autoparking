@@ -46,8 +46,8 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Order</h2>
                 <ol>
-                    <li><a th:href="@{/home}">Home</a></li>
-                    <li><a th:href="@{/home/orders}">Orders</a></li>
+                    <li><a th:href="@{/admin}">Painel</a></li>
+                    <li><a th:href="@{/admin/orders}">Orders</a></li>
                     <li>Minhas Orders</li>
                 </ol>
             </div>
@@ -62,49 +62,65 @@
                 <div class="col-md-12 bg-white p-5 col-12">
                     <h3 class="pb-3">Orders</h3>
                     <div class="col-12" style="margin-top:-15px;" th:if="${orders.size()>0}">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Usuario</th>
-                                <th scope="col">Data/hora criação</th>
-                                <th scope="col">Data/Hora entrada</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Fatura</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="align-middle" th:each="order,count : ${orders}">
-                                <th scope="row" th:text="${count.count}"></th>
-                                <td th:text="${order.usuario.userName}"></td>
-                                <td th:text="${#temporals.format(order.dataOrder, 'dd/MM/yyyy HH:mm')}"></td>
-                                <td th:text="${#temporals.format(order.dataPrevistaEntrada, 'dd/MM/yyyy HH:mm')}"></td>
-                                <td>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).EM_ABERTO}" class="badge bg-warning text-white">Em Aberto</span>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).ANDAMENTO}" class="badge bg-primary text-white">Em Andamento</span>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}" class="badge bg-success text-white">Fechado</span>
-                                </td>
-                                <td>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).ANDAMENTO}">
-                                        <form method="POST" th:action="@{/admin/fatura}">
-                                            <input type="hidden"  id="order" name="order" th:value="${order.id}"/>
-                                            <button class="btn btn-light" type="submit" value="Adicionar">Gerar</button>
 
-                                        </form>
-                                    </span>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).EM_ABERTO}">
-                                       <button class="btn btn-light" value="Adicionar">Não disponível</button>
-                                    </span>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}">
-                                        <a href="#">Visualizar</a>
-                                    </span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+
+                        <div class="row" th:each="order,count : ${orders}">
+                            <div class="col-12 p-2">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6 pb-1">
+                                                <div class="col-12 pb-1">
+                                                    <i class="bi bi-person-check-fill"></i>  <span class="font-weight-bold">Usuário:</span> <span th:text="${order.usuario.userName}"></span>
+                                                </div>
+                                                <div class="col-12 pb-1">
+                                                    <i class="bi bi-calendar-date-fill"></i>  Data order: <span th:text="${#temporals.format(order.dataOrder, 'dd/MM/yyyy HH:mm')}"></span>
+                                                </div>
+                                                <div class="col-12 pb-1">
+                                                    <i class="bi bi-calendar-date-fill"></i>  Hora entrada: <span th:text="${#temporals.format(order.dataEntrada, 'dd/MM/yyyy HH:mm')}"></span>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-6 pb-1">
+                                                <div class="row">
+                                                    <div class="col-6 pb-1">
+                                                        <i class="bi bi-info-circle"></i>  <span class="font-weight-bold">Status:</span> <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).EM_ABERTO}" class="badge bg-warning text-white">Em Aberto</span>
+                                                        <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).ANDAMENTO}" class="badge bg-primary text-white">Em Andamento</span>
+                                                        <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}" class="badge bg-success text-white">Fechado</span>
+                                                    </div>
+                                                    <div class="col-6 pb-1">
+                                                        <div th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).ANDAMENTO}">
+                                                            <a href="#" th:data-order="${order}"
+                                                               onclick="openModal(this.getAttribute('data-order'))" class="float-end">Gerar Fatura</a>
+                                                        </div>
+                                                        <div th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).EM_ABERTO}">
+                                                            <span class="float-end">Fatura não disponível</span>
+                                                        </div>
+                                                        <div th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}">
+                                                            <a href="#" class="float-end">Visualizar Fatura</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <i class="bi bi-pin-angle-fill"></i>  Vaga: <span th:text="${order.vagaHorario.vaga.numero}"></span>
+                                                </div>
+                                                <div class="col-12">
+                                                    <i class="bi bi-truck"></i>  Veículo: <span th:text="|${order.alocacao[0].carro.modelo} - ${order.alocacao[0].carro.placa}|"></span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                     <div th:unless="${orders.size()>0}" class="d-flex justify-content-center pb-3">
-                        <h6>Você não possui nenhuma order associado a sua conta.</h6>
+                        <h6>O estacionamento não possui nenhuma order criada</h6>
                     </div>
                 </div>
 
@@ -116,9 +132,11 @@
 </main><!-- End #main -->
 
 
+<div th:replace="/admin/modal/modalGerarFatura :: modalGerarFatura" />
 <div th:replace="/fragments/footer :: footer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 <script th:src="@{/js/cadastrar.js}"></script>
+<script th:src="@{/js/fatura.js}"></script>
 </body>
 
 </html>

@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,6 +67,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order fecharOrder(Order order){
+        order.setDataSaida(LocalDateTime.now());
+        order.setStatusOrder(StatusOrder.FECHADO);
+        vagaService.reservarVaga(StatusVaga.LIVRE,order.getVagaHorario().getVaga());
+        vagaHorarioService.mudarStatusVagaHorario(StatusVaga.LIVRE,order.getVagaHorario());
+        long millis = Duration.between(order.getDataEntrada(), order.getDataSaida()).toMillis();
+        long minutos = TimeUnit.MILLISECONDS.toMinutes(millis);
+        order.setDuracao(minutos);
+        return orderRepository.save(order);
+    }
+
+    @Override
     public boolean usuarioPossuiOrderAbertaOuAndamento(Usuario usuario, Estacionamento estacionamento) {
         List<Order> order = orderRepository.findByUsuarioAndEstacionamento(usuario,estacionamento);
         List<Order> emAbertoOuEmAndamento = order.stream()
@@ -80,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
             return new Order();
         }
         Order reservaEmAberto = order.stream()
-                .filter(o->o.getStatusOrder().equals(StatusOrder.EM_ABERTO)).findFirst().get();
+                .filter(o->o.getStatusOrder().equals(StatusOrder.EM_ABERTO)).findFirst().orElse(new Order());
         return reservaEmAberto;
     }
 
@@ -102,6 +116,7 @@ public class OrderServiceImpl implements OrderService {
         Alocacao alocacao =  alocacaoService.retonaAlocacaoPorOrder(order);
         vagaService.reservarVaga(StatusVaga.OCUPADO,alocacao.getVaga());
         VagaHorario vagaHorario = order.getVagaHorario();
+        vagaHorario.setHoraChegada(LocalDateTime.now());
         vagaHorarioService.mudarStatusVagaHorario(StatusVaga.OCUPADO,vagaHorario);
         order.setDataEntrada(LocalDateTime.now());
         order.setStatusOrder(StatusOrder.ANDAMENTO);

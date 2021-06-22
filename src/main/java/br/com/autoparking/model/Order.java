@@ -35,7 +35,7 @@ public class Order {
     private LocalDateTime dataPrevistaSaida;
     private LocalDateTime dataEntrada;
     private LocalDateTime dataSaida;
-    private LocalDateTime duracao;
+    private long duracao;
     private LocalDateTime dataOrder;
     @Enumerated(EnumType.STRING)
     private StatusOrder statusOrder;

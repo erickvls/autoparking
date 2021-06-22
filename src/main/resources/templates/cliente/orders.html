@@ -79,12 +79,12 @@
                                 <th scope="row" th:text="${count.count}"></th>
                                 <td th:text="${order.estacionamento.nome}"></td>
                                 <td th:text="${#temporals.format(order.dataOrder, 'dd/MM/yyyy HH:mm')}"></td>
-                                <td th:text="${order.duracao}"></td>
+                                <td th:text="|${order.duracao} minutos|"></td>
                                 <td th:text="|${#temporals.format(order.dataPrevistaEntrada, 'dd/MM/yyyy HH:mm')} - ${#temporals.format(order.dataPrevistaSaida, 'dd/MM/yyyy HH:mm')}|"></td>
                                 <td>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).EM_ABERTO}" class="badge bg-warning text-dark">Em Aberto</span>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).ANDAMENTO}" class="badge bg-primary text-dark">Em Andamento</span>
-                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}" class="badge bg-success text-dark">Fechado</span>
+                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).EM_ABERTO}" class="badge bg-warning text-white">Em Aberto</span>
+                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).ANDAMENTO}" class="badge bg-primary text-white">Em Andamento</span>
+                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}" class="badge bg-success text-white">Fechado</span>
                                 </td>
                                 <td>
                                     <span th:if="${order.fatura !=null}">
