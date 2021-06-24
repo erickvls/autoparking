@@ -198,10 +198,20 @@ public class AdminController {
     @PostMapping("${autoparking.url.admin}/fatura/gerar")
     public String gerarFatura(@RequestParam("order") Order order,
                               @RequestParam(value="servicos", required = false)  Servico[] servicos,
-                              Authentication authentication){
-        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
-        faturaService.gerarFaturaPadrao(order,servicos);
-        return "";
+                              Authentication authentication,
+                              Model model){
+        Fatura fatura = faturaService.gerarFaturaPadrao(order,servicos);
+        model.addAttribute("fatura",fatura);
+        return "/admin/fatura/index";
+    }
+
+    @GetMapping("${autoparking.url.admin}/fatura/visualizar/{order}")
+    public String visualizarFatura(@PathVariable(value="order",required = false) Order order, Model model){
+        if(Objects.isNull(order) || Objects.isNull(order.getFatura())){
+            return "error";
+        }
+        model.addAttribute("fatura",order.getFatura());
+        return "/admin/fatura/index";
     }
 
 
