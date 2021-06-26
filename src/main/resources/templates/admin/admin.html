@@ -6,14 +6,14 @@
 <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/cards.css}" />
 <body>
 
+
+<section th:replace="/fragments/topbar :: topbar" />
+
 <!-- ======= Header ======= -->
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo">
-            <a href="index.html"><img th:src="@{/img/logotipo.png}"/>
-            </a>
-        </h1>
+        <h1 class="logo"><a href="/">AutoParking<span>.</span></a></h1>
 
         <head th:replace="/fragments/navbar :: navbar" />
 
@@ -29,7 +29,7 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Home - Administração</h2>
+                <h2>Painel administrativo</h2>
                 <ol>
                     <li>Administração</li>
                 </ol>
@@ -113,7 +113,6 @@
                                         <span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
                                     </li>
                                     <li>
-                                        Gerenciar estacionamento
                                         <a th:href="@{/admin/estacionamentos}" style="color: inherit;">
                                             Gerenciar estacionamento
                                             <span><i class="fa fa-cog" aria-hidden="true"></i></span></a>

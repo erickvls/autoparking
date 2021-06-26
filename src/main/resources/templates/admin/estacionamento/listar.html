@@ -30,29 +30,13 @@ $( document ).ready(function() {
 <body>
 
 <!-- ======= Top Bar ======= -->
-<section id="topbar" class="d-flex align-items-center">
-    <div class="container d-flex justify-content-center justify-content-md-between">
-        <div class="contact-info d-flex align-items-center">
-            <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com">contact@example.com</a></i>
-            <i class="bi bi-phone d-flex align-items-center ms-4"><span>+1 5589 55488 55</span></i>
-        </div>
-        <div class="social-links d-none d-md-flex align-items-center">
-            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
-        </div>
-    </div>
-</section>
+<section th:replace="/fragments/topbar :: topbar" />
 
 <!-- ======= Header ======= -->
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo">
-            <a href="index.html"><img th:src="@{/img/logotipo.png}"/>
-            </a>
-        </h1>
+        <h1 class="logo"><a href="index.html">AutoParking<span>.</span></a></h1>
 
         <head th:replace="/fragments/navbar :: navbar" />
 
@@ -68,11 +52,10 @@ $( document ).ready(function() {
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Cadastrar</h2>
+                <h2>Estacionamento</h2>
                 <ol>
-                    <li><a th:href="@{/}">Página inicial</a></li>
-                    <li><a th:href="@{/admin}">Admin</a></li>
-                    <li>Novo estacionamento</li>
+                    <li><a th:href="@{/admin}">Painel administrativo</a></li>
+                    <li>Meu Estacionamento</li>
                 </ol>
             </div>
 
@@ -103,9 +86,6 @@ $( document ).ready(function() {
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <div class="row">
-                                                <div class="col-md-12 lead">Estacionamento<hr></div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-md-7 pt-3">
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -114,7 +94,7 @@ $( document ).ready(function() {
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <span class="text-muted">Endereço:</span> <span th:text="|${estacionamento.endereco.rua} , ${estacionamento.endereco.rua}, ${estacionamento.endereco.cidade} - ${estacionamento.endereco.estado.descricao}|"></span><br>
+                                                            <span class="text-muted">Endereço:</span> <span th:text="|${estacionamento.endereco.rua}, ${estacionamento.endereco.cidade} - ${estacionamento.endereco.estado.descricao}|"></span><br>
                                                             <span class="text-muted">Horário:</span> <span th:text="|Aberto de ${estacionamento.horarioAbre} às ${estacionamento.horarioFecha}| "></span><br>
                                                             <span class="text-muted">Telefone:</span> <span th:text="${estacionamento.telefone}"></span><br>
                                                             <span class="text-muted">Capacidade:</span> <span th:text="|${estacionamento.quantidadeVagas} vagas|"></span><br><br>
@@ -124,49 +104,14 @@ $( document ).ready(function() {
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5 text-center">
-                                                    <div id="map" style="height: 200px;width: 100%;"></div>
+                                                    <div id="map" style="height: 300px;width: 100%;"></div>
                                                     <!-- Replace the value of the key parameter with your own API key. -->
                                                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4NhM0mExvi2mC70t_7WBlV3FK2j4uMzc">
                                                     </script>
                                                 </div>
 
                                             </div>
-                                            <div class="row">
-                                                <div class="row pt-3">
-                                                    <br>
-                                                    <h2 class="only-bottom-margin">Serviços</h2>
-                                                    <hr>
-                                                </div>
-                                                <div class="col-12" style="margin-top:-15px;" th:if="${estacionamento.servicos.size()>0}">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                        <tr>
-                                                            <th scope="col">#</th>
-                                                            <th scope="col">Tipo</th>
-                                                            <th scope="col">Descrição</th>
-                                                            <th scope="col">Valor</th>
-                                                            <th scope="col">#</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr th:each="servico,count : ${estacionamento.servicos}">
-                                                            <th scope="row" th:text="${count.count}"></th>
-                                                            <td th:text="${servico.tipoServico.name}"></td>
-                                                            <td th:text="${servico.descricao}"></td>
-                                                            <td th:text="${servico.valor}"></td>
-                                                            <td>Editar/Apagar</td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div th:unless="${estacionamento.servicos.size()>0}" class="d-flex justify-content-center pb-3">
-                                                    <h6>Você não possui nenhum serviço cadastrado para seu estacionamento.</h6>
-                                                </div>
-                                                <div th:class="${estacionamento.servicos.size()<1} ? 'd-flex justify-content-center' : 'float-end'">
-                                                     <a th:classappend="${estacionamento.servicos.size()<1} ? 'd-flex justify-content-center' : 'float-end'" data-bs-toggle="modal" class="btn btn-light" data-bs-target="#exampleModalXl"><i class="fas fa-plus"></i> &nbsp;Adicionar</a>
-                                                </div>
 
-                                            </div>
                                             <div class="row">
                                                 <div class="row pt-3">
                                                     <br>
@@ -193,7 +138,7 @@ $( document ).ready(function() {
                                                                     <img  width="90px" height="90px" th:src="@{/img/parking.png}"/>
                                                                     <h5 class="card-title pt-3">Vagas disponíveis</h5>
                                                                     <p class="card-text counter-count" th:text="${vagasDisponiveis}"></p>
-                                                                    <a href="#" data-bs-toggle="modal" th:if="${estacionamento.servicos.size()>0} and ${vagasDisponiveis>0} " class="btn btn-primary" data-bs-target="#modalAlocar">Alocar Vaga</a>
+                                                                    <a href="#" data-bs-toggle="modal" th:if="${estacionamento.servicos.size()>0} and ${vagasDisponiveis>0} " class="btn btn-dark" data-bs-target="#modalAlocar">Alocar Vaga</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -211,6 +156,44 @@ $( document ).ready(function() {
                                                     </div>
 
                                                 </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="row pt-3">
+                                                    <br>
+                                                    <h2 class="only-bottom-margin">Serviços</h2>
+                                                    <hr>
+                                                </div>
+                                                <div class="col-12" style="margin-top:-15px;" th:if="${estacionamento.servicos.size()>0}">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-sm">
+                                                            <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Tipo</th>
+                                                                <th scope="col">Descrição</th>
+                                                                <th scope="col">Valor</th>
+                                                                <th scope="col">#</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr th:each="servico,count : ${estacionamento.servicos}">
+                                                                <th scope="row" th:text="${count.count}"></th>
+                                                                <td th:text="${servico.tipoServico.name}"></td>
+                                                                <td th:text="${servico.descricao}"></td>
+                                                                <td th:text="${servico.valor}"></td>
+                                                                <td>Editar/Apagar</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div th:unless="${estacionamento.servicos.size()>0}" class="d-flex justify-content-center pb-3">
+                                                    <h6>Você não possui nenhum serviço cadastrado para seu estacionamento.</h6>
+                                                </div>
+                                                <div th:class="${estacionamento.servicos.size()<1} ? 'd-flex justify-content-center' : 'float-end'">
+                                                    <a th:classappend="${estacionamento.servicos.size()<1} ? 'd-flex justify-content-center' : 'float-end'" data-bs-toggle="modal" class="btn btn-dark" data-bs-target="#exampleModalXl"><i class="fas fa-plus"></i> &nbsp;Adicionar</a>
+                                                </div>
+
                                             </div>
                                             <hr>
                                         </div>

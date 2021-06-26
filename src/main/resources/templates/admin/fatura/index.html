@@ -6,29 +6,14 @@
 <body>
 
 <!-- ======= Top Bar ======= -->
-<section id="topbar" class="d-flex align-items-center">
-    <div class="container d-flex justify-content-center justify-content-md-between">
-        <div class="contact-info d-flex align-items-center">
-            <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com">contact@example.com</a></i>
-            <i class="bi bi-phone d-flex align-items-center ms-4"><span>+1 5589 55488 55</span></i>
-        </div>
-        <div class="social-links d-none d-md-flex align-items-center">
-            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
-        </div>
-    </div>
-</section>
+<section th:replace="/fragments/topbar :: topbar" />
 
 <!-- ======= Header ======= -->
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo">
-            <a href="index.html"><img th:src="@{/img/logotipo.png}"/>
-            </a>
-        </h1>
+        <h1 class="logo"><a href="/">AutoParking<span>.</span></a></h1>
+
 
         <head th:replace="/fragments/navbar :: navbar" />
 
@@ -46,7 +31,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Fatura</h2>
                 <ol>
-                    <li><a th:href="@{/admin}">Home</a></li>
+                    <li><a th:href="@{/admin}">Painel</a></li>
                     <li>Fatura</li>
                 </ol>
             </div>
@@ -75,20 +60,25 @@
                                                 </div>
                                             </div>
                                             <hr>
-                                            <div class="row">
-                                                <div class="col-md-7">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <span class="text-muted">Estacionamento:</span> <span th:text="${fatura.order.estacionamento.nome}"></span><br>
-                                                            <span class="text-muted">Endereço:</span> <span th:text="| ${fatura.order.estacionamento.endereco.rua}, ${fatura.order.estacionamento.endereco.cidade} - ${fatura.order.estacionamento.endereco.estado.descricao}|"></span><br>
-                                                            <span class="text-muted">Duração:</span> <span th:text="|${fatura.order.duracao} minutos| "></span><br>
-                                                            <span class="text-muted">Data da fatura:</span> <span th:text="${#dates.format(fatura.data, 'dd/MM/yyyy HH:mm')}"></span><br>
-                                                            <span class="text-muted">Cliente:</span> <span class="fw-bolder" th:text="${fatura.order.usuario.userName}"></span><br>
 
-                                                        </div>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-12 col-xs-12 col-md-6">
+                                                        <span class="text-muted">Estacionamento:</span> <span th:text="${fatura.order.estacionamento.nome}"></span><br>
+                                                        <span class="text-muted">Endereço:</span> <span th:text="| ${fatura.order.estacionamento.endereco.rua}, ${fatura.order.estacionamento.endereco.cidade} - ${fatura.order.estacionamento.endereco.estado.descricao}|"></span><br>
+                                                        <span class="text-muted">Cliente:</span> <span class="fw-bolder" th:text="${fatura.order.usuario.userName}"></span><br>
+                                                        <span class="text-muted">Vaga utilizada:</span> <span th:text="${fatura.order.vagaHorario.vaga.numero}"></span><br>
+                                                    </div>
+                                                    <div class="col-12 col-sm-12  col-md-3 offset-md-3 col-xs-12">
+                                                        <span class="text-muted">Entrada:</span> <span th:text="${#temporals.format(order.dataEntrada, 'dd/MM/yyyy HH:mm')}"></span><br>
+                                                        <span class="text-muted">Saída:</span> <span th:text="${#temporals.format(order.dataSaida, 'dd/MM/yyyy HH:mm')}"></span><br>
+                                                        <span class="text-muted">Duração:</span> <span th:text="|${fatura.order.duracao} minutos| "></span><br>
+                                                        <span class="text-muted">Data da fatura:</span> <span th:text="${#dates.format(fatura.data, 'dd/MM/yyyy HH:mm')}"></span><br>
                                                     </div>
                                                 </div>
-                                            </div>
+                                           </div>
+
+
 
                                             <div class="row pt-3">
                                                 <div>
@@ -118,7 +108,7 @@
 
                                             </div>
                                         </div>
-                                        <div id="print-button">
+                                        <div id="print-button" align="right">
                                             <button class="btn btn-dark font-weight-bold mt-2" onClick="printJS({ printable: 'print-area', type: 'html', targetStyles: ['*'], ignoreElements: ['print-button']})">
                                                 Imprimir
                                             </button>
