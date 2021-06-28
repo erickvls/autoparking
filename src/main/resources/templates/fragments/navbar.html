@@ -3,13 +3,13 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <nav th:fragment="navbar"  id="navbar" class="navbar">
     <ul>
-        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto active" href="#hero">Home</a></li>
-        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto" href="#about">About</a></li>
-        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto" href="#services">Services</a></li>
-        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
-        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto" href="#team">Team</a></li>
-
-
+        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto active" href="#hero">Página inicial</a></li>
+        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto" href="#about">Sobre nós</a></li>
+        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto" href="#services">Serviços</a></li>
+        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto" href="#faq">FAQ</a></li>
+        <li>|</li>
+        <li sec:authorize="!isAuthenticated()" class="text-center p-3"><a class="nav-link scrollto" th:href="@{/login}">Login</a></li>
+        <li sec:authorize="!isAuthenticated()" class="text-center p-3"><a class="nav-link scrollto" th:href="@{/cadastrar}">Registrar</a></li>
         <li sec:authorize="isAuthenticated()" class="text-center p-3">
                 Bem vindo <b><span sec:authentication="name">Username</span></b>
                 &nbsp;
@@ -34,7 +34,6 @@
                 </ul>
             </div>
         </li>
-        <li sec:authorize="!isAuthenticated()"><a class="nav-link scrollto" href="#contact">Contato</a></li>
     </ul>
     <i class="bi bi-list mobile-nav-toggle"></i>
 </nav>
