@@ -94,17 +94,25 @@ $( document ).ready(function() {
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <span class="text-muted">Endereço:</span> <span th:text="|${estacionamento.endereco.rua}, ${estacionamento.endereco.cidade} - ${estacionamento.endereco.estado.descricao}|"></span><br>
-                                                            <span class="text-muted">Horário:</span> <span th:text="|Aberto de ${estacionamento.horarioAbre} às ${estacionamento.horarioFecha}| "></span><br>
-                                                            <span class="text-muted">Telefone:</span> <span th:text="${estacionamento.telefone}"></span><br>
-                                                            <span class="text-muted">Capacidade:</span> <span th:text="|${estacionamento.quantidadeVagas} vagas|"></span><br><br>
+                                                            <div class="pb-1">
+                                                                <span class="text-muted">Endereço:</span> <span th:text="|${estacionamento.endereco.rua}, ${estacionamento.endereco.cidade} - ${estacionamento.endereco.estado.descricao}|"></span><br>
+                                                            </div>
+                                                            <div class="pb-1">
+                                                                <span class="text-muted">Horário:</span> <span th:text="|Aberto de ${estacionamento.horarioAbre} às ${estacionamento.horarioFecha}| "></span><br>
+                                                            </div>
+                                                            <div class="pb-1">
+                                                                <span class="text-muted">Telefone:</span> <span th:text="${estacionamento.telefone}"></span><br>
+                                                            </div>
+                                                            <div class="pb-1">
+                                                                <span class="text-muted">Capacidade:</span> <span th:text="|${estacionamento.quantidadeVagas} vagas|"></span><br><br>
+                                                            </div>
                                                             <input type="hidden" id="eixoX" th:value="*{estacionamento.eixoX}"/>
                                                             <input type="hidden" id="eixoY" th:value="*{estacionamento.eixoY}"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5 text-center">
-                                                    <div id="map" style="height: 300px;width: 100%;"></div>
+                                                    <div id="map" style="height: 300px;width: 100%;" class="shadow p-3 mb-5 bg-white rounded"></div>
                                                     <!-- Replace the value of the key parameter with your own API key. -->
                                                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4NhM0mExvi2mC70t_7WBlV3FK2j4uMzc">
                                                     </script>

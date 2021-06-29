@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="/fragments/head :: head(pageTitle='AutoParking - Gerenciar estacionamento')" />
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/estatistica.css}" />
+
+<body>
+
+<!-- ======= Top Bar ======= -->
+<section th:replace="/fragments/topbar :: topbar" />
+
+<!-- ======= Header ======= -->
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <h1 class="logo"><a href="index.html">AutoParking<span>.</span></a></h1>
+
+        <head th:replace="/fragments/navbar :: navbar" />
+
+    </div>
+</header>
+<!-- End Header -->
+
+
+<main id="main" data-aos="fade-up">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Estacionamento</h2>
+                <ol>
+                    <li><a th:href="@{/admin}">Painel administrativo</a></li>
+                    <li>Meu Estacionamento</li>
+                </ol>
+            </div>
+
+        </div>
+    </section><!-- Breadcrumbs Section -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+        <div class="container">
+
+            <div th:if="${mensagemSucesso}" class="m-2 alert alert-success alert-dismissible fade show" role="alert">
+                <span th:utext="${mensagemSucesso}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div th:if="${mensagemError}" class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:utext="${mensagemError}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="row m-2 no-gutters shadow-lg">
+                <div class="col-md-12 bg-white p-3 col-12">
+                    <div class="container">
+
+                        <div class="row">
+                            <div>
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="p-3">
+                                                    <h3>Estatísticas</h3>
+                                                </div>
+                                                <br><br>
+                                                <div class="content-area">
+
+                                                    <div class="main">
+                                                        <div class="row sparkboxes mt-4 mb-4">
+                                                            <div class="col-md-4">
+                                                                <div class="box box1">
+                                                                    <div id="spark1"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="box box2">
+                                                                    <div id="spark2"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="box box3">
+                                                                    <div id="spark3"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div id="receita-mensal" class="col-4" style="height: 420px">
+                                                    <div class="section-fluid-main">
+                                                        <div class="section-row">
+                                                            <div class="section-col-2">
+                                                                <div class="section">
+                                                                    <p class="color-blue">Seu saldo atual</p>
+                                                                    <h3 style="color: black;"><span class="font-weight-500">R$</span> 4,376.00</h3>
+                                                                </div>
+                                                            </div>
+
+                                                            <input class="date-btn" type="radio" id="date-1" name="date-btn" checked/>
+                                                            <label for="date-1"><span>30 dias</span></label>
+                                                            <input class="date-btn" type="radio" id="date-2" name="date-btn"/>
+                                                            <label for="date-2"><span>90 dias</span></label>
+                                                            <input class="date-btn" type="radio" id="date-3" name="date-btn"/>
+                                                            <label for="date-3"><span>180 dias</span></label>
+                                                            <input class="date-btn" type="radio" id="date-4" name="date-btn"/>
+                                                            <label for="date-4"><span>365 dias</span></label>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <div id="bar-chart" class="col-8" style="height: 420px"></div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Portfolio Details Section -->
+
+</main><!-- End #main -->
+
+
+<div th:replace="/fragments/footer :: footer" />
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script>
+<script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-8216c69d01441f36c0ea791ae2d4469f0f8ff5326f00ae2d00e4bb7d20e24edb.js"></script>
+<script id="rendered-js" th:src="@{/js/top-cartao.js}"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script th:src="@{/js/grafico.js}"></script>
+
+</body>
+
+</html>
