@@ -20,4 +20,6 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
     List<Order> findByEstacionamentoAndStatusOrderIsEmAbertoOrEmAndamento(@Param("estacionamento") Estacionamento estacionamento);
 
     List<Order> findByUsuario(Usuario usuario);
+
+    List<Order> findByEstacionamentoAndStatusOrder(Estacionamento estacionamento,StatusOrder statusOrder);
 }

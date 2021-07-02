@@ -17,5 +17,6 @@ public interface OrderService {
     Order usuarioPossuiReserva(Usuario usuario,Estacionamento estacionamento);
     Order mudarStatusOrdemComDataEntrada(Order order);
     Order criarOrderPeloAdmin(Estacionamento estacionamento,Usuario usuario,LocalDateTime dataPrevistaSaida,VagaHorario vagaHorario);
-     Order fecharOrder(Order order);
+    Order fecharOrder(Order order);
+    List<Order> mostrarOrderFechadaPorEstacionamento(Estacionamento estacionamento);
 }

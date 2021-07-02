@@ -123,4 +123,8 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
+    @Override
+    public List<Order> mostrarOrderFechadaPorEstacionamento(Estacionamento estacionamento) {
+        return orderRepository.findByEstacionamentoAndStatusOrder(estacionamento,StatusOrder.FECHADO);
+    }
 }

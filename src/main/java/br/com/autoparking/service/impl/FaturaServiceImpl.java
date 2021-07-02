@@ -57,8 +57,7 @@ public class FaturaServiceImpl implements FaturaService {
     }
 
 
-
-    private Set<FaturaServicos> adicionaServicos(Fatura fatura,Servico[] servicos,Order order){
+    private Set<FaturaServicos> adicionaServicos(Fatura fatura, Servico[] servicos, Order order){
 
         Set<FaturaServicos> faturaServicos = new HashSet<>();
         if(!Objects.isNull(servicos)) {
