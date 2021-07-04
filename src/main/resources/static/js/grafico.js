@@ -1,208 +1,122 @@
-google.load("visualization", "1", {packages:["corechart"]});
-google.setOnLoadCallback(drawCharts);
-function drawCharts() {
+$(document).ready(function() {
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawCharts);
+        function drawCharts() {
+          // actual bar chart data
+          var barData = google.visualization.arrayToDataTable([
+            ['Dia', 'Faturas geradas', 'Receita'],
+            ['Seg',  1050,      600],
+            ['Ter',  1370,      910],
+            ['Qua',  660,       400],
+            ['Qui',  1030,      540],
+            ['Sex',  1000,      480],
+            ['Sáb',  1170,      960],
+            ['Dom',  660,       320]
+          ]);
+          // set bar chart options
+          var barOptions = {
+            focusTarget: 'category',
+            backgroundColor: 'transparent',
+            colors: ['cornflowerblue', 'tomato'],
+            fontName: 'Open Sans',
+            chartArea: {
+              left: 50,
+              top: 10,
+              width: '100%',
+              height: '70%'
+            },
+            bar: {
+              groupWidth: '80%'
+            },
+            hAxis: {
+              textStyle: {
+                fontSize: 11
+              }
+            },
+            vAxis: {
+              minValue: 0,
+              maxValue: 1500,
+              baselineColor: '#DDD',
+              gridlines: {
+                color: '#DDD',
+                count: 4
+              },
+              textStyle: {
+                fontSize: 11
+              }
+            },
+            legend: {
+              position: 'bottom',
+              textStyle: {
+                fontSize: 12
+              }
+            },
+            animation: {
+              duration: 1200,
+              easing: 'out',
+                    startup: true
+            }
+          };
+          // draw bar chart twice so it animates
+          var barChart = new google.visualization.ColumnChart(document.getElementById('bar-chart'));
+          //barChart.draw(barZeroData, barOptions);
+          barChart.draw(barData, barOptions);
 
-  // BEGIN BAR CHART
-  /*
-  // create zero data so the bars will 'grow'
-  var barZeroData = google.visualization.arrayToDataTable([
-    ['Day', 'Faturas geradas', 'Receita'],
-    ['Sun',  0,      0],
-    ['Mon',  0,      0],
-    ['Tue',  0,      0],
-    ['Wed',  0,      0],
-    ['Thu',  0,      0],
-    ['Fri',  0,      0],
-    ['Sat',  0,      0]
-  ]);
-	*/
-  // actual bar chart data
-  var barData = google.visualization.arrayToDataTable([
-    ['Day', 'Faturas geradas', 'Receita'],
-    ['Seg',  1050,      600],
-    ['Ter',  1370,      910],
-    ['Qua',  660,       400],
-    ['Qui',  1030,      540],
-    ['Sex',  1000,      480],
-    ['Sáb',  1170,      960],
-    ['Dom',  660,       320]
-  ]);
-  // set bar chart options
-  var barOptions = {
-    focusTarget: 'category',
-    backgroundColor: 'transparent',
-    colors: ['cornflowerblue', 'tomato'],
-    fontName: 'Open Sans',
-    chartArea: {
-      left: 50,
-      top: 10,
-      width: '100%',
-      height: '70%'
-    },
-    bar: {
-      groupWidth: '80%'
-    },
-    hAxis: {
-      textStyle: {
-        fontSize: 11
-      }
-    },
-    vAxis: {
-      minValue: 0,
-      maxValue: 1500,
-      baselineColor: '#DDD',
-      gridlines: {
-        color: '#DDD',
-        count: 4
-      },
-      textStyle: {
-        fontSize: 11
-      }
-    },
-    legend: {
-      position: 'bottom',
-      textStyle: {
-        fontSize: 12
-      }
-    },
-    animation: {
-      duration: 1200,
-      easing: 'out',
-			startup: true
-    }
-  };
-  // draw bar chart twice so it animates
-  var barChart = new google.visualization.ColumnChart(document.getElementById('bar-chart'));
-  //barChart.draw(barZeroData, barOptions);
-  barChart.draw(barData, barOptions);
+        }
+        todaydate = new Date();
 
-  // BEGIN LINE GRAPH
+          //find the year of the current date
+        var oneJan =  new Date(todaydate.getFullYear(), 0, 1);
 
-  function randomNumber(base, step) {
-    return Math.floor((Math.random()*step)+base);
-  }
-  function createData(year, start1, start2, step, offset) {
-    var ar = [];
-    for (var i = 0; i < 12; i++) {
-      ar.push([new Date(year, i), randomNumber(start1, step)+offset, randomNumber(start2, step)+offset]);
-    }
-    return ar;
-  }
-  var randomLineData = [
-    ['Year', 'Page Views', 'Unique Views']
-  ];
-  for (var x = 0; x < 7; x++) {
-    var newYear = createData(2007+x, 10000, 5000, 4000, 800*Math.pow(x,2));
-    for (var n = 0; n < 12; n++) {
-      randomLineData.push(newYear.shift());
-    }
-  }
-  var lineData = google.visualization.arrayToDataTable(randomLineData);
+           // calculating number of days in given year before a given date
+        var numberOfDays =  Math.floor((todaydate - oneJan) / (24 * 60 * 60 * 1000));
 
-	/*
-  var animLineData = [
-    ['Year', 'Faturas geradas', 'Receita']
-  ];
-  for (var x = 0; x < 7; x++) {
-    var zeroYear = createData(2007+x, 0, 0, 0, 0);
-    for (var n = 0; n < 12; n++) {
-      animLineData.push(zeroYear.shift());
-    }
-  }
-  var zeroLineData = google.visualization.arrayToDataTable(animLineData);
-	*/
+           // adding 1 since to current date and returns value starting from 0
+        var result = Math.ceil(( todaydate.getDay() + 1 + numberOfDays) / 7);
 
-  var lineOptions = {
-    backgroundColor: 'transparent',
-    colors: ['cornflowerblue', 'tomato'],
-    fontName: 'Open Sans',
-    focusTarget: 'category',
-    chartArea: {
-      left: 50,
-      top: 10,
-      width: '100%',
-      height: '70%'
-    },
-    hAxis: {
-      //showTextEvery: 12,
-      textStyle: {
-        fontSize: 11
-      },
-      baselineColor: 'transparent',
-      gridlines: {
-        color: 'transparent'
-      }
-    },
-    vAxis: {
-      minValue: 0,
-      maxValue: 50000,
-      baselineColor: '#DDD',
-      gridlines: {
-        color: '#DDD',
-        count: 4
-      },
-      textStyle: {
-        fontSize: 11
-      }
-    },
-    legend: {
-      position: 'bottom',
-      textStyle: {
-        fontSize: 12
-      }
-    },
-    animation: {
-      duration: 1200,
-      easing: 'out',
-			startup: true
-    }
-  };
+        var weekControl = document.querySelector('input[type="week"]');
+        weekControl.value = '2021-W'+result;
 
-  var lineChart = new google.visualization.LineChart(document.getElementById('line-chart'));
-  //lineChart.draw(zeroLineData, lineOptions);
-  lineChart.draw(lineData, lineOptions);
 
-  // BEGIN PIE CHART
+        $(".botao-semana").on("change", function(e) {
+          let week = document.querySelector('#week');
+            let dates = parseDates(week.value);
+            console.log(dates);
+            var url = '/admin/estatisticas/semanal';
+            $.ajax({
+                         url : url,
+                         type : "POST",
+                         data : {
+                                   dataFrom : dates[0],
+                                   dataTo: dates[6]
+                          },
+                         beforeSend : function(){
 
-  // pie chart data
-  var pieData = google.visualization.arrayToDataTable([
-    ['Country', 'Page Hits'],
-    ['USA',      7242],
-    ['Canada',   4563],
-    ['Mexico',   1345],
-    ['Sweden',    946],
-    ['Germany',  2150]
-  ]);
-  // pie chart options
-  var pieOptions = {
-    backgroundColor: 'transparent',
-    pieHole: 0.4,
-    colors: [ "cornflowerblue",
-              "olivedrab",
-              "orange",
-              "tomato",
-              "crimson",
-              "purple",
-              "turquoise",
-              "forestgreen",
-              "navy",
-              "gray"],
-    pieSliceText: 'value',
-    tooltip: {
-      text: 'percentage'
-    },
-    fontName: 'Open Sans',
-    chartArea: {
-      width: '100%',
-      height: '94%'
-    },
-    legend: {
-      textStyle: {
-        fontSize: 13
-      }
-    }
-  };
-  // draw pie chart
-  var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart'));
-  pieChart.draw(pieData, pieOptions);
-}
+                         }
+                    })
+                    .done(function(msg){
+                        $("#asd").html(msg);
+
+                    })
+                    .fail(function(jqXHR, textStatus, msg){
+                         alert("Falha na requisição");
+                    });
+        });
+
+        let parseDates = (inp) => {
+          let year = parseInt(inp.slice(0,4), 10);
+          let week = parseInt(inp.slice(6), 10);
+
+          let day = (1 + (week - 1) * 7) + 7; // 1st of January + 7 days for each week
+
+          let dayOffset = new Date(year, 0, 1).getDay() -1; // we need to know at what day of the week the year start
+
+          dayOffset--;  // depending on what day you want the week to start increment or decrement this value. This should make the week start on a monday
+
+          let days = [];
+          for (let i = 0; i < 7; i++) // do this 7 times, once for every day
+            days.push(new Date(year, 0, day - dayOffset + i).toISOString()); // add a new Date object to the array with an offset of i days relative to the first day of the week
+          return days;
+        }
+});
+

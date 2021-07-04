@@ -1,6 +1,7 @@
 package br.com.autoparking.service.impl;
 
 import br.com.autoparking.model.Estacionamento;
+import br.com.autoparking.model.Fatura;
 import br.com.autoparking.model.Order;
 import br.com.autoparking.model.Usuario;
 import br.com.autoparking.service.FaturaService;
@@ -25,15 +26,28 @@ public class EstatisticaServiceImpl {
     private OrderService orderService;
 
 
-    public BigDecimal mostrarSaldo(String data, Usuario usuario){
+
+    public BigDecimal mostrarSaldo(String opcao, Usuario usuario){
         Estacionamento estacionamento = usuario.getEstacionamentos().stream().findFirst().orElse(null);
         LocalDateTime dataTo = LocalDateTime.now();
-        LocalDateTime dataFrom = dataSelecionada(data);
+        LocalDateTime dataFrom = opcaoSelecionada(opcao);
         List<Order> orderList = orderService.mostrarOrderFechadaPorEstacionamento(estacionamento);
         return orderList.stream()
                 .filter(valor-> valor.getDataOrder().isBefore(dataTo) && valor.getDataOrder().isAfter(dataFrom))
                 .map(v->v.getFatura().getTotal())
                 .reduce(BigDecimal.ZERO,BigDecimal::add);
+
+    }
+
+    public List<Fatura> estatisticaSemanal(String dataFrom, String dataTo, Usuario usuario){
+        Estacionamento estacionamento = usuario.getEstacionamentos().stream().findFirst().orElse(null);
+        LocalDateTime dataFromLocal = converterDataString(dataFrom);
+        LocalDateTime dataToLocal = converterDataString(dataTo);
+
+        return orderService.mostrarOrderFechadaPorEstacionamento(estacionamento).stream()
+                .filter(valor-> valor.getDataOrder().isBefore(dataToLocal) && valor.getDataOrder().isAfter(dataFromLocal))
+                .map(Order::getFatura).collect(Collectors.toList());
+
 
     }
 
@@ -50,7 +64,7 @@ public class EstatisticaServiceImpl {
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 
-    private LocalDateTime dataSelecionada(String data){
+    private LocalDateTime opcaoSelecionada(String data){
         LocalDateTime dataHoje = LocalDateTime.now();
         LocalDateTime dataSolicitada;
         switch (data) {

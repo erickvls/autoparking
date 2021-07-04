@@ -1,5 +1,6 @@
 package br.com.autoparking.controller;
 
+import br.com.autoparking.model.Fatura;
 import br.com.autoparking.model.Usuario;
 import br.com.autoparking.model.dto.EstacionamentoForm;
 import br.com.autoparking.service.impl.EstatisticaServiceImpl;
@@ -22,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class EstatisticaController {
@@ -38,6 +40,17 @@ public class EstatisticaController {
     public @ResponseBody String mostrarSaldo(@RequestParam("data") String data, HttpSession session){
         Usuario usuario = (Usuario) session.getAttribute("user");
         return estatisticaService.mostrarSaldo(data,usuario).toString();
+    }
+
+    @PostMapping("${autoparking.url.admin}/estatisticas/semanal")
+    public @ResponseBody List<Fatura> mostrarSaldo(
+            @RequestParam("dataFrom") String dataFrom,
+            @RequestParam("dataTo") String dataTo,
+            HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("user");
+        List<Fatura> faturaList = estatisticaService.estatisticaSemanal(dataFrom,dataTo,usuario);
+        return faturaList;
     }
 
 
