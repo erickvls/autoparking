@@ -41,7 +41,7 @@ public class FaturaServiceImpl implements FaturaService {
     @Override
     public Fatura gerarFaturaPadrao(Order order, Servico [] servicosArray) {
 
-        Fatura fat = Fatura.builder().data(new Date())
+        Fatura fat = Fatura.builder().data(LocalDateTime.now())
                 .order(order)
                 .total(new BigDecimal(0))
                 .build();

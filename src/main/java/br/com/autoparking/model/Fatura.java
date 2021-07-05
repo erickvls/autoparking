@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Set;
 
@@ -18,7 +20,7 @@ public class Fatura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private Date data;
+    private LocalDateTime data;
     private BigDecimal total;
 
     @EqualsAndHashCode.Exclude @ToString.Exclude
@@ -28,6 +30,5 @@ public class Fatura {
     @EqualsAndHashCode.Exclude @ToString.Exclude
     @OneToOne(mappedBy = "fatura")
     private Order order;
-
 
 }

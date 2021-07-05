@@ -2,7 +2,7 @@ package br.com.autoparking.controller;
 
 import br.com.autoparking.model.Fatura;
 import br.com.autoparking.model.Usuario;
-import br.com.autoparking.model.dto.EstacionamentoForm;
+import br.com.autoparking.model.dto.FaturaDTO;
 import br.com.autoparking.service.impl.EstatisticaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,14 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.Data;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -43,14 +38,13 @@ public class EstatisticaController {
     }
 
     @PostMapping("${autoparking.url.admin}/estatisticas/semanal")
-    public @ResponseBody List<Fatura> mostrarSaldo(
+    public @ResponseBody List<FaturaDTO> mostrarSaldo(
             @RequestParam("dataFrom") String dataFrom,
             @RequestParam("dataTo") String dataTo,
             HttpSession session){
 
         Usuario usuario = (Usuario) session.getAttribute("user");
-        List<Fatura> faturaList = estatisticaService.estatisticaSemanal(dataFrom,dataTo,usuario);
-        return faturaList;
+        return estatisticaService.estatisticaSemanal(dataFrom,dataTo,usuario);
     }
 
 

@@ -4,6 +4,7 @@ import br.com.autoparking.model.Estacionamento;
 import br.com.autoparking.model.Fatura;
 import br.com.autoparking.model.Order;
 import br.com.autoparking.model.Usuario;
+import br.com.autoparking.model.dto.FaturaDTO;
 import br.com.autoparking.service.FaturaService;
 import br.com.autoparking.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,16 +39,28 @@ public class EstatisticaServiceImpl {
 
     }
 
-    public List<Fatura> estatisticaSemanal(String dataFrom, String dataTo, Usuario usuario){
+    public List<FaturaDTO> estatisticaSemanal(String dataFrom, String dataTo, Usuario usuario){
         Estacionamento estacionamento = usuario.getEstacionamentos().stream().findFirst().orElse(null);
         LocalDateTime dataFromLocal = converterDataString(dataFrom);
         LocalDateTime dataToLocal = converterDataString(dataTo);
 
-        return orderService.mostrarOrderFechadaPorEstacionamento(estacionamento).stream()
-                .filter(valor-> valor.getDataOrder().isBefore(dataToLocal) && valor.getDataOrder().isAfter(dataFromLocal))
-                .map(Order::getFatura).collect(Collectors.toList());
+        Map<Integer,List<Fatura>> faturaPorDia =  orderService.mostrarOrderFechadaPorEstacionamento(estacionamento).stream()
+                .filter(valor -> valor.getDataOrder().isBefore(dataToLocal) && valor.getDataOrder().isAfter(dataFromLocal))
+                .map(Order::getFatura).sorted(Comparator.comparing((Fatura fat) -> fat.getData().toLocalDate())
+                        .reversed()
+                        .reversed()
+                        .thenComparing(Comparator.comparing((Fatura fat) -> fat.getData().toLocalTime())))
+                .collect(Collectors.groupingBy(f->f.getData().getDayOfMonth()));
 
 
+        List<FaturaDTO> faturaDTOList = new ArrayList<>();
+        for (Map.Entry<Integer,List<Fatura>> map : faturaPorDia.entrySet()) {
+            BigDecimal total = map.getValue().stream().map(Fatura::getTotal).reduce(BigDecimal.ZERO,BigDecimal::add);
+            int qtdfaturaPorDia = map.getValue().size();
+            faturaDTOList.add(FaturaDTO.builder().dia(map.getKey()).total(total).faturaPorDia(qtdfaturaPorDia).build());
+        }
+
+        return faturaDTOList;
     }
 
 
