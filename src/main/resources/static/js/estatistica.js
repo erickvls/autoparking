@@ -28,4 +28,9 @@ function requisitarAjax(url,metodo,data){
        var dias = this.id;
       requisitarAjax(url,'POST',dias);
     });
+
+     var url = '/admin/estatisticas/saldoloja';
+        requisitarAjax(url,'POST','90_DIAS');
+
+
 });

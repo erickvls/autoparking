@@ -184,12 +184,16 @@ $( document ).ready(function() {
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr th:each="servico,count : ${estacionamento.servicos}">
+                                                            <tr th:each="servico,count : ${estacionamento.servicos}" th:if="${servico.excluido == false}">
                                                                 <th scope="row" th:text="${count.count}"></th>
                                                                 <td th:text="${servico.tipoServico.name}"></td>
                                                                 <td th:text="${servico.descricao}"></td>
                                                                 <td th:text="${servico.valor}"></td>
-                                                                <td>Editar/Apagar</td>
+                                                                <td>
+                                                                    <a href="#" style="color:#8B0000" data-bs-target="#confirmarExclusaoModal" data-bs-toggle="modal"
+                                                                       th:attr="data-servico=${servico.id},data-descricao=${servico.descricao}"
+                                                                       title="Excluir" data-placement="top" rel="tooltip"><i class="fa fa-trash"></i></a>
+                                                                </td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
@@ -217,6 +221,30 @@ $( document ).ready(function() {
     </section><!-- End Portfolio Details Section -->
 
 </main><!-- End #main -->
+<div class="modal fade" tabindex="-1" role="dialog" id="confirmarExclusaoModal" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <form th:attr="data-url-base='/admin/servicos/excluir'" method="POST">
+            <input type="hidden" name="_method" value="DELETE"/>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h4" id="exampleModalXlLabel">Excluir</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="form-style">
+                    <div class="modal-body">
+                        <p></p>
+                    </div>
+                    <div style="float:right" class="p-4">
+                        <input class="btn btn-secondary" type="reset" data-bs-dismiss="modal" value="Cancelar">
+                        <button class="btn btn-primary" type="submit" value="Adicionar">Excluir</button>
+                        <input type="hidden" name="servico" id="servico"/>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </form>
+    </div><!-- /.modal-dialog -->
+
+</div>
 <div th:each="estacionamento : ${estacionamentos}">
     <div th:replace="/admin/modal/modalCadastrarServico :: modalCadastrarServico(estacionamento=${estacionamento.id})" />
 </div>
@@ -253,6 +281,21 @@ function setCaretToPos(input, pos) {
 $(".mascara").maskMoney({
  decimal: ".",
  thousands: "."
+});
+
+ $(document).on('show.bs.modal', '#confirmarExclusaoModal', function (event){
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var codigoServico = button.data('servico'); // Extract info from data-* attributes
+  var descricao  = button.data('descricao');
+  var modal = $(this);
+  var form = modal.find('form');
+  var action = form.data('url-base');
+  if(!action.endsWith('/')){
+	  action +='/';
+  }
+  form.attr('action', action);
+  $("#servico").attr("value",codigoServico);
+  modal.find('.modal-body p').html('Tem certeza que deseja excluir <strong>'+ descricao + '</strong>');
 });
 
 

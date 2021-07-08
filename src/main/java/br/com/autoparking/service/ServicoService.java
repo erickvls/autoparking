@@ -8,4 +8,5 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public interface ServicoService {
     String salvar(ServicoFormDTO servico, RedirectAttributes redirectAttributes);
     Servico verificaExisteServico(ServicoFormDTO servicoFormDTO);
+    void excluirServico(Servico servico);
 }

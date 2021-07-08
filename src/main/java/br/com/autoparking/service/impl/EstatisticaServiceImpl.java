@@ -5,6 +5,7 @@ import br.com.autoparking.model.Fatura;
 import br.com.autoparking.model.Order;
 import br.com.autoparking.model.Usuario;
 import br.com.autoparking.model.dto.FaturaDTO;
+import br.com.autoparking.model.enums.TipoServico;
 import br.com.autoparking.service.FaturaService;
 import br.com.autoparking.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class EstatisticaServiceImpl {
         LocalDateTime dataTo = LocalDateTime.now();
         LocalDateTime dataFrom = opcaoSelecionada(opcao);
         List<Order> orderList = orderService.mostrarOrderFechadaPorEstacionamento(estacionamento);
+
         return orderList.stream()
                 .filter(valor-> valor.getDataOrder().isBefore(dataTo) && valor.getDataOrder().isAfter(dataFrom))
                 .map(v->v.getFatura().getTotal())
@@ -96,4 +98,7 @@ public class EstatisticaServiceImpl {
         }
         return dataSolicitada;
     }
+
+
+
 }

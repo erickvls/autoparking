@@ -3,7 +3,37 @@
 
 <head th:replace="/fragments/head :: head(pageTitle='AutoParking - Gerenciar estacionamento')" />
 <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/estatistica.css}" />
+<link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,600;1,200;1,400;1,600&display=swap"
+        rel="stylesheet">
+<style type="text/css">
 
+
+
+.social-link {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    border-radius: 50%;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.social-link:hover, .social-link:focus {
+    background: #ddd;
+    text-decoration: none;
+    color: #555;
+}
+
+.progress {
+    height: 10px;
+}
+
+</style>
 <body>
 
 <!-- ======= Top Bar ======= -->
@@ -63,72 +93,82 @@
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <div class="row">
-                                                <div class="p-3">
-                                                    <h3>Estatísticas</h3>
-                                                </div>
-                                                <br><br>
-                                                <div class="content-area">
 
-                                                    <div class="main">
-                                                        <div class="row sparkboxes mt-4 mb-4">
-                                                            <div class="col-md-4">
-                                                                <div class="box box1">
-                                                                    <div id="spark1"></div>
+                                                <div class="row pb-3 pt-4">
+                                                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                                                        <!-- Card-->
+                                                        <div class="card rounded shadow-sm border-0">
+                                                            <div class="card-body p-5" style="height: 250px;"><i class="fas fa-users fa-2x mb-3 text-primary"></i>
+                                                                <h5><span>3 </span>Usuários</h5>
+                                                                <p class="small text-muted font-italic">Novos usuários no mês corrente.</p>
+                                                                <div class="progress rounded-pill">
+                                                                    <div role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;" class="progress-bar rounded-pill"></div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="box box2">
-                                                                    <div id="spark2"></div>
+                                                                <div class="pt-3">
+                                                                    <div class="float-start">
+                                                                        <i class="fas fa-arrow-left"></i>
+                                                                    </div>
+                                                                    <div class="float-end">
+                                                                        <i class="fas fa-arrow-right"></i>
+                                                                    </div>
                                                                 </div>
+
                                                             </div>
-                                                            <div class="col-md-4">
-                                                                <div class="box box3">
-                                                                    <div id="spark3"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                                                        <!-- Card -->
+                                                        <div class="card rounded shadow-sm border-0">
+                                                            <div class="card-body p-5" style="height: 250px;"><i class="fa fa-tasks fa-2x mb-3 text-success"></i>
+                                                                <h5>Completed Tasks</h5>
+                                                                <p class="small text-muted font-italic">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                                <div class="progress rounded-pill">
+                                                                    <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;" class="progress-bar bg-success rounded-pill"></div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                                                        <!-- Card -->
+                                                        <div class="card rounded shadow-sm border-0">
+                                                            <div class="card-body p-5" style="height: 250px;"><i class="fas fa-hand-holding-usd fa-2x mb-3 text-warning"></i>
+                                                                <h5>Seu saldo: <span>R$ </span><span id="valor"></span></h5>
+                                                                <p class="small text-muted font-italic">Saldo do seu estacionamento no período selecionado.</p>
+
+                                                                <div style="cursor:pointer;" align="center">
+                                                                    <small id="30_DIAS" class="mudarValor">30 Dias |</small><small  id="90_DIAS" class="mudarValor"> 90 Dias |</small><small id="180_DIAS" class="mudarValor"> 180 Dias |</small><small  id="365_DIAS" class="mudarValor"> 365 Dias</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
 
                                                 </div>
 
                                             </div>
+                                            <hr>
                                             <div class="row">
-                                                <div id="receita-mensal" class="col-md-4 col-xs-12" style="height: 420px">
-                                                    <div class="section-fluid-main">
-                                                        <div class="section-row">
-                                                            <div class="section-col-2">
-                                                                <div class="section">
-                                                                    <p class="color-blue">Seu saldo atual</p>
-                                                                    <h3 style="color: black;"><span class="font-weight-500">R$</span> <span id="valor"></span></h3>
-                                                                </div>
-                                                            </div>
-
-                                                            <input class="date-btn" type="radio" id="date-1" name="date-btn" checked/>
-                                                            <label for="date-1"><span id="30_DIAS" class="mudarValor">30 dias</span></label>
-                                                            <input class="date-btn" type="radio" id="date-2" name="date-btn"/>
-                                                            <label for="date-2"><span id="90_DIAS" class="mudarValor">90 dias</span></label>
-                                                            <input class="date-btn" type="radio" id="date-3" name="date-btn"/>
-                                                            <label for="date-3"><span id="180_DIAS" class="mudarValor">180 dias</span></label>
-                                                            <input class="date-btn" type="radio" id="date-4" name="date-btn"/>
-                                                            <label for="date-4"><span id="365_DIAS" class="mudarValor">365 dias</span></label>
-
-                                                        </div>
-
-
+                                                <div class="col-md-6 col-xs-12">
+                                                    <h5>Estatística semanal</h5>
+                                                </div>
+                                                <div class="col-md-6 col-xs-12">
+                                                    <div style="width:45%;float:right;" class="pb-3">
+                                                        <input class="form-control datetimepicker-input botao-semana" id="week" type="week">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-8 col-xs-12">
-                                                    <div class="row">
-                                                        <div style="width:30%;float:right;" class="pb-3">
-                                                            <input class="form-control datetimepicker-input botao-semana" id="week" type="week">
-                                                        </div>
-                                                    </div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-12 col-xs-12">
                                                     <div class="row">
                                                     <div id="bar-chart" style="height: 420px"></div>
 
                                                     </div>
                                                 </div>
                                             </div>
+
 
                                         </div>
                                     </div>

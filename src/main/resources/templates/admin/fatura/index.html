@@ -61,22 +61,23 @@
                                             </div>
                                             <hr>
 
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="col-12 col-sm-12 col-xs-12 col-md-6">
+                                            <div class="row">
+                                                    <div class="col-12 col-sm-12">
                                                         <span class="text-muted">Estacionamento:</span> <span th:text="${fatura.order.estacionamento.nome}"></span><br>
                                                         <span class="text-muted">Endereço:</span> <span th:text="| ${fatura.order.estacionamento.endereco.rua}, ${fatura.order.estacionamento.endereco.cidade} - ${fatura.order.estacionamento.endereco.estado.descricao}|"></span><br>
                                                         <span class="text-muted">Cliente:</span> <span class="fw-bolder" th:text="${fatura.order.usuario.userName}"></span><br>
                                                         <span class="text-muted">Vaga utilizada:</span> <span th:text="${fatura.order.vagaHorario.vaga.numero}"></span><br>
                                                     </div>
-                                                    <div class="col-12 col-sm-12  col-md-3 offset-md-3 col-xs-12">
-                                                        <span class="text-muted">Entrada:</span> <span th:text="${#temporals.format(order.dataEntrada, 'dd/MM/yyyy HH:mm')}"></span><br>
-                                                        <span class="text-muted">Saída:</span> <span th:text="${#temporals.format(order.dataSaida, 'dd/MM/yyyy HH:mm')}"></span><br>
-                                                        <span class="text-muted">Duração:</span> <span th:text="|${fatura.order.duracao} minutos| "></span><br>
-                                                        <span class="text-muted">Data da fatura:</span> <span th:text="${#dates.format(fatura.data, 'dd/MM/yyyy HH:mm')}"></span><br>
-                                                    </div>
-                                                </div>
                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-12 col-sm-12">
+                                                    <span class="text-muted">Entrada:</span> <span th:text="${#temporals.format(order.dataEntrada, 'dd/MM/yyyy HH:mm')}"></span><br>
+                                                    <span class="text-muted">Saída:</span> <span th:text="${#temporals.format(order.dataSaida, 'dd/MM/yyyy HH:mm')}"></span><br>
+                                                    <span class="text-muted">Duração:</span> <span th:text="|${fatura.order.duracao} minutos| "></span><br>
+                                                    <span class="text-muted">Data da fatura:</span> <span th:text="${#temporals.format(fatura.data, 'dd/MM/yyyy HH:mm')}"></span><br>
+                                                </div>
+                                            </div>
 
 
 

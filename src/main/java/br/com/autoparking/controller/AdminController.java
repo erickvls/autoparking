@@ -214,5 +214,11 @@ public class AdminController {
         return "/admin/fatura/index";
     }
 
+    @PostMapping("${autoparking.url.admin}/servicos/excluir/")
+    public String excluirServico(@ModelAttribute("servico") Servico servico,HttpSession session,Model model){
+        servicoService.excluirServico(servico);
+        return "redirect:/admin/estacionamentos";
+    }
+
 
 }

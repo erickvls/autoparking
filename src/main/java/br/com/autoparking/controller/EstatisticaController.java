@@ -38,7 +38,7 @@ public class EstatisticaController {
     }
 
     @PostMapping("${autoparking.url.admin}/estatisticas/semanal")
-    public @ResponseBody List<FaturaDTO> mostrarSaldo(
+    public @ResponseBody List<FaturaDTO> mostrarSaldoSemanal(
             @RequestParam("dataFrom") String dataFrom,
             @RequestParam("dataTo") String dataTo,
             HttpSession session){
@@ -46,7 +46,6 @@ public class EstatisticaController {
         Usuario usuario = (Usuario) session.getAttribute("user");
         return estatisticaService.estatisticaSemanal(dataFrom,dataTo,usuario);
     }
-
 
 
 }

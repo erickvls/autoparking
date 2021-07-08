@@ -38,6 +38,7 @@ public class Servico {
     @JsonIgnore
     private Estacionamento estacionamento;
 
+    private boolean excluido = false;
 
     public long getId() {
         return id;
@@ -85,6 +86,14 @@ public class Servico {
 
     public void setTipoServico(TipoServico tipoServico) {
         this.tipoServico = tipoServico;
+    }
+
+    public boolean isExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(boolean excluido) {
+        this.excluido = excluido;
     }
 
     @Override

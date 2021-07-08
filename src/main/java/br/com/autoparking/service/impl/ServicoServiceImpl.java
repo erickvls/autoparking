@@ -46,4 +46,10 @@ public class ServicoServiceImpl implements ServicoService {
         }
         return servicoRepository.findByEstacionamentoAndTipoServico(servicoFormDTO.getEstacionamento(), servicoFormDTO.getTipoServico());
     }
+
+    @Override
+    public void excluirServico(Servico servico) {
+        servico.setExcluido(true);
+        servicoRepository.save(servico);
+    }
 }
