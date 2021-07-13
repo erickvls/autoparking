@@ -41,8 +41,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     CryptService cryptService;
 
     @Override
-    public Usuario criarNovoUsuarioFormularioRegistro(Usuario usuario) {
-        Usuario usuarioMapeado = mapearUsuario(usuario);
+    public Usuario criarNovoUsuarioFormularioRegistro(Usuario usuario,String role) {
+        Usuario usuarioMapeado = mapearUsuario(usuario,role);
         try{
             return usuarioRepository.save(usuarioMapeado);
         }catch(Exception ex){
@@ -53,6 +53,16 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario encontrarUsuarioPorUserName(String username) {
         return usuarioRepository.findByUserName(username).orElseGet(Usuario::new);
+    }
+
+    @Override
+    public Usuario criarNovoGestor(Usuario criador,Usuario usuario, String role) {
+        Usuario usuarioMapeado = mapearGestor(criador,usuario,role);
+        try{
+            return usuarioRepository.save(usuarioMapeado);
+        }catch(Exception ex){
+            throw new SalvarEntidadeException("Error ao criar novo usuário", ex);
+        }
     }
 
     @Override
@@ -73,9 +83,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
-    private Usuario mapearUsuario(Usuario usuario){
+    private Usuario mapearUsuario(Usuario usuario,String role){
         try{
-            Role userRole = roleRepository.findByNome("ROLE_ADMIN");
+            Role userRole = roleRepository.findByNome(role);
             return Usuario.builder()
                     .password(bCryptPasswordEncoder.encode(usuario.getPassword()))
                     .roles(new HashSet<Role>(Collections.singletonList(userRole)))
@@ -129,11 +139,38 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.save(usuario);
     }
 
+
+
+    private Usuario mapearGestor(Usuario criador,Usuario usuario,String role){
+        try{
+            Role userRole = roleRepository.findByNome(role);
+            return Usuario.builder()
+                    .password(bCryptPasswordEncoder.encode(usuario.getPassword()))
+                    .roles(new HashSet<Role>(Collections.singletonList(userRole)))
+                    .ativo(true)
+                    .cpf(usuario.getCpf())
+                    .senhaResetada(false)
+                    .genero(usuario.getGenero())
+                    .nome(usuario.getNome())
+                    .userName(usuario.getUserName())
+                    .dataCriacao(new Date())
+                    .endereco(usuario.getEndereco())
+                    .dataCriacao(new Date())
+                    .authProvider(AuthenticationProvider.LOCAL)
+                    .estacionamentos(criador.getEstacionamentos())
+                    .build();
+        }catch (Exception ex){
+            throw new MappearEntidadeException("Erro ao mappear entidade Usuário.",ex);
+        }
+
+    }
+
     private void resetarSenha(Usuario usuario,String novaSenha,boolean isResetada){
         usuario.setSenhaResetada(isResetada);
         usuario.setPassword(bCryptPasswordEncoder.encode(novaSenha));
         usuarioRepository.save(usuario);
     }
+
 
 
 }

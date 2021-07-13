@@ -48,7 +48,7 @@ public class HomeController {
             model.addAttribute("genero", Genero.values());
             return "cadastrar";
         }
-        usuarioService.criarNovoUsuarioFormularioRegistro(usuario);
+        usuarioService.criarNovoUsuarioFormularioRegistro(usuario,"ROLE_ADMIN");
         redirectAttributes.addFlashAttribute("mensagemSucesso","Usuário cadastrado com sucesso!");
         return "redirect:/login";
     }

@@ -13,7 +13,7 @@
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo"><a href="/">AutoParking<span>.</span></a></h1>
+        <h1 class="logo"><a th:href="@{/admin}">AutoParking<span>.</span></a></h1>
 
         <head th:replace="/fragments/navbar :: navbar" />
 
@@ -40,152 +40,135 @@
 
     <!-- ======= Portfolio Details Section ======= -->
 
-    <div id="main-content" style="padding-bottom:10%;">
+    <section id="portfolio-details" class="portfolio-details">
         <div class="container">
-            <div class='dashboard-cards pt-5'>
+            <div th:if="${mensagemSucesso}" class="row m-2 alert alert-success alert-dismissible fade show" role="alert">
+                <span th:utext="${mensagemSucesso}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
-                <div th:if="${mensagemSucesso}" class="m-2 alert alert-success alert-dismissible fade show" role="alert">
-                    <span th:utext="${mensagemSucesso}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+            <div th:if="${mensagemError}" class="row m-2 alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:utext="${mensagemError}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
-                <div th:if="${mensagemError}" class="m2- alert alert-danger alert-dismissible fade show" role="alert">
-                    <span th:utext="${mensagemError}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <div class="row">
-                    <div class='card col-md-4'>
-                        <div class='card-title'>
-                            <h2>
-                                Estacionamento
-                                <small>Vagas totais</small>
-                            </h2>
-                            <div class='task-count'>
-                                14
-                            </div>
-                        </div>
-                    </div>
-                    <div class='card col-md-4'>
-                        <div class='card-title'>
-                            <h2>
-                                Vagas ocupadas
-                                <small>O estacionamento tem X vagas ocupadas</small>
-                            </h2>
-                            <div class='task-count'>
-                                101
-                            </div>
-                        </div>
-                    </div>
-                    <div class='card col-md-4'>
-                        <div class='card-title'>
-                            <h2>
-                                Vagas Livres
-                                <small>O estacionamento tem X vagas livres</small>
-                            </h2>
-                            <div class='task-count'>
-                                9
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                <div class="col-4 col-xs-12 card card-move">
-                    <div class="single-card">
-                        <a href="#"><div class="card-menu-icon">
-                            <img src="http://atmoscape.com.au/hot-links/card-icon_Personal-development.svg" alt="Personal development">
-                        </div></a>
-                        <div class="card-menu-content">
-                            <div class='card-title'>
-                                <h2>
-                                    Gerencie seu estacionamento
-                                    <small>Crie, edite e gerencie suas vagas no seu estacionamento.</small>
-                                </h2>
+            <div class="row m-2 no-gutters shadow-lg">
+                <div class="col-md-12 bg-white p-3 col-12">
+                    <div class="container">
+                        <div class="row">
 
-                            </div>
-                        </div><a>
-                        </a>
-                        <div class='card-flap flap1'>
-                            <div class='card-description'>
-                                <ul class='task-list'>
-                                    <li>
-                                        <a th:href="@{/admin/estacionamentos/novo}" style="color: inherit;">
-                                            Cadastrar estacionamento
-                                        <span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
-                                    </li>
-                                    <li>
-                                        <a th:href="@{/admin/estacionamentos}" style="color: inherit;">
-                                            Gerenciar estacionamento
-                                            <span><i class="fa fa-cog" aria-hidden="true"></i></span></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class='card-flap flap2'>
-                                <div class='card-actions'>
-                                    <a class='btn' href='#'>Fechar</a>
+                                <div class="row pb-3 pt-4">
+                                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0 col-sm-12">
+                                        <!-- Card-->
+                                        <div class="card rounded shadow-sm">
+                                            <div class="card-body p-4" ><i class="fas fa-parking fa-2x mb-3 text-primary"></i>
+                                                <h5>Vagas totais</h5>
+                                                <div class="task-count">
+                                                    14
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0 col-sm-12">
+                                        <!-- Card -->
+                                        <div class="card rounded shadow-sm">
+                                            <div class="card-body p-4" ><i class="fas fa-ban fa-2x mb-3 text-primary"></i>
+                                                <h5>Vagas Ocupadas</h5>
+                                                <div class="task-count">
+                                                    14
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0 col-sm-12">
+                                        <!-- Card -->
+                                        <div class="card rounded shadow-sm">
+                                            <div class="card-body p-4"><i class="fas fa-car-side fa-2x mb-3 text-primary"></i>
+                                                <h5>Vagas Livres</h5>
+                                                <div class="task-count">
+                                                    14
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="row pt-2">
+                                <div class="col-md-4 col-lg-4 pb-3">
+
+                                    <!-- Copy the content below until next comment -->
+                                    <div class="card card-custom bg-white border-white border-0">
+                                        <div class="card-custom-img" style="background-image: url(https://c0.wallpaperflare.com/preview/607/871/595/light-parking-garage-building-underground.jpg);"></div>
+                                        <div class="card-body" style="overflow-y: auto">
+                                            <h4 class="card-title">Estacionamento</h4>
+                                            <p class="card-text">Crie, edite e gerencie suas vagas no seu estacionamento.</p>
+                                            <ul>
+                                                <li><a th:href="@{/admin/estacionamentos/novo}">Cadastrar estacionamento</a></li>
+                                                <li><a th:href="@{/admin/estacionamentos/}">Gerenciar estacionamento</a></li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <!-- Copy until here -->
+
+                                </div>
+
+                                <div class="col-md-4 col-lg-4 pb-3">
+
+                                    <!-- Copy the content below until next comment -->
+                                    <div class="card card-custom bg-white border-white border-0">
+                                        <div class="card-custom-img" style="background-image: url(https://austinbenefits.com/wp-content/uploads/helpful-hr-hacks-for-talent-management-background.png);"></div>
+                                        <div class="card-body" style="overflow-y: auto">
+                                            <h4 class="card-title">Gestores</h4>
+                                            <p class="card-text">Crie, edite e gerencie seus gestores para o estacionamento.</p>
+                                            <ul>
+                                                <li>Cadastrar gestor</li>
+                                                <li>Gerenciar gestor</li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <!-- Copy until here -->
+
+                                </div>
+
+                                <div class="col-md-4 col-lg-4 pb-3">
+
+                                    <!-- Copy the content below until next comment -->
+                                    <div class="card card-custom bg-white border-white border-0">
+                                        <div class="card-custom-img" style="background-image: url(https://ak.picdn.net/shutterstock/videos/9540635/thumb/7.jpg);"></div>
+                                        <div class="card-body" style="overflow-y: auto">
+                                            <h4 class="card-title">Estatísticas</h4>
+                                            <p class="card-text">Visualize os dados do seu estacionamento.</p>
+                                        </div>
+                                        <div class="card-footer" style="background: inherit; border-color: inherit;">
+                                            <a th:href="@{/admin/estatisticas}" class="btn btn-outline-primary float-end">Acessar</a>
+
+                                        </div>
+
+                                    </div>
+                                    <!-- Copy until here -->
+
                                 </div>
                             </div>
-                        </div>
-                    </div><a>
-                </a>
-                </div>
 
-                <div class="col-4 col-xs-12 card card-move"><a>
-                </a><a href="#"></a><div class="single-course"><a href="#">
-                    <div class="card-menu-icon">
-                        <img src="http://atmoscape.com.au/hot-links/card-icon_Support-services.svg" alt="Support services">
-                    </div></a>
-                    <div class="card-menu-content">
-                        <div class='card-title'>
-                            <h2>
-                                Gestores
-                                <small>Crie, edite e gerencie suas gestores para seu estacionamento.</small>
-                            </h2>
+
                         </div>
                     </div>
-                    <div class='card-flap flap1'>
-                        <div class='card-description'>
-                            <ul class='task-list'>
-                                <li>
-                                    Cadastrar gestor
-                                    <span><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                </li>
-                                <li>
-                                    Gerenciar gestor
-                                    <span><i class="fa fa-cog" aria-hidden="true"></i></span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class='card-flap flap2'>
-                            <div class='card-actions'>
-                                <a class='btn' href='#'>Fechar</a>
-                            </div>
-                        </div>
-                    </div>
-                    </div><a>
-                </a></div>
-
-                <div class="col-4 col-xs-12 card card-move"><a>
-                </a><div class="single-card"><a>
-                </a><a href="#"><div class="card-menu-icon">
-                    <img src="http://atmoscape.com.au/hot-links/card-icon_About-the-site.svg" alt="About the site">
-                </div></a>
-                    <div class="card-menu-content">
-                        <div class='card-title'>
-                            <h2>
-                                Estatísticas
-                                <small>Visualize as faturas estatísticas mensais e gere relatórios.</small>
-                            </h2>
-
-                        </div>
-                    </div><a>
-                    </a></div><a>
-                </a>
                 </div>
-                </div>
-
             </div>
+
+
         </div>
-    </div><!-- End Portfolio Details Section -->
+    </section><!-- End Portfolio Details Section -->
 
 
 

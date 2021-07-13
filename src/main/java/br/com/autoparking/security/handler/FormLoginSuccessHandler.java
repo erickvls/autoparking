@@ -3,6 +3,7 @@ package br.com.autoparking.security.handler;
 import br.com.autoparking.model.Usuario;
 import br.com.autoparking.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -23,6 +24,9 @@ public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private Environment env;
+
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
@@ -37,7 +41,8 @@ public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
 
     protected String determineTargetUrl(Authentication authentication, Usuario usuario) {
-        String url = "${autoparking.url.login-error}";
+        String url = env.getProperty("autoparking.url.login-error");
+
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         List<String> roles = new ArrayList<String>();
@@ -45,7 +50,7 @@ public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
             roles.add(a.getAuthority());
         }
 
-        if (roles.contains("ROLE_ADMIN")) {
+        if (roles.contains("ROLE_ADMIN") || roles.contains("ROLE_GESTOR")) {
             url = "/admin";
             if(usuario.isSenhaResetada()){
                 url = "/admin/atualizar";

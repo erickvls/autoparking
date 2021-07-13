@@ -8,9 +8,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Optional;
 
 public interface UsuarioService {
-    Usuario criarNovoUsuarioFormularioRegistro(Usuario usuario);
+    Usuario criarNovoUsuarioFormularioRegistro(Usuario usuario,String role);
     Usuario criarNovoUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider provider);
     Usuario encontrarUsuarioPorUserName(String username);
+    Usuario criarNovoGestor(Usuario criador,Usuario usuario,String role);
     boolean gerarSenhaUsuario(String userName, RedirectAttributes redirectAttributes);
     void usuarioMudaSenhaQuandoResetada(String usuario,String senhaAlterada, RedirectAttributes redirectAttribute);
     void editarPerfil(UsuarioEditarPerfil usuarioEditarPerfil);
