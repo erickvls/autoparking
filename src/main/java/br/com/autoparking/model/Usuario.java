@@ -82,6 +82,9 @@ public class Usuario {
 
     private boolean perfilAtualizado = false;
 
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "criador")
+    private Usuario criador;
 
     public int getId() {
         return id;
@@ -225,6 +228,14 @@ public class Usuario {
 
     public void setPerfilAtualizado(boolean perfilAtualizado) {
         this.perfilAtualizado = perfilAtualizado;
+    }
+
+    public Usuario getCriador() {
+        return criador;
+    }
+
+    public void setCriador(Usuario criador) {
+        this.criador = criador;
     }
 
     @Override

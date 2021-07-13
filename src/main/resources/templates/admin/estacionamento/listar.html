@@ -190,7 +190,7 @@ $( document ).ready(function() {
                                                                 <td th:text="${servico.descricao}"></td>
                                                                 <td th:text="${servico.valor}"></td>
                                                                 <td>
-                                                                    <a href="#" style="color:#8B0000" data-bs-target="#confirmarExclusaoModal" data-bs-toggle="modal"
+                                                                    <a sec:authorize="hasAnyRole('ROLE_ADMIN')" href="#" style="color:#8B0000" data-bs-target="#confirmarExclusaoModal" data-bs-toggle="modal"
                                                                        th:attr="data-servico=${servico.id},data-descricao=${servico.descricao}"
                                                                        title="Excluir" data-placement="top" rel="tooltip"><i class="fa fa-trash"></i></a>
                                                                 </td>
@@ -203,7 +203,7 @@ $( document ).ready(function() {
                                                     <h6>Você não possui nenhum serviço cadastrado para seu estacionamento.</h6>
                                                 </div>
                                                 <div th:class="${estacionamento.servicos.size()<1} ? 'd-flex justify-content-center' : 'float-end'">
-                                                    <a th:classappend="${estacionamento.servicos.size()<1} ? 'd-flex justify-content-center' : 'float-end'" data-bs-toggle="modal" class="btn btn-dark" data-bs-target="#exampleModalXl"><i class="fas fa-plus"></i> &nbsp;Adicionar</a>
+                                                    <a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:classappend="${estacionamento.servicos.size()<1} ? 'd-flex justify-content-center' : 'float-end'" data-bs-toggle="modal" class="btn btn-dark" data-bs-target="#exampleModalXl"><i class="fas fa-plus"></i> &nbsp;Adicionar</a>
                                                 </div>
 
                                             </div>

@@ -18,8 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,7 +47,18 @@ public class AdminController {
     private FaturaService faturaService;
 
     @GetMapping("${autoparking.url.admin}")
-    public String homeAdmin(){
+    public String homeAdmin(Authentication authentication,Model model){
+        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
+        if(Objects.isNull(usuario.getCriador())){
+            model.addAttribute("vagasTotais",usuario.getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getQuantidadeVagas());
+            model.addAttribute("vagasOcupadas",usuario.getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.OCUPADO)).count());
+            model.addAttribute("vagasLivres",usuario.getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
+        }else{
+            model.addAttribute("vagasTotais",usuario.getCriador().getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getQuantidadeVagas());
+            model.addAttribute("vagasOcupadas",usuario.getCriador().getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.OCUPADO)).count());
+            model.addAttribute("vagasLivres",usuario.getCriador().getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
+
+        }
         return "/admin/admin";
     }
 
@@ -60,9 +69,17 @@ public class AdminController {
     @GetMapping("${autoparking.url.admin}/estacionamentos/novo")
     public String cadastrarEstacionamento(Model model, Authentication authentication,RedirectAttributes redirectAttributes, HttpSession session){
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
-        if(usuario.getEstacionamentos().size()>0){
-            redirectAttributes.addFlashAttribute("mensagemError","Você só pode criar 1 estacionamento.");
-            return "redirect:/admin";
+        if(Objects.isNull(usuario.getCriador())){
+            if(usuario.getEstacionamentos().size()>0){
+                redirectAttributes.addFlashAttribute("mensagemError","Você só pode criar 1 estacionamento.");
+                return "redirect:/admin";
+            }
+
+        }else{
+            if(usuario.getCriador().getEstacionamentos().size()>0){
+                redirectAttributes.addFlashAttribute("mensagemError","Você só pode criar 1 estacionamento.");
+                return "redirect:/admin";
+            }
         }
         model.addAttribute("estacionamentoForm", new EstacionamentoForm());
         model.addAttribute("listaEstados",estadoService.listarTodosEstados());
@@ -72,16 +89,28 @@ public class AdminController {
     @GetMapping("${autoparking.url.admin}/estacionamentos")
     public String listarEstacionamento(Model model, Authentication authentication, Servico servico,RedirectAttributes redirectAttribute){
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
-        if(usuario.getEstacionamentos().size()<1){
-            redirectAttribute.addFlashAttribute("mensagemError","Você ainda não possui nenhum estacionamento cadastrado");
-            return "redirect:/admin";
+        if(Objects.isNull(usuario.getCriador())) {
+            if (usuario.getEstacionamentos().size() < 1) {
+                redirectAttribute.addFlashAttribute("mensagemError", "Você ainda não possui nenhum estacionamento cadastrado");
+                return "redirect:/admin";
+            }
+            Optional<Estacionamento> estacionamento = usuario.getEstacionamentos().stream().findFirst();
+            model.addAttribute("vagasDisponiveis", estacionamento.get().getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
+            model.addAttribute("vagasReservadas", estacionamento.get().getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.RESERVADO)).count());
+            model.addAttribute("vagasOcupadas", estacionamento.get().getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.OCUPADO)).count());
+            model.addAttribute("estacionamentos", usuario.getEstacionamentos());
+        }else{
+            if (usuario.getCriador().getEstacionamentos().size() < 1) {
+                redirectAttribute.addFlashAttribute("mensagemError", "Você ainda não possui nenhum estacionamento cadastrado");
+                return "redirect:/admin";
+            }
+            Optional<Estacionamento> estacionamento = usuario.getCriador().getEstacionamentos().stream().findFirst();
+            model.addAttribute("vagasDisponiveis", estacionamento.get().getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
+            model.addAttribute("vagasReservadas", estacionamento.get().getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.RESERVADO)).count());
+            model.addAttribute("vagasOcupadas", estacionamento.get().getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.OCUPADO)).count());
+            model.addAttribute("estacionamentos", usuario.getCriador().getEstacionamentos());
         }
-        Optional<Estacionamento> estacionamento = usuario.getEstacionamentos().stream().findFirst();
-        model.addAttribute("vagasDisponiveis",estacionamento.get().getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
-        model.addAttribute("vagasReservadas",estacionamento.get().getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.RESERVADO)).count());
-        model.addAttribute("vagasOcupadas",estacionamento.get().getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.OCUPADO)).count());
 
-        model.addAttribute("estacionamentos", usuario.getEstacionamentos());
         model.addAttribute("tipoServico", TipoServico.values());
         return "admin/estacionamento/listar";
     }
@@ -189,9 +218,15 @@ public class AdminController {
     @GetMapping("${autoparking.url.admin}/orders")
     public String visualizarOrders(Model model,RedirectAttributes redirectAttribute,HttpSession session, Authentication authentication){
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
-        Optional<Estacionamento> estacionamento = usuario.getEstacionamentos().stream().findFirst();
+        Optional<Estacionamento> estacionamento;
+        if(Objects.isNull(usuario.getCriador())){
+             estacionamento = usuario.getEstacionamentos().stream().findFirst();
+        }else{
+            estacionamento = usuario.getCriador().getEstacionamentos().stream().findFirst();
+        }
         model.addAttribute("orders",estacionamento.get().getOrder());
         model.addAttribute("servicos",estacionamento.get().getServicos().stream().filter(v->v.getTipoServico().equals(TipoServico.OUTRO)).collect(Collectors.toList()));
+
         return "/admin/orders";
     }
 

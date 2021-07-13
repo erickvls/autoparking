@@ -11,6 +11,7 @@ import br.com.autoparking.service.EmailService;
 import br.com.autoparking.service.UsuarioService;
 import br.com.autoparking.service.exception.SalvarEntidadeException;
 import br.com.autoparking.service.exception.MappearEntidadeException;
+import ch.qos.logback.classic.Logger;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -157,10 +158,11 @@ public class UsuarioServiceImpl implements UsuarioService {
                     .endereco(usuario.getEndereco())
                     .dataCriacao(new Date())
                     .authProvider(AuthenticationProvider.LOCAL)
-                    .estacionamentos(criador.getEstacionamentos())
+                    .criador(criador)
                     .build();
         }catch (Exception ex){
-            throw new MappearEntidadeException("Erro ao mappear entidade Usuário.",ex);
+            System.err.println(ex.getMessage());
+            throw new MappearEntidadeException("Erro ao Criar gestor.",ex);
         }
 
     }

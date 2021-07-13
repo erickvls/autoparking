@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head th:replace="/fragments/head :: head(pageTitle='Administração - Página inicial')" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
@@ -64,7 +64,7 @@
                                             <div class="card-body p-4" ><i class="fas fa-parking fa-2x mb-3 text-primary"></i>
                                                 <h5>Vagas totais</h5>
                                                 <div class="task-count">
-                                                    14
+                                                    <span th:text="${vagasTotais}"></span>
                                                 </div>
 
                                             </div>
@@ -77,7 +77,7 @@
                                             <div class="card-body p-4" ><i class="fas fa-ban fa-2x mb-3 text-primary"></i>
                                                 <h5>Vagas Ocupadas</h5>
                                                 <div class="task-count">
-                                                    14
+                                                    <span th:text="${vagasOcupadas}"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,7 +89,7 @@
                                             <div class="card-body p-4"><i class="fas fa-car-side fa-2x mb-3 text-primary"></i>
                                                 <h5>Vagas Livres</h5>
                                                 <div class="task-count">
-                                                    14
+                                                    <span th:text="${vagasLivres}"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -111,7 +111,7 @@
                                             <h4 class="card-title">Estacionamento</h4>
                                             <p class="card-text">Crie, edite e gerencie suas vagas no seu estacionamento.</p>
                                             <ul>
-                                                <li><a th:href="@{/admin/estacionamentos/novo}">Cadastrar estacionamento</a></li>
+                                                <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a th:href="@{/admin/estacionamentos/novo}">Cadastrar estacionamento</a></li>
                                                 <li><a th:href="@{/admin/estacionamentos/}">Gerenciar estacionamento</a></li>
                                             </ul>
                                         </div>
@@ -130,8 +130,8 @@
                                             <h4 class="card-title">Gestores</h4>
                                             <p class="card-text">Crie, edite e gerencie seus gestores para o estacionamento.</p>
                                             <ul>
-                                                <li>Cadastrar gestor</li>
-                                                <li>Gerenciar gestor</li>
+                                                <li sec:authorize="hasAnyRole('ROLE_ADMIN')">Cadastrar gestor</li>
+                                                <li sec:authorize="hasAnyRole('ROLE_ADMIN')">Gerenciar gestor</li>
                                             </ul>
                                         </div>
 
@@ -148,10 +148,10 @@
                                         <div class="card-body" style="overflow-y: auto">
                                             <h4 class="card-title">Estatísticas</h4>
                                             <p class="card-text">Visualize os dados do seu estacionamento.</p>
-                                        </div>
-                                        <div class="card-footer" style="background: inherit; border-color: inherit;">
-                                            <a th:href="@{/admin/estatisticas}" class="btn btn-outline-primary float-end">Acessar</a>
-
+                                            <ul>
+                                                <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a th:href="@{/admin/estatisticas}">Estatisticas geral</a></li>
+                                                <li><a th:href="@{/admin/orders}">Orders</a></li>
+                                            </ul>
                                         </div>
 
                                     </div>
