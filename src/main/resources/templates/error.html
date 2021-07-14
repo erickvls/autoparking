@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
+
+<style text="tex/css">
+    body, html{
+  height:100%;
+  overflow:hidden;
+}
+body{
+  background: url() no-repeat center fixed;
+    background-size: cover; /* version standardisée */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+   font-family: source-sans-pro, sans-serif;
+  background-color: #ededed; /* #ededed*/
+color: #333;
+}
+
+h2 {  display:inline;
+    font-size:200px;
+  margin:0;
+  padding:0;
+  line-height:0;
+  margin-top:50px;
+}
+
+
+.quote
+{
+  display:inline;
+margin-left:5px;
+margin-right:5px;
+}
+
+.quote:before
+{
+content: '{';
+
+}
+
+.quote:after
+{
+  content: '}';
+
+}
+
+.error {  text-align:center;
+position:relative;
+margin-top:70px;
+
+}
+.text {
+position:absolute;
+right:13px;
+}
+
+.container{
+  width:334px;
+  padding:5px;
+}
+
+.info-label{display:inline;}
+
+.info-text{
+text-align:center;
+}
+
+a {
+color: #3B81BE;
+line-height: inherit;
+text-decoration: none;
+
+}
+
+a:after
+{
+  vertical-align:top;
+  width:13px;
+  height:13px;
+    background: url(http://image.noelshack.com/fichiers/2014/32/1407602076-hyperlink.png);
+      background-size: 100%;
+    background-repeat: no-repeat;
+  content: '';
+display: inline-block;
+
+}
+
+p{  text-align:justify;
+}
+
+</style>
+<body>
+
+
+
+<main id="main" data-aos="fade-up">
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+        <div class="container">
+            <div class="info-label">
+                <div class="error">
+                    <h2 th:text="${codigo}"></h2>
+                    <div class="text">
+                        <b>Error</b>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="info-text">
+                <h1 th:text="${titulo}"></h1>
+                <a th:href="@{/}">Ir para página principal</a>
+                <p th:text="${mensagem}"></p>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+</body>
+
+</html>
