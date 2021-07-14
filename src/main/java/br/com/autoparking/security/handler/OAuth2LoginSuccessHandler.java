@@ -58,7 +58,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         }else if(usuario.getRoles().stream().anyMatch(v->v.getNome().equals("ROLE_ADMIN"))) {
             formLoginErrorHandler.onAuthenticationFailure(request,response, new BadCredentialsException("Acesso não permitido"));
-        }else if(usuario.getRoles().stream().anyMatch(v->v.getNome().equals("ROLE_CLIENTE"))){
+        }else if(usuario.getRoles().stream().anyMatch(v->v.getNome().equals("ROLE_USER"))){
             if(!usuario.isPerfilAtualizado()){
                 url = "/home/perfil";
             }else{

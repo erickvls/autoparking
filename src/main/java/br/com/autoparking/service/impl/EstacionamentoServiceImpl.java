@@ -50,6 +50,8 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
                         .id((int)v.getId())
                         .horarioAbre(v.getHorarioAbre())
                         .horarioFecha(v.getHorarioFecha())
+                        .telefone(v.getTelefone())
+                        .endereco(v.getEndereco().getRua() + ", " +v.getEndereco().getBairro()+", "+v.getEndereco().getCidade())
                         .build()).collect(Collectors.toList());
         return list;
     }

@@ -58,10 +58,25 @@ let infowindow = new google.maps.InfoWindow();
         );
          marcador.addListener('click', function () {
          infowindow.open(map, marcador);
-        infowindow.setContent("<div class='infowindow-container'>" +
-              "<div class='inner'><h6>" + est.nome+
-              "</h6><span>Capacidade: "+est.capacidade+" </span><br><span>Horário: "+est.horarioAbre+" às  "+est.horarioFecha+"</span></div>" +
-              "<a href='/home/estacionamento/visualizar/"+est.id+"'>Detalhes</a></div>");
+
+
+
+var myvar = '<div style="width: 18rem;">'+
+''+
+'  <div class="card-body">'+
+'    <h6 class="card-title pb-2"> '+ est.nome+'</h6>'+
+'    <p class="card-text"><i class="bi bi-phone"></i> <span>' +est.telefone+'</span></p>'+
+'    <p class="card-text"><i class="bi bi-clock"></i> <span> Aberto de ' +est.horarioAbre+' as '+est.horarioFecha+'</span></p>'+
+'    <p class="card-text"><i class="bi bi-map"></i><span> '  +est.endereco+'</span></p>'+
+'    <a href="/home/estacionamento/visualizar/'+est.id+'" class="btn btn-outline-primary btn-sm float-end">Detalhes</a>'+
+'  </div>'+
+'</div>';
+
+
+
+
+
+        infowindow.setContent(myvar);
 
          });
   });
@@ -78,10 +93,7 @@ let infowindow = new google.maps.InfoWindow();
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo">
-            <a href="index.html"><img th:src="@{/img/logotipo.png}"/>
-            </a>
-        </h1>
+        <h1 class="logo"><a href="index.html">AutoParking<span>.</span></a></h1>
 
         <head th:replace="/fragments/navbar :: navbar" />
 
@@ -117,18 +129,14 @@ let infowindow = new google.maps.InfoWindow();
                 <span th:utext="${mensagemError}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <div class="row m-2 no-gutters shadow-lg">
-                <div class="col-md-12 bg-white p-3 col-12">
-                    <div class="container">
-                        <div class="row pt-3 pb-3">
-                            <br>
-                            <h2 class="only-bottom-margin">Estacionamentos perto de você</h2>
 
-                        </div>
+            <div class="row m-2 no-gutters shadow-lg">
+                <div class="col-md-12 bg-white pt-4 pb-4 col-12">
+                    <div class="container">
                         <div class="row">
                             <div id="map" style="height: 550px;width: 100%;"></div>
                             <div id="marker-tooltip"></div>
-                            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4NhM0mExvi2mC70t_7WBlV3FK2j4uMzc">
+                            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZfVO29Iytspv4xz7S68doIoiztiRLhbk">
                             </script>
                         </div>
                     </div>
@@ -136,6 +144,7 @@ let infowindow = new google.maps.InfoWindow();
             </div>
         </div>
     </section>
+    <!--AIzaSyD4NhM0mExvi2mC70t_7WBlV3FK2j4uMzc-->
 
 
 </main><!-- End #main -->

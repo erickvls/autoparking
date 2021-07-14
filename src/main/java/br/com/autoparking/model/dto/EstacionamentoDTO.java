@@ -19,5 +19,7 @@ public class EstacionamentoDTO {
     private String eixoY;
     private String horarioAbre;
     private String horarioFecha;
+    private String telefone;
+    private String endereco;
     private Map<String,String> servicos;
 }

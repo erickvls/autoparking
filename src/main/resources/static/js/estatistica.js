@@ -20,3 +20,12 @@ function requisitarAjax(url,metodo,data){
         });
 }
 
+ $(document).ready(function() {
+    var url = '/admin/estatisticas/saldo';
+    requisitarAjax(url,'POST','30_DIAS');
+
+    $('.mudarValor').click(function() {
+       var dias = this.id;
+      requisitarAjax(url,'POST',dias);
+    });
+});

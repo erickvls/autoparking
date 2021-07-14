@@ -69,7 +69,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario criarNovoUsuarioDepoisOAuthSucesso(String email, String nome, AuthenticationProvider provider) {
         try {
-            Role userRole = roleRepository.findByNome("ROLE_CLIENTE");
+            Role userRole = roleRepository.findByNome("ROLE_USER");
             Usuario usuario = Usuario.builder()
                     .ativo(true)
                     .userName(email)

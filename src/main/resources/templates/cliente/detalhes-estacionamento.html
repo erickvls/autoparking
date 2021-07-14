@@ -36,10 +36,7 @@ $( document ).ready(function() {
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo">
-            <a href="index.html"><img th:src="@{/img/logotipo.png}"/>
-            </a>
-        </h1>
+        <h1 class="logo"><a href="index.html">AutoParking<span>.</span></a></h1>
 
         <head th:replace="/fragments/navbar :: navbar" />
 
@@ -105,7 +102,7 @@ $( document ).ready(function() {
                                                 <div class="col-md-5 text-center">
                                                     <div id="map" style="height: 200px;width: 100%;"></div>
                                                     <!-- Replace the value of the key parameter with your own API key. -->
-                                                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4NhM0mExvi2mC70t_7WBlV3FK2j4uMzc">
+                                                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZfVO29Iytspv4xz7S68doIoiztiRLhbk">
                                                     </script>
                                                 </div>
                                             </div>
@@ -136,7 +133,7 @@ $( document ).ready(function() {
                                                                     <img  width="90px" height="90px" th:src="@{/img/parking.png}"/>
                                                                     <h5 class="card-title pt-3">Vagas disponíveis</h5>
                                                                     <p class="card-text counter-count" th:text="${vagasDisponiveis}"></p>
-                                                                    <a href="#" data-bs-toggle="modal" th:if="${vagasDisponiveis>0}" class="btn btn-primary" data-bs-target="#exampleModalXl">Solicitar</a>
+                                                                    <a href="#" data-bs-toggle="modal" th:if="${vagasDisponiveis>0}" class="btn btn-dark" data-bs-target="#exampleModalXl">Solicitar</a>
                                                                 </div>
                                                             </div>
                                                         </div>
