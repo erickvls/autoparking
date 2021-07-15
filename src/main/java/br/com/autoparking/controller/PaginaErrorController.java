@@ -1,4 +1,4 @@
-/*package br.com.autoparking.controller;
+package br.com.autoparking.controller;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -43,4 +43,3 @@ public class PaginaErrorController implements ErrorController {
         return "error";
     }
 }
-*/

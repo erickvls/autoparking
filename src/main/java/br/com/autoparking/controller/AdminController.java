@@ -18,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,9 +52,10 @@ public class AdminController {
     public String homeAdmin(Authentication authentication,Model model){
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
         if(Objects.isNull(usuario.getCriador())){
-            model.addAttribute("vagasTotais",usuario.getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getQuantidadeVagas());
-            model.addAttribute("vagasOcupadas",usuario.getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.OCUPADO)).count());
-            model.addAttribute("vagasLivres",usuario.getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
+            Estacionamento est = usuario.getEstacionamentos().stream().findFirst().orElse(Estacionamento.builder().vaga(new HashSet<>()).build());
+            model.addAttribute("vagasTotais",usuario.getEstacionamentos().stream().findFirst().orElse(est).getQuantidadeVagas());
+            model.addAttribute("vagasOcupadas",usuario.getEstacionamentos().stream().findFirst().orElse(est).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.OCUPADO)).count());
+            model.addAttribute("vagasLivres",usuario.getEstacionamentos().stream().findFirst().orElse(est).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
         }else{
             model.addAttribute("vagasTotais",usuario.getCriador().getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getQuantidadeVagas());
             model.addAttribute("vagasOcupadas",usuario.getCriador().getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.OCUPADO)).count());
