@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
 
-<head th:replace="/fragments/head :: head(pageTitle='AutoParking - Página inicial')" />
+<head th:replace="fragments/head :: head(pageTitle='AutoParking - Página inicial')" />
 
 <body>
 
 
-<section th:replace="/fragments/topbar :: topbar" />
+<section th:replace="fragments/topbar :: topbar" />
 
 
 <header id="header" class="d-flex align-items-center">
@@ -14,7 +14,7 @@
 
     <h1 class="logo"><a href="/">AutoParking<span>.</span></a></h1>
 
-    <head th:replace="/fragments/navbar :: navbar" />
+    <head th:replace="fragments/navbar :: navbar" />
 
   </div>
 </header>
@@ -224,7 +224,7 @@
 
 
 </main>
-<div th:replace="/fragments/footer :: footer" />
+<div th:replace="fragments/footer :: footer" />
 
 </body>
 

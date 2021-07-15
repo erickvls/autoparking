@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
-<head th:replace="/fragments/head :: head(pageTitle='Administração - Página inicial')" />
+<head th:replace="fragments/head :: head(pageTitle='Administração - Página inicial')" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/cards.css}" />
 <body>
 
 
-<section th:replace="/fragments/topbar :: topbar" />
+<section th:replace="fragments/topbar :: topbar" />
 
 <!-- ======= Header ======= -->
 <header id="header" class="d-flex align-items-center">
@@ -15,7 +15,7 @@
 
         <h1 class="logo"><a th:href="@{/admin}">AutoParking<span>.</span></a></h1>
 
-        <head th:replace="/fragments/navbar :: navbar" />
+        <head th:replace="fragments/navbar :: navbar" />
 
     </div>
 </header>
@@ -173,7 +173,7 @@
 
 
 </main><!-- End #main -->
-<div th:replace="/fragments/footer :: footer" />
+<div th:replace="fragments/footer :: footer" />
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>

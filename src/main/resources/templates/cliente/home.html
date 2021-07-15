@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
 
-<head th:replace="/fragments/head :: head(pageTitle='Área do cliente - Página inicial')" />
+<head th:replace="fragments/head :: head(pageTitle='Área do cliente - Página inicial')" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <style type="text/css">
     #marker-tooltip {
@@ -88,14 +88,14 @@ var myvar = '<div style="width: 18rem;">'+
 </script>
 <body>
 
-<section th:replace="/fragments/topbar :: topbar" />
+<section th:replace="fragments/topbar :: topbar" />
 <!-- ======= Header ======= -->
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
         <h1 class="logo"><a href="index.html">AutoParking<span>.</span></a></h1>
 
-        <head th:replace="/fragments/navbar :: navbar" />
+        <head th:replace="fragments/navbar :: navbar" />
 
     </div>
 </header>
@@ -148,7 +148,7 @@ var myvar = '<div style="width: 18rem;">'+
 
 
 </main><!-- End #main -->
-<div th:replace="/fragments/footer :: footer" />
+<div th:replace="fragments/footer :: footer" />
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>

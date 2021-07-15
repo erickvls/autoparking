@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
 
-<head th:replace="/fragments/head :: head(pageTitle='AutoParking - Fatura')" />
+<head th:replace="fragments/head :: head(pageTitle='AutoParking - Fatura')" />
 
 <body>
 
 <!-- ======= Top Bar ======= -->
-<section th:replace="/fragments/topbar :: topbar" />
+<section th:replace="fragments/topbar :: topbar" />
 
 <!-- ======= Header ======= -->
 <header id="header" class="d-flex align-items-center">
@@ -15,7 +15,7 @@
         <h1 class="logo"><a href="/">AutoParking<span>.</span></a></h1>
 
 
-        <head th:replace="/fragments/navbar :: navbar" />
+        <head th:replace="fragments/navbar :: navbar" />
 
     </div>
 </header>
@@ -130,7 +130,7 @@
 </main><!-- End #main -->
 
 
-<div th:replace="/fragments/footer :: footer" />
+<div th:replace="fragments/footer :: footer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 <script th:src="@{/js/print.js}"></script>
 </body>

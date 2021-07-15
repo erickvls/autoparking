@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
 
-<head th:replace="/fragments/head :: head(pageTitle='AutoParking - Detalhes estacionamento')" />
+<head th:replace="fragments/head :: head(pageTitle='AutoParking - Detalhes estacionamento')" />
 <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 <style type="text/css">
     .alocacao{
@@ -30,7 +30,7 @@ $( document ).ready(function() {
 <body>
 
 <!-- ======= Top Bar ======= -->
-<section th:replace="/fragments/topbar :: topbar" />
+<section th:replace="fragments/topbar :: topbar" />
 
 <!-- ======= Header ======= -->
 <header id="header" class="d-flex align-items-center">
@@ -38,7 +38,7 @@ $( document ).ready(function() {
 
         <h1 class="logo"><a href="index.html">AutoParking<span>.</span></a></h1>
 
-        <head th:replace="/fragments/navbar :: navbar" />
+        <head th:replace="fragments/navbar :: navbar" />
 
     </div>
 </header>
@@ -197,7 +197,7 @@ $( document ).ready(function() {
 
 </main><!-- End #main -->
 <div th:replace="/cliente/modal/modalSolicitarVaga :: modalSolicitarVaga(usuario=*{usuario}, estacionamento=*{estacionamento})" />
-<div th:replace="/fragments/footer :: footer" />
+<div th:replace="fragments/footer :: footer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 <script th:src="@{/js/cadastrar.js}"></script>
 <script th:inline="javascript">
