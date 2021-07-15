@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -75,7 +76,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                     .userName(email)
                     .nome(nome)
                     .authProvider(provider)
-                    .dataCriacao(new Date())
+                    .dataCriacao(LocalDateTime.now())
                     .roles(new HashSet<Role>(Collections.singletonList(userRole)))
                     .build();
             return usuarioRepository.save(usuario);
@@ -96,9 +97,8 @@ public class UsuarioServiceImpl implements UsuarioService {
                     .genero(usuario.getGenero())
                     .nome(usuario.getNome())
                     .userName(usuario.getUserName())
-                    .dataCriacao(new Date())
+                    .dataCriacao(LocalDateTime.now())
                     .endereco(usuario.getEndereco())
-                    .dataCriacao(new Date())
                     .authProvider(AuthenticationProvider.LOCAL)
                     .build();
         }catch (Exception ex){
@@ -154,9 +154,8 @@ public class UsuarioServiceImpl implements UsuarioService {
                     .genero(usuario.getGenero())
                     .nome(usuario.getNome())
                     .userName(usuario.getUserName())
-                    .dataCriacao(new Date())
+                    .dataCriacao(LocalDateTime.now())
                     .endereco(usuario.getEndereco())
-                    .dataCriacao(new Date())
                     .authProvider(AuthenticationProvider.LOCAL)
                     .criador(criador)
                     .build();

@@ -16,7 +16,30 @@ function requisitarAjax(url,metodo,data){
 
         })
         .fail(function(jqXHR, textStatus, msg){
-             alert("Falha na requisição");
+             alert("Falha na requisição Saldo");
+        });
+}
+
+
+
+function requisitarAjaxUser(url,metodo,valor){
+        $.ajax({
+             url : url,
+             type : metodo,
+             data : {
+                       ano : valor[0],
+                       mes: valor[1]
+
+              },
+             beforeSend : function(){
+
+             }
+        })
+        .done(function(msg){
+            $("#qtd-usuario").html(msg);
+        })
+        .fail(function(jqXHR, textStatus, msg){
+             alert("Falha na requisição UsuarioMEs");
         });
 }
 
@@ -27,5 +50,17 @@ function requisitarAjax(url,metodo,data){
     $('.mudarValor').click(function() {
        var dias = this.id;
       requisitarAjax(url,'POST',dias);
+    });
+
+    var urlUsuarios = '/admin/estatisticas/usuarios'
+    let mes = document.getElementById("mes-usuario").value
+    mes = mes.split('-');
+    requisitarAjaxUser(urlUsuarios,'POST',mes);
+
+
+    $( "#mes-usuario").change(function() {
+      var mes = document.getElementById("mes-usuario").value
+      mes = mes.split('-');
+      requisitarAjaxUser(urlUsuarios,'POST',mes);
     });
 });

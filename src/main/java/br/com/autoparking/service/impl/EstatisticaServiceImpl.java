@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -65,6 +66,17 @@ public class EstatisticaServiceImpl {
         return faturaDTOList;
     }
 
+
+    public long estatisticaUsuarioPorMes(String mes,String ano,Usuario usuario){
+        Estacionamento estacionamento = usuario.getEstacionamentos().stream().findFirst().orElse(null);
+        LocalDateTime dataInicio = LocalDateTime.of(Integer.parseInt(ano), Month.of(Integer.parseInt(mes)),1,00,00);
+        LocalDateTime dataFim = LocalDateTime.of(Integer.parseInt(ano), Month.of(Integer.parseInt(mes)),30,00,00);
+        if(!Objects.isNull(estacionamento) && !Objects.isNull(estacionamento.getOrder())){
+            long qtdUsuaraio = estacionamento.getOrder().stream().map(Order::getUsuario).distinct().filter(p->p.getDataCriacao().isAfter(dataInicio) && p.getDataCriacao().isBefore(dataFim)).count();
+            return qtdUsuaraio;
+        }
+        return 0;
+    }
 
     private LocalDateTime converterDataString(String dataPrevista){
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");

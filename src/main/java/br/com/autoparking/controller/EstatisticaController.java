@@ -47,5 +47,12 @@ public class EstatisticaController {
         return estatisticaService.estatisticaSemanal(dataFrom,dataTo,usuario);
     }
 
+    @PostMapping("${autoparking.url.admin}/estatisticas/usuarios")
+    public @ResponseBody Long mostrarUsuariosMensal(@RequestParam("mes") String mes,@RequestParam("ano") String ano, HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("user");
+        return estatisticaService.estatisticaUsuarioPorMes(mes,ano,usuario);
+    }
+
 
 }
