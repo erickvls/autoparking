@@ -94,19 +94,23 @@ public class EstatisticaServiceImpl {
         LocalDateTime dataHoje = LocalDateTime.now();
         LocalDateTime dataSolicitada;
         switch (data) {
-            case "30_DIAS" -> {
+            case "30_DIAS" :
                 dataSolicitada = dataHoje.minusDays(30);
-            }
-            case "90_DIAS" -> {
+                break;
+
+            case "90_DIAS" :
                 dataSolicitada = dataHoje.minusDays(90);
-            }
-            case "180_DIAS" -> {
+                break;
+
+            case "180_DIAS" :
                 dataSolicitada = dataHoje.minusDays(180);
-            }
-            case "365_DIAS" -> {
+                break;
+
+            case "365_DIAS" :
                 dataSolicitada = dataHoje.minusDays(365);
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + data);
+                break;
+
+            default : throw new IllegalStateException("Unexpected value: " + data);
         }
         return dataSolicitada;
     }
