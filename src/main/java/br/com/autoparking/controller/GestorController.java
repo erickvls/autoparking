@@ -29,7 +29,7 @@ public class GestorController {
         model.addAttribute("usuario", new Usuario());
         model.addAttribute("estado", estadoService.listarTodosEstados());
         model.addAttribute("genero", Genero.values());
-        return "/admin/gestores/novo";
+        return "admin/gestores/novo";
     }
 
     @PostMapping("${autoparking.url.admin}/gestor")
@@ -37,7 +37,7 @@ public class GestorController {
         if(bindingResult.hasErrors()){
             model.addAttribute("estado", estadoService.listarTodosEstados());
             model.addAttribute("genero", Genero.values());
-            return "/admin/gestores/novo";
+            return "admin/gestores/novo";
         }
 
         Usuario criador = (Usuario) session.getAttribute("user");

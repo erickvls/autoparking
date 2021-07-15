@@ -62,7 +62,7 @@ public class AdminController {
             model.addAttribute("vagasLivres",usuario.getCriador().getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
 
         }
-        return "/admin/admin";
+        return "admin/admin";
     }
 
     /* --------------------- */
@@ -230,7 +230,7 @@ public class AdminController {
         model.addAttribute("orders",estacionamento.get().getOrder());
         model.addAttribute("servicos",estacionamento.get().getServicos().stream().filter(v->v.getTipoServico().equals(TipoServico.OUTRO)).collect(Collectors.toList()));
 
-        return "/admin/orders";
+        return "admin/orders";
     }
 
     @PostMapping("${autoparking.url.admin}/fatura/gerar")
@@ -240,7 +240,7 @@ public class AdminController {
                               Model model){
         Fatura fatura = faturaService.gerarFaturaPadrao(order,servicos);
         model.addAttribute("fatura",fatura);
-        return "/admin/fatura/index";
+        return "admin/fatura/index";
     }
 
     @GetMapping("${autoparking.url.admin}/fatura/visualizar/{order}")
@@ -249,7 +249,7 @@ public class AdminController {
             return "error";
         }
         model.addAttribute("fatura",order.getFatura());
-        return "/admin/fatura/index";
+        return "admin/fatura/index";
     }
 
     @PostMapping("${autoparking.url.admin}/servicos/excluir/")

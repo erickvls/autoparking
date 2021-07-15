@@ -53,7 +53,7 @@ public class ClienteController {
     @GetMapping
     public String homeCliente(Model model){
         model.addAttribute("estacionamentos",estacionamentoService.listar());
-        return "/cliente/home";
+        return "cliente/home";
     }
 
     @GetMapping("/perfil")
@@ -64,7 +64,7 @@ public class ClienteController {
         model.addAttribute("estado", estadoService.listarTodosEstados());
         model.addAttribute("genero", Genero.values());
         model.addAttribute("tipoPagamento", MetodoPagamento.CARTAO);
-        return "/cliente/meuperfil";
+        return "cliente/meuperfil";
     }
 
     @PostMapping("/perfil")
@@ -86,7 +86,7 @@ public class ClienteController {
         model.addAttribute("carros", carros);
         model.addAttribute("carro",new Carro());
         model.addAttribute("cor", Cor.values());
-        return "/cliente/carros";
+        return "cliente/carros";
     }
 
     @PostMapping("/veiculos")
@@ -109,7 +109,7 @@ public class ClienteController {
         }
         model.addAttribute("carro", carro);
         model.addAttribute("cor",Cor.values());
-        return "/cliente/editar-veiculo";
+        return "cliente/editar-veiculo";
     }
 
     @PostMapping("/veiculos/editar")
@@ -145,7 +145,7 @@ public class ClienteController {
         model.addAttribute("vagasDisponiveis",estacionamento.getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
         model.addAttribute("vagasReservadas",estacionamento.getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.RESERVADO)).count());
         model.addAttribute("vagasOcupadas",estacionamento.getVaga().stream().filter(v->v.getStatus().equals(StatusVaga.OCUPADO)).count());
-        return "/cliente/detalhes-estacionamento";
+        return "cliente/detalhes-estacionamento";
     }
 
     @PostMapping("/estacionamento/solicitar")
@@ -171,7 +171,7 @@ public class ClienteController {
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(userSession.getUserName());
         List<Order> orders = orderService.listarTodasOrdersDeUmUsuario(usuario);
         model.addAttribute("orders",orders);
-        return "/cliente/orders";
+        return "cliente/orders";
     }
 
 }
