@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 public class UsuarioSessao {
 
-    private int id;
+    private long id;
     private String userName;
     private String password;
     private boolean ativo;

@@ -28,7 +28,7 @@ import java.util.Set;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @UsuarioExisteValid(message="Já existe um usuário cadastrado com esse email.")
     @Column(unique = true)
     private String userName;
@@ -87,11 +87,11 @@ public class Usuario {
     @JoinColumn(name = "criador")
     private Usuario criador;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

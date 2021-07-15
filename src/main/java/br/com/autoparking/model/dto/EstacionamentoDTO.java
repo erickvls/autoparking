@@ -12,7 +12,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EstacionamentoDTO {
-    private int id;
+    private long id;
     private String nome;
     private int capacidade;
     private String eixoX;
