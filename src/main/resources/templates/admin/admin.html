@@ -9,7 +9,7 @@
 
 <section th:replace="fragments/topbar :: topbar" />
 
-<!-- ======= Header ======= -->
+
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
@@ -19,12 +19,12 @@
 
     </div>
 </header>
-<!-- End Header -->
+
 
 
 <main id="main" data-aos="fade-up">
 
-    <!-- ======= Breadcrumbs Section ======= -->
+
     <section class="breadcrumbs">
         <div class="container">
 
@@ -36,9 +36,9 @@
             </div>
 
         </div>
-    </section><!-- Breadcrumbs Section -->
+    </section>
 
-    <!-- ======= Portfolio Details Section ======= -->
+
 
     <section id="portfolio-details" class="portfolio-details">
         <div class="container">
@@ -104,7 +104,7 @@
                             <div class="row pt-2">
                                 <div class="col-md-4 col-lg-4 pb-3">
 
-                                    <!-- Copy the content below until next comment -->
+
                                     <div class="card card-custom bg-white border-white border-0">
                                         <div class="card-custom-img" style="background-image: url(https://c0.wallpaperflare.com/preview/607/871/595/light-parking-garage-building-underground.jpg);"></div>
                                         <div class="card-body" style="overflow-y: auto">
@@ -112,37 +112,37 @@
                                             <p class="card-text">Crie, edite e gerencie suas vagas no seu estacionamento.</p>
                                             <ul>
                                                 <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a th:href="@{/admin/estacionamentos/novo}">Cadastrar estacionamento</a></li>
-                                                <li><a th:href="@{/admin/estacionamentos/}">Gerenciar estacionamento</a></li>
+                                                <li><a th:href="@{/admin/estacionamentos}">Gerenciar estacionamento</a></li>
                                             </ul>
                                         </div>
 
                                     </div>
-                                    <!-- Copy until here -->
+
 
                                 </div>
 
                                 <div class="col-md-4 col-lg-4 pb-3">
 
-                                    <!-- Copy the content below until next comment -->
+
                                     <div class="card card-custom bg-white border-white border-0">
                                         <div class="card-custom-img" style="background-image: url(https://austinbenefits.com/wp-content/uploads/helpful-hr-hacks-for-talent-management-background.png);"></div>
                                         <div class="card-body" style="overflow-y: auto">
                                             <h4 class="card-title">Gestores</h4>
                                             <p class="card-text">Crie, edite e gerencie seus gestores para o estacionamento.</p>
                                             <ul>
-                                                <li sec:authorize="hasAnyRole('ROLE_ADMIN')">Cadastrar gestor</li>
+                                                <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a th:href="@{/gestor}">Cadastrar gestor</a></li>
                                                 <li sec:authorize="hasAnyRole('ROLE_ADMIN')">Gerenciar gestor</li>
                                             </ul>
                                         </div>
 
                                     </div>
-                                    <!-- Copy until here -->
+
 
                                 </div>
 
                                 <div class="col-md-4 col-lg-4 pb-3">
 
-                                    <!-- Copy the content below until next comment -->
+
                                     <div class="card card-custom bg-white border-white border-0">
                                         <div class="card-custom-img" style="background-image: url(https://ak.picdn.net/shutterstock/videos/9540635/thumb/7.jpg);"></div>
                                         <div class="card-body" style="overflow-y: auto">
@@ -155,7 +155,7 @@
                                         </div>
 
                                     </div>
-                                    <!-- Copy until here -->
+
 
                                 </div>
                             </div>
@@ -168,11 +168,11 @@
 
 
         </div>
-    </section><!-- End Portfolio Details Section -->
+    </section>
 
 
 
-</main><!-- End #main -->
+</main>
 <div th:replace="fragments/footer :: footer" />
 
 

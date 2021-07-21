@@ -89,22 +89,22 @@ var myvar = '<div style="width: 18rem;">'+
 <body>
 
 <section th:replace="fragments/topbar :: topbar" />
-<!-- ======= Header ======= -->
+
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo"><a href="index.html">AutoParking<span>.</span></a></h1>
+        <h1 class="logo"><a th:href="@{/}">AutoParking<span>.</span></a></h1>
 
         <head th:replace="fragments/navbar :: navbar" />
 
     </div>
 </header>
-<!-- End Header -->
+
 
 
 <main id="main" data-aos="fade-up">
 
-    <!-- ======= Breadcrumbs Section ======= -->
+
     <section class="breadcrumbs">
         <div class="container">
 
@@ -116,9 +116,8 @@ var myvar = '<div style="width: 18rem;">'+
             </div>
 
         </div>
-    </section><!-- Breadcrumbs Section -->
+    </section>
 
-    <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
         <div class="container">
             <div th:if="${mensagemSucesso}" class="m-2 alert alert-success alert-dismissible fade show" role="alert">

@@ -1,0 +1,10 @@
+.alocacao{
+  border: 1px solid grey;
+  width: 90px;
+  height: 120px;
+  background-size: cover;
+}
+
+.alocacao img{
+  width: 100%;
+}

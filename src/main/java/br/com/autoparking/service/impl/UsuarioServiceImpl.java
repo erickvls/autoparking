@@ -140,6 +140,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.save(usuario);
     }
 
+    @Override
+    public long quantidadeGestoresPorEstacionamento(Usuario usuario) {
+       return usuarioRepository.qtdGestoresPorAdmin(usuario);
+    }
 
 
     private Usuario mapearGestor(Usuario criador,Usuario usuario,String role){

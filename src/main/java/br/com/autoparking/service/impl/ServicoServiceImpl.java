@@ -23,7 +23,7 @@ public class ServicoServiceImpl implements ServicoService {
 
     @Override
     public String salvar(ServicoFormDTO servicoDto, RedirectAttributes redirectAttributes) {
-        Servico servico2= verificaExisteServico(servicoDto);
+
         if (Objects.isNull(verificaExisteServico(servicoDto))) {
             Servico servico = Servico.builder()
                 .tipoServico(servicoDto.getTipoServico())

@@ -15,4 +15,5 @@ public interface UsuarioService {
     boolean gerarSenhaUsuario(String userName, RedirectAttributes redirectAttributes);
     void usuarioMudaSenhaQuandoResetada(String usuario,String senhaAlterada, RedirectAttributes redirectAttribute);
     void editarPerfil(UsuarioEditarPerfil usuarioEditarPerfil);
+    long quantidadeGestoresPorEstacionamento(Usuario usuario);
 }

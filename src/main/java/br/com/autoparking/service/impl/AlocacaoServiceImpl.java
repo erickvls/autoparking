@@ -146,7 +146,6 @@ public class AlocacaoServiceImpl implements AlocacaoService {
     private VagaHorario horarioEstaLivre(StatusVaga statusVaga,Estacionamento estacionamento,LocalDateTime dataEntradaPrevista, LocalDateTime dataSaidaPrevista){
         Map<LocalDateTime,LocalDateTime> horariosOcupados = orderService.listarOrderHorariosOcupados(estacionamento);
         List<Vaga> vagas = vagaService.listarVagasEstacionamento(estacionamento);
-        VagaHorario vagaHorarioBuild = new VagaHorario();
         for (int i = 0; i < vagas.size(); i++) {
             List<VagaHorario> horariosVaga = vagaHorarioRepository.findByVaga(vagas.get(i));
             if(horariosVaga.isEmpty()){
@@ -159,12 +158,27 @@ public class AlocacaoServiceImpl implements AlocacaoService {
             }
             for (VagaHorario vagaHorario : horariosVaga) {
                 if(vagaHorario.getStatusVaga().equals(StatusVaga.LIVRE)){
-                    return vagaHorario;
+                    return VagaHorario.builder()
+                            .horaChegada(dataEntradaPrevista)
+                            .horaSaida(dataSaidaPrevista)
+                            .statusVaga(statusVaga)
+                            .vaga(vagas.get(i))
+                            .build();
                 }
-                if (dataEntradaPrevista.isBefore(horariosVaga.get(i).getHoraChegada()) && dataSaidaPrevista.isBefore(horariosVaga.get(i).getHoraSaida())) {
-                    return vagaHorario;
-                } else if (dataEntradaPrevista.isAfter(horariosVaga.get(i).getHoraChegada()) && dataSaidaPrevista.isAfter(horariosVaga.get(i).getHoraSaida())) {
-                    return vagaHorario;
+                if ((dataEntradaPrevista.isBefore(horariosVaga.get(i).getHoraChegada()) && dataSaidaPrevista.isBefore(horariosVaga.get(i).getHoraChegada())) && (dataSaidaPrevista.isBefore(horariosVaga.get(i).getHoraChegada()) && dataSaidaPrevista.isBefore(horariosVaga.get(i).getHoraSaida()))) {
+                    return VagaHorario.builder()
+                            .horaChegada(dataEntradaPrevista)
+                            .horaSaida(dataSaidaPrevista)
+                            .statusVaga(statusVaga)
+                            .vaga(vagas.get(i))
+                            .build();
+                } else if ((dataEntradaPrevista.isAfter(horariosVaga.get(i).getHoraChegada()) && dataEntradaPrevista.isAfter(horariosVaga.get(i).getHoraSaida())) && (dataSaidaPrevista.isAfter(horariosVaga.get(i).getHoraChegada())) && dataSaidaPrevista.isAfter(horariosVaga.get(i).getHoraSaida())) {
+                    return VagaHorario.builder()
+                            .horaChegada(dataEntradaPrevista)
+                            .horaSaida(dataSaidaPrevista)
+                            .statusVaga(statusVaga)
+                            .vaga(vagas.get(i))
+                            .build();
                 }
             }
         }

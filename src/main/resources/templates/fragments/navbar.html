@@ -25,7 +25,7 @@
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                     <li role="presentation" sec:authorize="hasRole('ROLE_USER')"><a role="menuitem" class="nav-link scrollto" tabindex="-1" th:href="@{/home/perfil}">Editar</a></li>
                     <li role="presentation" sec:authorize="hasRole('ROLE_USER')"><a role="menuitem" class="nav-link scrollto" tabindex="-1" th:href="@{/home/veiculos}">Veículos</a></li>
-                    <li role="presentation" sec:authorize="hasRole('ROLE_USER')"><a role="menuitem" class="nav-link scrollto" tabindex="-1" th:href="@{/}">Orders</a></li>
+                    <li role="presentation" sec:authorize="hasRole('ROLE_USER')"><a role="menuitem" class="nav-link scrollto" tabindex="-1" th:href="@{/home/orders}">Orders</a></li>
 
                     <li role="presentation" sec:authorize="hasRole('ROLE_ADMIN')"><a role="menuitem" class="nav-link scrollto" tabindex="-1" th:href="@{/admin}">Painel</a></li>
                     <li role="presentation" sec:authorize="hasRole('ROLE_ADMIN')"><a role="menuitem" class="nav-link scrollto" tabindex="-1" th:href="@{/admin/orders}">Orders</a></li>

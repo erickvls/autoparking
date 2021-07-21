@@ -5,10 +5,10 @@
 
 <body>
 
-<!-- ======= Top Bar ======= -->
+
 <section th:replace="fragments/topbar :: topbar" />
 
-<!-- ======= Header ======= -->
+
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
@@ -18,12 +18,12 @@
 
     </div>
 </header>
-<!-- End Header -->
+
 
 
 <main id="main" data-aos="fade-up">
 
-    <!-- ======= Breadcrumbs Section ======= -->
+
     <section class="breadcrumbs">
         <div class="container">
 
@@ -37,9 +37,8 @@
             </div>
 
         </div>
-    </section><!-- Breadcrumbs Section -->
+    </section>
 
-    <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
         <div class="container">
             <div class="row m-2 no-gutters shadow-lg">
@@ -81,7 +80,7 @@
                                                             <span class="float-end">Fatura não disponível</span>
                                                         </div>
                                                         <div th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}">
-                                                            <a th:href="@{/admin/fatura/visualizar/{order}(order = ${order.id})}" class="float-end">Visualizar Fatura</a>
+                                                            <a th:href="@{/fatura/visualizar/{order}(order = ${order.id})}" class="float-end">Visualizar Fatura</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -111,9 +110,9 @@
             </div>
 
         </div>
-    </section><!-- End Portfolio Details Section -->
+    </section>
 
-</main><!-- End #main -->
+</main>
 
 
 <div th:replace="/admin/modal/modalGerarFatura :: modalGerarFatura" />

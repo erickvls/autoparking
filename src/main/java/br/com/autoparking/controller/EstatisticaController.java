@@ -3,6 +3,7 @@ package br.com.autoparking.controller;
 import br.com.autoparking.model.Fatura;
 import br.com.autoparking.model.Usuario;
 import br.com.autoparking.model.dto.FaturaDTO;
+import br.com.autoparking.service.UsuarioService;
 import br.com.autoparking.service.impl.EstatisticaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,8 +27,14 @@ public class EstatisticaController {
     @Autowired
     private EstatisticaServiceImpl estatisticaService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @GetMapping("${autoparking.url.admin}/estatisticas")
     public String estatistica(Model model, Authentication authentication, RedirectAttributes redirectAttributes, HttpSession session){
+        Usuario usuario = (Usuario) session.getAttribute("user");
+        long qtdGestores = usuarioService.quantidadeGestoresPorEstacionamento(usuario);
+        model.addAttribute("qtdGestores",qtdGestores);
         return "admin/estatistica";
     }
 

@@ -215,6 +215,7 @@ public class AdminController {
         }else{
             orderService.mudarStatusOrdemComDataEntrada(order);
         }
+        redirectAttribute.addFlashAttribute("mensagemSucesso", "A vaga foi alocada. O cliente poderá entrar no estacionamento");
         return "redirect:/admin/estacionamentos";
     }
 
@@ -227,9 +228,13 @@ public class AdminController {
         }else{
             estacionamento = usuario.getCriador().getEstacionamentos().stream().findFirst();
         }
+        if(estacionamento.isEmpty()) {
+            model.addAttribute("orders", Collections.EMPTY_LIST);
+            model.addAttribute("servicos", Collections.EMPTY_LIST);
+            return "admin/orders";
+        }
         model.addAttribute("orders",estacionamento.get().getOrder());
         model.addAttribute("servicos",estacionamento.get().getServicos().stream().filter(v->v.getTipoServico().equals(TipoServico.OUTRO)).collect(Collectors.toList()));
-
         return "admin/orders";
     }
 
@@ -239,11 +244,12 @@ public class AdminController {
                               Authentication authentication,
                               Model model){
         Fatura fatura = faturaService.gerarFaturaPadrao(order,servicos);
+        model.addAttribute("order",fatura.getOrder());
         model.addAttribute("fatura",fatura);
         return "admin/fatura/index";
     }
 
-    @GetMapping("${autoparking.url.admin}/fatura/visualizar/{order}")
+    @GetMapping("/fatura/visualizar/{order}")
     public String visualizarFatura(@PathVariable(value="order",required = false) Order order, Model model){
         if(Objects.isNull(order) || Objects.isNull(order.getFatura())){
             return "error";

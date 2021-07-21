@@ -5,25 +5,25 @@
 
 <body>
 
-<!-- ======= Top Bar ======= -->
+
 <section th:replace="fragments/topbar :: topbar" />
 
-<!-- ======= Header ======= -->
+
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo"><a href="index.html">AutoParking<span>.</span></a></h1>
+        <h1 class="logo"><a th:href="@{/}">AutoParking<span>.</span></a></h1>
 
         <head th:replace="fragments/navbar :: navbar" />
 
     </div>
 </header>
-<!-- End Header -->
+
 
 
 <main id="main" data-aos="fade-up">
 
-    <!-- ======= Breadcrumbs Section ======= -->
+
     <section class="breadcrumbs">
         <div class="container">
 
@@ -37,9 +37,8 @@
             </div>
 
         </div>
-    </section><!-- Breadcrumbs Section -->
+    </section>
 
-    <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
         <div class="container">
             <div class="row m-2 no-gutters shadow-lg">
@@ -53,7 +52,7 @@
                                 <th scope="col">Estacionamento</th>
                                 <th scope="col">Data da criação</th>
                                 <th scope="col">Duração</th>
-                                <th scope="col">Previsão chega/saida</th>
+                                <th scope="col">Previsão chegada/saida</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Fatura</th>
                             </tr>
@@ -64,15 +63,15 @@
                                 <td th:text="${order.estacionamento.nome}"></td>
                                 <td th:text="${#temporals.format(order.dataOrder, 'dd/MM/yyyy HH:mm')}"></td>
                                 <td th:text="|${order.duracao} minutos|"></td>
-                                <td th:text="|${#temporals.format(order.dataPrevistaEntrada, 'dd/MM/yyyy HH:mm')} - ${#temporals.format(order.dataPrevistaSaida, 'dd/MM/yyyy HH:mm')}|"></td>
+                                <td th:text="${order.dataEntrada}!=null and ${order.dataSaida}!=null ? |${#temporals.format(order.dataEntrada, 'dd/MM/yyyy HH:mm')} - ${#temporals.format(order.dataSaida, 'dd/MM/yyyy HH:mm')}| : 'Em andamento'"></td>
                                 <td>
                                     <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).EM_ABERTO}" class="badge bg-warning text-white">Em Aberto</span>
                                     <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).ANDAMENTO}" class="badge bg-primary text-white">Em Andamento</span>
                                     <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}" class="badge bg-success text-white">Fechado</span>
                                 </td>
                                 <td>
-                                    <span th:if="${order.fatura !=null}">
-                                        <a href="#">Ver fatura</a>
+                                    <span th:if="${order.statusOrder == T(br.com.autoparking.model.enums.StatusOrder).FECHADO}">
+                                        <a th:href="@{/fatura/visualizar/{order}(order = ${order.id})}">Visualizar fatura</a>
                                     </span>
                                     <span th:unless="${order.fatura !=null}">
                                         Não Disponível
@@ -90,9 +89,9 @@
             </div>
 
         </div>
-    </section><!-- End Portfolio Details Section -->
+    </section>
 
-</main><!-- End #main -->
+</main>
 
 
 <div th:replace="fragments/footer :: footer" />

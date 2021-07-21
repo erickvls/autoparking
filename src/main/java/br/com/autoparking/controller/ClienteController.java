@@ -152,6 +152,7 @@ public class ClienteController {
     public String solicitarVaga(@ModelAttribute("SolicitarVagaDTO") SolicitarVagaDTO solicitarVagaDTO,Model model,HttpSession session,RedirectAttributes redirectAttributes){
         Usuario userSession = (Usuario) session.getAttribute("user");
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(userSession.getUserName());
+        solicitarVagaDTO.setCliente(usuario);
         return alocacaoService.alocarVagaPorEstacionamento(StatusVaga.LIVRE,
                 solicitarVagaDTO.getEstacionamento(),
                 usuario,

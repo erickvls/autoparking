@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ServicoRepository extends JpaRepository<Servico,Long> {
     @Query("SELECT s FROM Servico s WHERE " + "s.estacionamento = :estacionamento "
-            + "AND s.tipoServico like :tipoServico")
+            + "AND s.tipoServico like :tipoServico AND s.excluido is false")
     Servico findByEstacionamentoAndTipoServico(Estacionamento estacionamento, TipoServico tipoServico);
 }

@@ -2,19 +2,8 @@
 <html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
 
 <head th:replace="fragments/head :: head(pageTitle='AutoParking - Gerenciar estacionamento')" />
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/listar.css}" />
 <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
-<style type="text/css">
-    .alocacao{
-  border: 1px solid grey;
-  width: 90px;
-  height: 120px;
-  background-size: cover;
-}
-
-.alocacao img{
-  width: 100%;
-}
-</style>
 <script th:inline="javascript">
 $( document ).ready(function() {
   var eixoX = parseFloat($("#eixoX").val());
@@ -36,7 +25,7 @@ $( document ).ready(function() {
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo"><a href="index.html">AutoParking<span>.</span></a></h1>
+        <h1 class="logo"><a th:href="@{/}">AutoParking<span>.</span></a></h1>
 
         <head th:replace="fragments/navbar :: navbar" />
 
@@ -47,7 +36,7 @@ $( document ).ready(function() {
 
 <main id="main" data-aos="fade-up">
 
-    <!-- ======= Breadcrumbs Section ======= -->
+
     <section class="breadcrumbs">
         <div class="container">
 
@@ -146,7 +135,7 @@ $( document ).ready(function() {
                                                                     <img  width="90px" height="90px" th:src="@{/img/parking.png}"/>
                                                                     <h5 class="card-title pt-3">Vagas disponíveis</h5>
                                                                     <p class="card-text counter-count" th:text="${vagasDisponiveis}"></p>
-                                                                    <a href="#" data-bs-toggle="modal" th:if="${estacionamento.servicos.size()>0} and ${vagasDisponiveis>0} " class="btn btn-dark" data-bs-target="#modalAlocar">Alocar Vaga</a>
+                                                                    <a href="#" data-bs-toggle="modal" th:if="${estacionamento.servicos.size()>1} and ${vagasDisponiveis>0} " class="btn btn-dark" data-bs-target="#modalAlocar">Alocar Vaga</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -240,9 +229,9 @@ $( document ).ready(function() {
                         <input type="hidden" name="servico" id="servico"/>
                     </div>
                 </div>
-            </div><!-- /.modal-content -->
+            </div>
         </form>
-    </div><!-- /.modal-dialog -->
+    </div>
 
 </div>
 <div th:each="estacionamento : ${estacionamentos}">
@@ -256,50 +245,6 @@ $( document ).ready(function() {
 <script src="https://cdn.rawgit.com/plentz/jquery-maskmoney/master/dist/jquery.maskMoney.min.js"></script>
 <script th:src="@{/js/cadastrar.js}"></script>
 <script th:src="@{/js/alocar.js}"></script>
-<script th:inline="javascript">
-
-function setSelectionRange(input, selectionStart, selectionEnd) {
-  if (input.setSelectionRange) {
-    input.focus();
-    input.setSelectionRange(selectionStart, selectionEnd);
-  } else if (input.createTextRange) {
-    var range = input.createTextRange();
-    range.collapse(true);
-    console.log(collapse);
-    range.moveEnd('character', selectionEnd);
-    range.moveStart('character', selectionStart);
-    range.select();
-  }
-}
-
-function setCaretToPos(input, pos) {
-  setSelectionRange(input, pos, pos);
-}
-
-
-
-$(".mascara").maskMoney({
- decimal: ".",
- thousands: "."
-});
-
- $(document).on('show.bs.modal', '#confirmarExclusaoModal', function (event){
-  var button = $(event.relatedTarget); // Button that triggered the modal
-  var codigoServico = button.data('servico'); // Extract info from data-* attributes
-  var descricao  = button.data('descricao');
-  var modal = $(this);
-  var form = modal.find('form');
-  var action = form.data('url-base');
-  if(!action.endsWith('/')){
-	  action +='/';
-  }
-  form.attr('action', action);
-  $("#servico").attr("value",codigoServico);
-  modal.find('.modal-body p').html('Tem certeza que deseja excluir <strong>'+ descricao + '</strong>');
-});
-
-
-</script>
 </body>
 
 </html>

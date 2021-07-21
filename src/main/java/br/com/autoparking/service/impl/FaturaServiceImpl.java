@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -87,7 +88,7 @@ public class FaturaServiceImpl implements FaturaService {
            }else if(faturaServico.getServico().getTipoServico().equals(TipoServico.HORA)) {
                long duracao =  fatura.getOrder().getDuracao();
                BigDecimal valor = faturaServico.getServico().getValor().multiply(new BigDecimal(duracao));
-               total = valor.divide(new BigDecimal(60)).add(total);
+               total = valor.divide(new BigDecimal(60),2, RoundingMode.HALF_UP).add(total);
            }
        }
        fatura.setTotal(total);

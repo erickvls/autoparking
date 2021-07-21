@@ -29,25 +29,25 @@ $( document ).ready(function() {
 </script>
 <body>
 
-<!-- ======= Top Bar ======= -->
+
 <section th:replace="fragments/topbar :: topbar" />
 
-<!-- ======= Header ======= -->
+
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo"><a href="index.html">AutoParking<span>.</span></a></h1>
+        <h1 class="logo"><a th:href="@{/}">AutoParking<span>.</span></a></h1>
 
         <head th:replace="fragments/navbar :: navbar" />
 
     </div>
 </header>
-<!-- End Header -->
+
 
 
 <main id="main" data-aos="fade-up">
 
-    <!-- ======= Breadcrumbs Section ======= -->
+
     <section class="breadcrumbs">
         <div class="container">
 
@@ -61,9 +61,8 @@ $( document ).ready(function() {
             </div>
 
         </div>
-    </section><!-- Breadcrumbs Section -->
+    </section>
 
-    <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
         <div class="container">
             <div th:if="${mensagemSucesso}" class="m-2 alert alert-success alert-dismissible fade show" role="alert">
@@ -170,7 +169,7 @@ $( document ).ready(function() {
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr th:each="servico,count : ${estacionamento.servicos}">
+                                                        <tr th:each="servico,count : ${estacionamento.servicos}" th:if="${servico.excluido == false}">
                                                             <th scope="row" th:text="${count.count}"></th>
                                                             <td th:text="${servico.descricao}"></td>
                                                             <td th:text="${servico.valor}"></td>
@@ -193,29 +192,14 @@ $( document ).ready(function() {
             </div>
 
         </div>
-    </section><!-- End Portfolio Details Section -->
+    </section>
 
-</main><!-- End #main -->
+</main>
 <div th:replace="/cliente/modal/modalSolicitarVaga :: modalSolicitarVaga(usuario=*{usuario}, estacionamento=*{estacionamento})" />
 <div th:replace="fragments/footer :: footer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 <script th:src="@{/js/cadastrar.js}"></script>
 <script th:inline="javascript">
-
-$(document).ready(function(){
-     elem = document.getElementById("dataPrevistaEntrada")
-      var iso = new Date().toISOString().replace(/.\d+Z$/g, "Z");
-      var minDate = iso.substring(0,iso.length-1);
-      elem.value = minDate
-      elem.min = minDate
-
-      elem2 = document.getElementById("dataPrevistaSaida")
-      var iso2 = new Date().toISOString().replace(/.\d+Z$/g, "Z");
-      var minDate2 = iso2.substring(0,iso.length-1);
-      elem2.value = minDate
-      elem2.min = minDate
-
-});
 
 $('.counter-count').each(function () {
         $(this).prop('Counter',0).animate({

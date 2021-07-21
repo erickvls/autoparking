@@ -1,5 +1,46 @@
  $(document).ready(function() {
 
+
+    function setSelectionRange(input, selectionStart, selectionEnd) {
+      if (input.setSelectionRange) {
+        input.focus();
+        input.setSelectionRange(selectionStart, selectionEnd);
+      } else if (input.createTextRange) {
+        var range = input.createTextRange();
+        range.collapse(true);
+        console.log(collapse);
+        range.moveEnd('character', selectionEnd);
+        range.moveStart('character', selectionStart);
+        range.select();
+      }
+    }
+
+    function setCaretToPos(input, pos) {
+      setSelectionRange(input, pos, pos);
+    }
+
+
+
+    $(".mascara").maskMoney({
+     decimal: ".",
+     thousands: "."
+    });
+
+     $(document).on('show.bs.modal', '#confirmarExclusaoModal', function (event){
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var codigoServico = button.data('servico'); // Extract info from data-* attributes
+      var descricao  = button.data('descricao');
+      var modal = $(this);
+      var form = modal.find('form');
+      var action = form.data('url-base');
+      if(!action.endsWith('/')){
+    	  action +='/';
+      }
+      form.attr('action', action);
+      $("#servico").attr("value",codigoServico);
+      modal.find('.modal-body p').html('Tem certeza que deseja excluir <strong>'+ descricao + '</strong>');
+    });
+
     $("#btn-pesquisar-usuario").click(function(e){
         var emailUsuario = $("#email").val();
         var estacionamento = $("#estacionamento").val();
