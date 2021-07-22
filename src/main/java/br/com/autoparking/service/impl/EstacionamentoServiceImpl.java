@@ -41,7 +41,7 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
 
     @Override
     public List<EstacionamentoDTO> listar() {
-        List<EstacionamentoDTO> list = estacionamentoRepository.findAll().stream()
+        return estacionamentoRepository.findAll().stream()
                 .map(v-> EstacionamentoDTO.builder()
                         .capacidade(v.getQuantidadeVagas())
                         .nome(v.getNome())
@@ -53,7 +53,6 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
                         .telefone(v.getTelefone())
                         .endereco(v.getEndereco().getRua() + ", " +v.getEndereco().getBairro()+", "+v.getEndereco().getCidade())
                         .build()).collect(Collectors.toList());
-        return list;
     }
 
     private Estacionamento mapToEntity(EstacionamentoForm estacionamentoForm, Usuario usuario){
@@ -63,8 +62,6 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
                 .cidade(estacionamentoForm.getCidade())
                 .rua(estacionamentoForm.getRua())
                 .build();
-
-
 
         return Estacionamento.builder()
                 .nome(estacionamentoForm.getNome())
@@ -82,7 +79,7 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
     private Set<Vaga> gerarVagas(int quantidade, Estacionamento estacionamento){
         Set<Vaga> listaVagas = new HashSet<>();
         for (int i = 0; i <quantidade ; i++) {
-            listaVagas.add(vagaRepository.save(Vaga.builder().numero("VAGA"+ i)
+            listaVagas.add(vagaRepository.save(Vaga.builder().numero("VAGA "+ i)
                     .status(StatusVaga.LIVRE)
                     .estacionamento(estacionamento)
                     .build()));

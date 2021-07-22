@@ -8,6 +8,7 @@ import br.com.autoparking.repository.VagaRepository;
 import br.com.autoparking.service.AlocacaoService;
 import br.com.autoparking.service.OrderService;
 import br.com.autoparking.service.VagaService;
+import br.com.autoparking.service.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import static br.com.autoparking.service.utils.Utils.converterDataString;
+import static br.com.autoparking.service.utils.Utils.dataSaidaEMaiorQueEntrada;
 
 @Service
 public class AlocacaoServiceImpl implements AlocacaoService {
@@ -66,15 +70,15 @@ public class AlocacaoServiceImpl implements AlocacaoService {
             redirectAttributes.addFlashAttribute("mensagemError", "A Data/hora de saída não pode ser inferior a entrada");
             return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
         }
-        VagaHorario vagaHorario = horarioEstaLivre(StatusVaga.RESERVADO,estacionamento,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
+        VagaHorario vagaHorario = horarioEstaLivre(StatusVaga.RESERVADO,estacionamento, converterDataString(dataPrevistaEntrada), converterDataString(dataPrevistaSaida));
         if(Objects.isNull(vagaHorario.getStatusVaga())){
             redirectAttributes.addFlashAttribute("mensagemError", "Não há vagas disponíveis para o horário selecionado.");
             return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
         }
 
-        VagaHorario vagaEstacionamento = vagaHorarioService.reservarVagaHorario(StatusVaga.RESERVADO,vagaHorario,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
+        VagaHorario vagaEstacionamento = vagaHorarioService.reservarVagaHorario(StatusVaga.RESERVADO,vagaHorario, converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida));
 
-        Order order = orderService.criarOrderPeloCliente(estacionamento,usuario,converterDataString(dataPrevistaEntrada),converterDataString(dataPrevistaSaida),vagaEstacionamento);
+        Order order = orderService.criarOrderPeloCliente(estacionamento,usuario, converterDataString(dataPrevistaEntrada), converterDataString(dataPrevistaSaida),vagaEstacionamento);
         Alocacao alocacao = Alocacao.builder()
                 .carro(carro)
                 .order(order)
@@ -92,13 +96,13 @@ public class AlocacaoServiceImpl implements AlocacaoService {
 
         if(Objects.isNull(usuario.getFormaPagamento())){
             redirectAttributes.addFlashAttribute("mensagemError", "Você deve adicionar o número de cartão para poder reservar uma vaga.");
-            return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
+            return "redirect:/admin/estacionamentos";
         }
 
         VagaHorario vagaHorario = horarioEstaLivre(StatusVaga.OCUPADO,estacionamento,LocalDateTime.now(),converterDataString(dataPrevistaSaida));
         if(Objects.isNull(vagaHorario.getStatusVaga())){
             redirectAttributes.addFlashAttribute("mensagemError", "Não há vagas disponíveis para o horário selecionado.");
-            return "redirect:/home/estacionamento/visualizar/"+estacionamento.getId();
+            return "redirect:/admin/estacionamentos";
         }
         VagaHorario vagaEstacionamento = vagaHorarioService.reservarVagaHorario(StatusVaga.OCUPADO,vagaHorario,LocalDateTime.now(),converterDataString(dataPrevistaSaida));
 
@@ -111,7 +115,7 @@ public class AlocacaoServiceImpl implements AlocacaoService {
         alocacaoRepository.save(alocacao);
 
         redirectAttributes.addFlashAttribute("mensagemSucesso", "A vaga foi alocada. O cliente poderá entrar no estacionamento");
-        return "redirect:/home/";
+        return "redirect:/admin/estacionamentos";
     }
 
     @Override
@@ -125,26 +129,8 @@ public class AlocacaoServiceImpl implements AlocacaoService {
         return dataHoraSelecionada.isBefore(dataHoraLimite);
     }
 
-    private boolean dataSaidaEMaiorQueEntrada(String dataPrevistaEntrada,String dataPrevistaSaida){
-        LocalDateTime dataHoraSelecionadaentrada = converterDataString(dataPrevistaEntrada);
-        LocalDateTime dataHoraSelecionadaSaida = converterDataString(dataPrevistaSaida);
-        return dataHoraSelecionadaSaida.isBefore(dataHoraSelecionadaentrada);
-    }
-
-    private LocalDateTime converterDataString(String dataPrevista){
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
-
-        Date date = new Date();
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(dataPrevista.replace("T"," ").substring(0,16));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
-    }
 
     private VagaHorario horarioEstaLivre(StatusVaga statusVaga,Estacionamento estacionamento,LocalDateTime dataEntradaPrevista, LocalDateTime dataSaidaPrevista){
-        Map<LocalDateTime,LocalDateTime> horariosOcupados = orderService.listarOrderHorariosOcupados(estacionamento);
         List<Vaga> vagas = vagaService.listarVagasEstacionamento(estacionamento);
         for (int i = 0; i < vagas.size(); i++) {
             List<VagaHorario> horariosVaga = vagaHorarioRepository.findByVaga(vagas.get(i));

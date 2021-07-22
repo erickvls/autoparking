@@ -14,6 +14,7 @@ public class FaturaServicosServiceImpl implements FaturaServicosService {
 
     @Autowired
     private FaturaServicoRepository faturaServicoRepository;
+
     @Override
     public FaturaServicos salvar(Fatura fatura, Servico servico) {
         FaturaServicos fat = FaturaServicos.builder().servico(servico).fatura(fatura).build();

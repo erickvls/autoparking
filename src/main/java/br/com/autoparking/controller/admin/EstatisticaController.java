@@ -1,4 +1,4 @@
-package br.com.autoparking.controller;
+package br.com.autoparking.controller.admin;
 
 import br.com.autoparking.model.Fatura;
 import br.com.autoparking.model.Usuario;

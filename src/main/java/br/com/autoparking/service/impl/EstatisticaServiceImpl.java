@@ -28,7 +28,6 @@ public class EstatisticaServiceImpl {
     private OrderService orderService;
 
 
-
     public BigDecimal mostrarSaldo(String opcao, Usuario usuario){
         Estacionamento estacionamento = usuario.getEstacionamentos().stream().findFirst().orElse(null);
         LocalDateTime dataTo = LocalDateTime.now();
@@ -72,8 +71,7 @@ public class EstatisticaServiceImpl {
         LocalDateTime dataInicio = LocalDateTime.of(Integer.parseInt(ano), Month.of(Integer.parseInt(mes)),1,00,00);
         LocalDateTime dataFim = LocalDateTime.of(Integer.parseInt(ano), Month.of(Integer.parseInt(mes)),30,00,00);
         if(!Objects.isNull(estacionamento) && !Objects.isNull(estacionamento.getOrder())){
-            long qtdUsuaraio = estacionamento.getOrder().stream().map(Order::getUsuario).distinct().filter(p->p.getDataCriacao().isAfter(dataInicio) && p.getDataCriacao().isBefore(dataFim)).count();
-            return qtdUsuaraio;
+            return estacionamento.getOrder().stream().map(Order::getUsuario).distinct().filter(p->p.getDataCriacao().isAfter(dataInicio) && p.getDataCriacao().isBefore(dataFim)).count();
         }
         return 0;
     }
@@ -114,7 +112,5 @@ public class EstatisticaServiceImpl {
         }
         return dataSolicitada;
     }
-
-
 
 }

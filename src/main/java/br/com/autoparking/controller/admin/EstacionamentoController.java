@@ -1,4 +1,4 @@
-package br.com.autoparking.controller;
+package br.com.autoparking.controller.admin;
 
 import br.com.autoparking.model.*;
 import br.com.autoparking.model.dto.CarroDTO;
@@ -13,19 +13,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
-public class AdminController {
+public class EstacionamentoController {
 
     @Autowired
     private EstadoService estadoService;
@@ -48,29 +49,8 @@ public class AdminController {
     @Autowired
     private FaturaService faturaService;
 
-    @GetMapping("${autoparking.url.admin}")
-    public String homeAdmin(Authentication authentication,Model model){
-        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
-        if(Objects.isNull(usuario.getCriador())){
-            Estacionamento est = usuario.getEstacionamentos().stream().findFirst().orElse(Estacionamento.builder().vaga(new HashSet<>()).build());
-            model.addAttribute("vagasTotais",usuario.getEstacionamentos().stream().findFirst().orElse(est).getQuantidadeVagas());
-            model.addAttribute("vagasOcupadas",usuario.getEstacionamentos().stream().findFirst().orElse(est).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.OCUPADO)).count());
-            model.addAttribute("vagasLivres",usuario.getEstacionamentos().stream().findFirst().orElse(est).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
-        }else{
-            model.addAttribute("vagasTotais",usuario.getCriador().getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getQuantidadeVagas());
-            model.addAttribute("vagasOcupadas",usuario.getCriador().getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.OCUPADO)).count());
-            model.addAttribute("vagasLivres",usuario.getCriador().getEstacionamentos().stream().findFirst().orElse(new Estacionamento()).getVaga().stream().filter(v -> v.getStatus().equals(StatusVaga.LIVRE) || v.getStatus().equals(StatusVaga.RESERVADO)).count());
-
-        }
-        return "admin/admin";
-    }
-
-    /* --------------------- */
-    /* INICIO ESTACIONAMENTO */
-    /* --------------------- */
-
     @GetMapping("${autoparking.url.admin}/estacionamentos/novo")
-    public String cadastrarEstacionamento(Model model, Authentication authentication,RedirectAttributes redirectAttributes, HttpSession session){
+    public String cadastrarEstacionamento(Model model, Authentication authentication, RedirectAttributes redirectAttributes, HttpSession session){
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
         if(Objects.isNull(usuario.getCriador())){
             if(usuario.getEstacionamentos().size()>0){
@@ -90,7 +70,7 @@ public class AdminController {
     }
 
     @GetMapping("${autoparking.url.admin}/estacionamentos")
-    public String listarEstacionamento(Model model, Authentication authentication, Servico servico,RedirectAttributes redirectAttribute){
+    public String listarEstacionamento(Model model, Authentication authentication, Servico servico, RedirectAttributes redirectAttribute){
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
         if(Objects.isNull(usuario.getCriador())) {
             if (usuario.getEstacionamentos().size() < 1) {
@@ -119,10 +99,10 @@ public class AdminController {
     }
 
 
-    @PostMapping ("${autoparking.url.admin}/estacionamentos/novo")
+    @PostMapping("${autoparking.url.admin}/estacionamentos/novo")
     public String salvarEstacionamento(@Valid EstacionamentoForm estacionamentoForm, BindingResult bindingResult,
-                                          RedirectAttributes redirectAttributes, HttpSession session,
-                                        Model model){
+                                       RedirectAttributes redirectAttributes, HttpSession session,
+                                       Model model){
         Usuario usuario = (Usuario) session.getAttribute("user");
 
         if(bindingResult.hasErrors()){
@@ -141,37 +121,11 @@ public class AdminController {
         return servicoService.salvar(servico,redirectAttributes);
     }
 
-    /* ------------------- */
-    /* FIM ESTACIONAMENTO */
-    /* ------------------ */
-
-    @GetMapping("${autoparking.url.admin}/atualizar")
-    public String atualizarSenha(Model model,RedirectAttributes redirectAttribute,HttpSession session){
-        Usuario usuario = (Usuario) session.getAttribute("user");
-        usuario.setPassword("");
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("estado",estadoService.listarTodosEstados());
-        return "admin/atualizar";
-    }
-
-    @PostMapping("${autoparking.url.admin}/atualizar")
-    public String salvarNovaSenha(@RequestParam("userName") String userName,
-                                  @RequestParam("password") String password,
-                                  RedirectAttributes redirectAttribute,HttpSession session){
-
-        usuarioService.usuarioMudaSenhaQuandoResetada(userName,password,redirectAttribute);
-        return "redirect:/login";
-    }
-
-    /* ------------------- */
-    /* ALOCAR VAGA */
-    /* ------------------ */
-
-
     @PostMapping("${autoparking.url.admin}/pesquisar/usuario")
-    public @ResponseBody ReservaExibirDTO pesquisarUsuario(@RequestParam("email") String email,
-                           @RequestParam("estacionamento") Estacionamento estacionamento,
-                           RedirectAttributes redirectAttribute, HttpSession session){
+    public @ResponseBody
+    ReservaExibirDTO pesquisarUsuario(@RequestParam("email") String email,
+                                      @RequestParam("estacionamento") Estacionamento estacionamento,
+                                      RedirectAttributes redirectAttribute, HttpSession session){
 
         Usuario usuario = usuarioService.encontrarUsuarioPorUserName(email);
         if(Objects.isNull(usuario.getUserName())){
@@ -203,11 +157,11 @@ public class AdminController {
 
     @PostMapping("${autoparking.url.admin}/estacionamento/reservar")
     public String reservarVaga(@RequestParam("email") String email,
-                                  @RequestParam("veiculo") Carro veiculo,
-                                  @RequestParam("estacionamento") Estacionamento estacionamento,
-                                  @RequestParam(defaultValue = "0") Order order,
-                                  @RequestParam("dataPrevistaSaida") String dataPrevistaSaida,
-                                  RedirectAttributes redirectAttribute,HttpSession session){
+                               @RequestParam("veiculo") Carro veiculo,
+                               @RequestParam("estacionamento") Estacionamento estacionamento,
+                               @RequestParam(defaultValue = "0") Order order,
+                               @RequestParam("dataPrevistaSaida") String dataPrevistaSaida,
+                               RedirectAttributes redirectAttribute,HttpSession session){
 
         if(Objects.isNull(order)){
             Usuario usuario = usuarioService.encontrarUsuarioPorUserName(email);
@@ -218,51 +172,4 @@ public class AdminController {
         redirectAttribute.addFlashAttribute("mensagemSucesso", "A vaga foi alocada. O cliente poderá entrar no estacionamento");
         return "redirect:/admin/estacionamentos";
     }
-
-    @GetMapping("${autoparking.url.admin}/orders")
-    public String visualizarOrders(Model model,RedirectAttributes redirectAttribute,HttpSession session, Authentication authentication){
-        Usuario usuario = usuarioService.encontrarUsuarioPorUserName(authentication.getName());
-        Optional<Estacionamento> estacionamento;
-        if(Objects.isNull(usuario.getCriador())){
-             estacionamento = usuario.getEstacionamentos().stream().findFirst();
-        }else{
-            estacionamento = usuario.getCriador().getEstacionamentos().stream().findFirst();
-        }
-        if(estacionamento.isEmpty()) {
-            model.addAttribute("orders", Collections.EMPTY_LIST);
-            model.addAttribute("servicos", Collections.EMPTY_LIST);
-            return "admin/orders";
-        }
-        model.addAttribute("orders",estacionamento.get().getOrder());
-        model.addAttribute("servicos",estacionamento.get().getServicos().stream().filter(v->v.getTipoServico().equals(TipoServico.OUTRO)).collect(Collectors.toList()));
-        return "admin/orders";
-    }
-
-    @PostMapping("${autoparking.url.admin}/fatura/gerar")
-    public String gerarFatura(@RequestParam("order") Order order,
-                              @RequestParam(value="servicos", required = false)  Servico[] servicos,
-                              Authentication authentication,
-                              Model model){
-        Fatura fatura = faturaService.gerarFaturaPadrao(order,servicos);
-        model.addAttribute("order",fatura.getOrder());
-        model.addAttribute("fatura",fatura);
-        return "admin/fatura/index";
-    }
-
-    @GetMapping("/fatura/visualizar/{order}")
-    public String visualizarFatura(@PathVariable(value="order",required = false) Order order, Model model){
-        if(Objects.isNull(order) || Objects.isNull(order.getFatura())){
-            return "error";
-        }
-        model.addAttribute("fatura",order.getFatura());
-        return "admin/fatura/index";
-    }
-
-    @PostMapping("${autoparking.url.admin}/servicos/excluir/")
-    public String excluirServico(@ModelAttribute("servico") Servico servico,HttpSession session,Model model){
-        servicoService.excluirServico(servico);
-        return "redirect:/admin/estacionamentos";
-    }
-
-
 }

@@ -130,7 +130,7 @@
                                             <h4 class="card-title">Gestores</h4>
                                             <p class="card-text">Crie, edite e gerencie seus gestores para o estacionamento.</p>
                                             <ul>
-                                                <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a th:href="@{/gestor}">Cadastrar gestor</a></li>
+                                                <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a th:href="@{/admin/gestor}">Cadastrar gestor</a></li>
                                                 <li sec:authorize="hasAnyRole('ROLE_ADMIN')">Gerenciar gestor</li>
                                             </ul>
                                         </div>
