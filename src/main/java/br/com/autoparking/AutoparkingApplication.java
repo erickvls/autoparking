@@ -18,10 +18,6 @@ import java.sql.SQLOutput;
 @ComponentScan(basePackages = "br.com.autoparking")
 public class AutoparkingApplication {
     public static void main(String[] args) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        System.out.println("SENHA"+bCryptPasswordEncoder.encode("erickvls"));
-        System.err.println("SENHA HEROKU:"+System.getenv("SENHA_GMAIL"));
         SpringApplication.run(AutoparkingApplication.class, args);
-        System.err.println("SENHA HEROKU:"+System.getenv("SENHA_GMAIL"));
     }
 }
