@@ -235,10 +235,10 @@ $( document ).ready(function() {
 
 </div>
 <div th:each="estacionamento : ${estacionamentos}">
-    <div th:replace="/admin/modal/modalCadastrarServico :: modalCadastrarServico(estacionamento=${estacionamento.id})" />
+    <div th:replace="admin/modal/modalCadastrarServico :: modalCadastrarServico(estacionamento=${estacionamento.id})" />
 </div>
 <div th:each="estacionamento : ${estacionamentos}">
-    <div th:replace="/admin/modal/modalAlocarVaga :: modalAlocarVaga(estacionamento=*{estacionamento})" />
+    <div th:replace="admin/modal/modalAlocarVaga :: modalAlocarVaga(estacionamento=*{estacionamento})" />
 </div>
 
 <div th:replace="fragments/footer :: footer" />
