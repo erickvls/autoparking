@@ -47,8 +47,8 @@
                                     </div>
 
                                     <div class="col-sm-12 pb-3">
-                                         <div class="form-check">
-                                            <input  type="checkbox" name="ativo" th:checked="${ativo} ? 'checked'">
+                                         <div class="form-check" style="padding-left:0.0em;">
+                                            <input  type="checkbox"  style="vertical-align:middle;" name="ativo" th:checked="${ativo} ? 'checked'">
                                             <label for="ativo">Ativo</label>
                                         </div>
                                         <div th:unless="${#fields.hasAnyErrors()}" class="invalid-feedback">

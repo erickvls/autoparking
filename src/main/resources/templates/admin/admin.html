@@ -112,7 +112,7 @@
                                             <p class="card-text">Crie, edite e gerencie suas vagas no seu estacionamento.</p>
                                             <ul>
                                                 <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a th:href="@{/admin/estacionamentos/novo}">Cadastrar estacionamento</a></li>
-                                                <li><a th:href="@{/admin/estacionamentos}">Gerenciar estacionamento</a></li>
+                                                <li><a th:href="@{/admin/estacionamentos}">Visualizar estacionamento</a></li>
                                             </ul>
                                         </div>
 
@@ -131,7 +131,7 @@
                                             <p class="card-text">Crie, edite e gerencie seus gestores para o estacionamento.</p>
                                             <ul>
                                                 <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a th:href="@{/admin/gestor}">Cadastrar gestor</a></li>
-                                                <li sec:authorize="hasAnyRole('ROLE_ADMIN')">Gerenciar gestor</li>
+                                                <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a th:href="@{/admin/gestores}">Listar gestores</a></li>
                                             </ul>
                                         </div>
 

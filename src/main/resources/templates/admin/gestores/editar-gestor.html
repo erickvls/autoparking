@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: head(pageTitle='AutoParking - Editar gestor')" />
+
+<body>
+
+
+<section th:replace="fragments/topbar :: topbar" />
+
+
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <h1 class="logo"><a th:href="@{/}">AutoParking<span>.</span></a></h1>
+
+        <head th:replace="fragments/navbar :: navbar" />
+
+    </div>
+</header>
+
+
+
+<main id="main" data-aos="fade-up">
+
+
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Gestor</h2>
+                <ol>
+                    <li><a th:href="@{/admin}">Painel</a></li>
+                    <li><a th:href="@{/admin/gestores}">Gestores</a></li>
+                    <li>Editar Gestor</li>
+                </ol>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="portfolio-details" class="portfolio-details">
+        <div class="container">
+            <div th:if="${gestor != null}" class="row m-2 no-gutters shadow-lg">
+                <div class="col-md-12 bg-white p-5 col-12">
+                    <h3 class="pb-3">Edite gestor</h3>
+                    <div class="form-style">
+                        <form class="row g-3 needs-validation" novalidate th:object="${gestor}" method="POST" th:action="@{/admin/gestores}">
+                            <div class="col-md-6 pb-3">
+                                <input type="text" readonly placeholder="Nome" class="form-control" th:field="*{nome}" required th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="invalid-feedback"></div>
+                            </div>
+
+                            <div class="col-md-6 pb-3">
+                                <input type="text" readonly placeholder="userName" class="form-control" th:field="*{userName}" required th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="invalid-feedback"></div>
+                            </div>
+
+                            <div class="col-sm-6 pb-3">
+                                <div class="form-check">
+                                    <label><input  style="vertical-align:middle;width:20px;" type="checkbox" name="ativo" th:checked="*{ativo}">Ativo</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 pb-3">
+                                <input type="text" placeholder="Telefone" class="form-control" th:field="*{telefone}" required th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}" class="invalid-feedback"></div>
+                            </div>
+
+                            <div class="pb-2">
+                                <button type="submit" class="btn btn-dark float-end font-weight-bold mt-2">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+
+<div th:replace="fragments/footer :: footer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script th:src="@{/js/cadastrar.js}"></script>
+</body>
+
+</html>

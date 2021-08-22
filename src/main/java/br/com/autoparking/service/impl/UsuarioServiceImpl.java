@@ -58,6 +58,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public Usuario encontrarUsuarioPorId(long id) {
+        return usuarioRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public Usuario criarNovoGestor(Usuario criador,Usuario usuario, String role) {
         Usuario usuarioMapeado = mapearGestor(criador,usuario,role);
         try{
@@ -65,6 +70,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         }catch(Exception ex){
             throw new SalvarEntidadeException("Error ao criar novo usuário", ex);
         }
+    }
+
+    @Override
+    public void salvarUsuario(Usuario usuario) {
+        Usuario user = usuarioRepository.findByUserName(usuario.getUserName()).orElseThrow();
+        user.setAtivo(usuario.isAtivo());
+        user.setTelefone(usuario.getTelefone());
+        usuarioRepository.save(user);
     }
 
     @Override
@@ -143,6 +156,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public long quantidadeGestoresPorEstacionamento(Usuario usuario) {
        return usuarioRepository.qtdGestoresPorAdmin(usuario);
+    }
+
+    @Override
+    public List<Usuario> listarGestores(Usuario usuario) {
+        return usuarioRepository.findByCriador(usuario);
     }
 
 
